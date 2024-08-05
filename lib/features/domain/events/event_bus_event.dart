@@ -1,0 +1,3 @@
+class OpenLoginPageEvent {
+  const OpenLoginPageEvent();
+}

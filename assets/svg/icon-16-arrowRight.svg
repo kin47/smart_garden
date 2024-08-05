@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_13523" data-name="長方形 13523" width="16" height="16" transform="translate(32 12)"/>
+    </clipPath>
+  </defs>
+  <g id="_icon-16-arrowLeft" data-name="#icon-16-arrowLeft" transform="translate(-183 -424)">
+    <g id="マスクグループ_6549" data-name="マスクグループ 6549" transform="translate(151 412)" clip-path="url(#clip-path)">
+      <rect id="長方形_13526" data-name="長方形 13526" width="16" height="16" transform="translate(32 12)" opacity="0"/>
+      <path id="expand_more_FILL1_wght300_GRAD0_opsz24" d="M8,0a1.439,1.439,0,0,0-.5.086,1.241,1.241,0,0,0-.444.3L.318,7.114A1.085,1.085,0,0,0,0,7.9a1.059,1.059,0,0,0,.318.8,1.075,1.075,0,0,0,.789.325A1.075,1.075,0,0,0,1.9,8.692L8,2.592l6.1,6.1a1.085,1.085,0,0,0,.782.318,1.059,1.059,0,0,0,.8-.318,1.119,1.119,0,0,0,0-1.578L8.944.383A1.241,1.241,0,0,0,8.5.086,1.439,1.439,0,0,0,8,0Z" transform="translate(44.016 12) rotate(90)"/>
+    </g>
+  </g>
+</svg>

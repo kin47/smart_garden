@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_13523" data-name="長方形 13523" width="16" height="16" transform="translate(32 12)"/>
+    </clipPath>
+  </defs>
+  <g id="_icon-16-arrowRight" data-name="#icon-16-arrowRight" transform="translate(-183 -424)">
+    <g id="マスクグループ_6549" data-name="マスクグループ 6549" transform="translate(151 412)" clip-path="url(#clip-path)">
+      <rect id="長方形_13526" data-name="長方形 13526" width="16" height="16" transform="translate(32 12)" opacity="0"/>
+      <path id="expand_more_FILL1_wght300_GRAD0_opsz24" d="M274.416-605.367a1.439,1.439,0,0,1-.5-.086,1.241,1.241,0,0,1-.444-.3l-6.731-6.731a1.085,1.085,0,0,1-.318-.782,1.059,1.059,0,0,1,.318-.8,1.075,1.075,0,0,1,.789-.325,1.075,1.075,0,0,1,.789.325l6.1,6.1,6.1-6.1a1.085,1.085,0,0,1,.782-.318,1.059,1.059,0,0,1,.8.318,1.075,1.075,0,0,1,.325.789,1.075,1.075,0,0,1-.325.789l-6.731,6.731a1.241,1.241,0,0,1-.444.3A1.439,1.439,0,0,1,274.416-605.367Z" transform="translate(-570.366 -254.42) rotate(90)"/>
+    </g>
+  </g>
+</svg>

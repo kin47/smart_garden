@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_13523" data-name="長方形 13523" width="20" height="20" transform="translate(32 11.998)"/>
+    </clipPath>
+  </defs>
+  <g id="_icon-20-close" data-name="#icon-20-close" transform="translate(0 0.002)">
+    <g id="マスクグループ_6549" data-name="マスクグループ 6549" transform="translate(-32 -12)" clip-path="url(#clip-path)">
+      <rect id="長方形_13525" data-name="長方形 13525" width="20" height="20" transform="translate(32 12)" opacity="0"/>
+      <path id="close_FILL0_wght300_GRAD0_opsz24" d="M236.231-722.108l-8,8a1.142,1.142,0,0,1-.823.335,1.114,1.114,0,0,1-.838-.335,1.131,1.131,0,0,1-.343-.831,1.131,1.131,0,0,1,.343-.831l8-8-8-8a1.142,1.142,0,0,1-.335-.823,1.114,1.114,0,0,1,.335-.838,1.131,1.131,0,0,1,.831-.343,1.131,1.131,0,0,1,.831.343l8,8,8-8a1.142,1.142,0,0,1,.823-.335,1.114,1.114,0,0,1,.838.335,1.131,1.131,0,0,1,.343.831,1.131,1.131,0,0,1-.343.831l-8,8,8,8a1.142,1.142,0,0,1,.335.823,1.114,1.114,0,0,1-.335.838,1.131,1.131,0,0,1-.831.343,1.131,1.131,0,0,1-.831-.343Z" transform="translate(-194.231 745.767)"/>
+    </g>
+  </g>
+</svg>

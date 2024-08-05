@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>974606881937-oarvd7jbqibgkl2okr048u26ko872e2e.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.974606881937-oarvd7jbqibgkl2okr048u26ko872e2e</string>
+	<key>API_KEY</key>
+	<string>AIzaSyASm1zYdvz_Kj0c_ilEEnJabTRk8XYD3PM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>974606881937</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.smart_garden.staging</string>
+	<key>PROJECT_ID</key>
+	<string>base-bloc-flutter-3-staging</string>
+	<key>STORAGE_BUCKET</key>
+	<string>base-bloc-flutter-3-staging.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:974606881937:ios:0676bebead179be4085b30</string>
+</dict>
+</plist>
