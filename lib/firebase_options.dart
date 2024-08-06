@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -53,10 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBPi7MccyZOStMhf6jfl09mIEzgDICob_k',
-    appId: '1:306481167547:android:3077992bf5d7a158a37d9e',
-    messagingSenderId: '306481167547',
-    projectId: 'smart-cane-b946d',
-    storageBucket: 'smart-cane-b946d.appspot.com',
+    apiKey: 'AIzaSyCuKTlK6eVeI7dwLsPAQmrovUIQEPn1dmg',
+    appId: '1:702709402883:android:6ea2d9e5faaabb704d2d36',
+    messagingSenderId: '702709402883',
+    projectId: 'smart-garden-cd3b0',
+    storageBucket: 'smart-garden-cd3b0.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDM3cTMDx8hf1CSLc0C3MgGeiW3DpSXypk',
+    appId: '1:702709402883:ios:442231a74477184a4d2d36',
+    messagingSenderId: '702709402883',
+    projectId: 'smart-garden-cd3b0',
+    storageBucket: 'smart-garden-cd3b0.appspot.com',
+    iosBundleId: 'com.example.smart-garden.dev',
   );
 }

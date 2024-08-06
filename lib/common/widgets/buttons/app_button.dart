@@ -64,22 +64,21 @@ class AppButton extends StatelessWidget {
         elevation: elevation ?? 0,
       )
           : ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(
           isDisable
               ? AppColors.primary300
               : backgroundColor ?? AppColors.deepDark,
         ),
-        padding: MaterialStateProperty.all(
+        padding: WidgetStateProperty.all(
           EdgeInsets.zero,
         ),
-        elevation: MaterialStateProperty.all(elevation ?? 0),
-        shape: MaterialStateProperty.all<OutlinedBorder>(
+        elevation: WidgetStateProperty.all(elevation ?? 0),
+        shape: WidgetStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
         ),
-        shadowColor:
-        MaterialStateProperty.all(shadowColor ?? AppColors.shadow),
+        shadowColor: WidgetStateProperty.all(shadowColor ?? AppColors.shadow),
       ),
       child: Container(
         height: height,

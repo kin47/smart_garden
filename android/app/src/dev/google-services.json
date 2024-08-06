@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "306481167547",
-    "project_id": "smart-cane-b946d",
-    "storage_bucket": "smart-cane-b946d.appspot.com"
+    "project_number": "702709402883",
+    "project_id": "smart-garden-cd3b0",
+    "storage_bucket": "smart-garden-cd3b0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:306481167547:android:3077992bf5d7a158a37d9e",
+        "mobilesdk_app_id": "1:702709402883:android:6ea2d9e5faaabb704d2d36",
         "android_client_info": {
           "package_name": "com.example.smart_garden"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBPi7MccyZOStMhf6jfl09mIEzgDICob_k"
+          "current_key": "AIzaSyCuKTlK6eVeI7dwLsPAQmrovUIQEPn1dmg"
         }
       ],
       "services": {

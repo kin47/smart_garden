@@ -35,10 +35,10 @@ class CustomTextButton extends StatelessWidget {
     return TextButton(
       onPressed: isDisable ? null : onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(
           isDisable ? Colors.blue : backgroundColor, //todo
         ),
-        shape: MaterialStateProperty.all<OutlinedBorder>(
+        shape: WidgetStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
           ),
