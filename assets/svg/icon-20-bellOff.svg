@@ -1,0 +1,11 @@
+<svg id="_icon-20-bellOff" data-name="#icon-20-bellOff" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_13523" data-name="長方形 13523" width="20" height="20" transform="translate(32 12)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="マスクグループ_6549" data-name="マスクグループ 6549" transform="translate(-32 -12)" clip-path="url(#clip-path)">
+    <rect id="長方形_13525" data-name="長方形 13525" width="20" height="20" transform="translate(32 12)" fill="#fff" opacity="0"/>
+    <path id="notifications_FILL0_wght300_GRAD0_opsz24" d="M180-842.925v-1.563h1.884v-7.776a5.768,5.768,0,0,1,1.3-3.717,5.75,5.75,0,0,1,3.332-2.066v-.649a1.257,1.257,0,0,1,.38-.923,1.254,1.254,0,0,1,.922-.38,1.258,1.258,0,0,1,.923.38,1.255,1.255,0,0,1,.381.923v.649a5.75,5.75,0,0,1,3.332,2.066,5.768,5.768,0,0,1,1.3,3.717v7.776h1.884v1.563ZM187.817-850.56Zm0,10.561a1.811,1.811,0,0,1-1.33-.553,1.816,1.816,0,0,1-.552-1.33H189.7a1.812,1.812,0,0,1-.554,1.332A1.818,1.818,0,0,1,187.815-840Zm-4.367-4.489h8.738v-7.776a4.209,4.209,0,0,0-1.28-3.089,4.209,4.209,0,0,0-3.089-1.28,4.209,4.209,0,0,0-3.089,1.28,4.209,4.209,0,0,0-1.28,3.089Z" transform="translate(-146.003 871.999)" fill="#fff"/>
+  </g>
+</svg>

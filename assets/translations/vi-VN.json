@@ -41,5 +41,10 @@
   "my_location": "Vị trí của tôi",
   "send_sms": "Gửi tin nhắn",
   "send_sms_failed": "Gửi tin nhắn SMS thất bại",
-  "sms_message": "Người nhà của bạn đang ở: {address}\nBấm vào link Google Map dưới đây để xem chi tiết: {url}"
+  "sms_message": "Người nhà của bạn đang ở: {address}\nBấm vào link Google Map dưới đây để xem chi tiết: {url}",
+  "home_bottom_nav_name": "Trang chủ",
+  "diagnose_bottom_nav_name": "Chẩn đoán",
+  "scan_bottom_nav_name": "Quét",
+  "store_bottom_nav_name": "Cửa hàng",
+  "profile_bottom_nav_name": "Tài khoản"
 }

@@ -71,6 +71,14 @@ class $AssetsSvgGen {
   /// File path: assets/svg/ic_close.svg
   SvgGenImage get icClose => const SvgGenImage('assets/svg/ic_close.svg');
 
+  /// File path: assets/svg/ic_diagnose_active.svg
+  SvgGenImage get icDiagnoseActive =>
+      const SvgGenImage('assets/svg/ic_diagnose_active.svg');
+
+  /// File path: assets/svg/ic_diagnose_inactive.svg
+  SvgGenImage get icDiagnoseInactive =>
+      const SvgGenImage('assets/svg/ic_diagnose_inactive.svg');
+
   /// File path: assets/svg/ic_eye.svg
   SvgGenImage get icEye => const SvgGenImage('assets/svg/ic_eye.svg');
 
@@ -84,18 +92,45 @@ class $AssetsSvgGen {
   SvgGenImage get icGoogleMap =>
       const SvgGenImage('assets/svg/ic_google_map.svg');
 
+  /// File path: assets/svg/ic_home.svg
+  SvgGenImage get icHome => const SvgGenImage('assets/svg/ic_home.svg');
+
   /// File path: assets/svg/ic_info.svg
   SvgGenImage get icInfo => const SvgGenImage('assets/svg/ic_info.svg');
+
+  /// File path: assets/svg/ic_leaf_active.svg
+  SvgGenImage get icLeafActive =>
+      const SvgGenImage('assets/svg/ic_leaf_active.svg');
+
+  /// File path: assets/svg/ic_leaf_inactive.svg
+  SvgGenImage get icLeafInactive =>
+      const SvgGenImage('assets/svg/ic_leaf_inactive.svg');
+
+  /// File path: assets/svg/ic_map_pin.svg
+  SvgGenImage get icMapPin => const SvgGenImage('assets/svg/ic_map_pin.svg');
 
   /// File path: assets/svg/ic_phone.svg
   SvgGenImage get icPhone => const SvgGenImage('assets/svg/ic_phone.svg');
 
-  /// File path: assets/svg/ic_profile.svg
-  SvgGenImage get icProfile => const SvgGenImage('assets/svg/ic_profile.svg');
-
   /// File path: assets/svg/ic_sms_message.svg
   SvgGenImage get icSmsMessage =>
       const SvgGenImage('assets/svg/ic_sms_message.svg');
+
+  /// File path: assets/svg/ic_store_active.svg
+  SvgGenImage get icStoreActive =>
+      const SvgGenImage('assets/svg/ic_store_active.svg');
+
+  /// File path: assets/svg/ic_store_inactive.svg
+  SvgGenImage get icStoreInactive =>
+      const SvgGenImage('assets/svg/ic_store_inactive.svg');
+
+  /// File path: assets/svg/ic_user_active.svg
+  SvgGenImage get icUserActive =>
+      const SvgGenImage('assets/svg/ic_user_active.svg');
+
+  /// File path: assets/svg/ic_user_inactive.svg
+  SvgGenImage get icUserInactive =>
+      const SvgGenImage('assets/svg/ic_user_inactive.svg');
 
   /// File path: assets/svg/icon-16-arrowLeft.svg
   SvgGenImage get icon16ArrowLeft =>
@@ -113,9 +148,21 @@ class $AssetsSvgGen {
   SvgGenImage get icon16CheckOn =>
       const SvgGenImage('assets/svg/icon-16-checkOn.svg');
 
+  /// File path: assets/svg/icon-20-bellOff.svg
+  SvgGenImage get icon20BellOff =>
+      const SvgGenImage('assets/svg/icon-20-bellOff.svg');
+
+  /// File path: assets/svg/icon-20-bellOn.svg
+  SvgGenImage get icon20BellOn =>
+      const SvgGenImage('assets/svg/icon-20-bellOn.svg');
+
   /// File path: assets/svg/icon-20-close.svg
   SvgGenImage get icon20Close =>
       const SvgGenImage('assets/svg/icon-20-close.svg');
+
+  /// File path: assets/svg/icon-20-hospital.svg
+  SvgGenImage get icon20Hospital =>
+      const SvgGenImage('assets/svg/icon-20-hospital.svg');
 
   /// File path: assets/svg/icon-28-checkBlank.svg
   SvgGenImage get icon28CheckBlank =>
@@ -132,19 +179,31 @@ class $AssetsSvgGen {
         icCheckBoxActive,
         icCheckBoxInactive,
         icClose,
+        icDiagnoseActive,
+        icDiagnoseInactive,
         icEye,
         icEyeOff,
         icGoogle,
         icGoogleMap,
+        icHome,
         icInfo,
+        icLeafActive,
+        icLeafInactive,
+        icMapPin,
         icPhone,
-        icProfile,
         icSmsMessage,
+        icStoreActive,
+        icStoreInactive,
+        icUserActive,
+        icUserInactive,
         icon16ArrowLeft,
         icon16ArrowRight,
         icon16CheckOff,
         icon16CheckOn,
+        icon20BellOff,
+        icon20BellOn,
         icon20Close,
+        icon20Hospital,
         icon28CheckBlank,
         icon28CheckIdeal
       ];

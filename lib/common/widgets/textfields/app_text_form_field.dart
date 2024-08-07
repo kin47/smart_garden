@@ -100,7 +100,7 @@ class AppTextFormField extends TextFormField {
             hintText: hintText,
             hintStyle: hintStyle ??
                 AppTextStyles.s16w400.copyWith(
-                  color: AppColors.primary700.withOpacity(0.6),
+                  color: AppColors.black.withOpacity(0.6),
                 ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(radius),

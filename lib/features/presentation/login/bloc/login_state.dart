@@ -45,6 +45,5 @@ class LoginState extends BaseBlocState {
 enum LoginActionState {
   idle,
   loginError,
-  goToAdminHome,
-  goToUserHome,
+  goToHome,
 }

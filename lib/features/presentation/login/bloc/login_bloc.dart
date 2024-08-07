@@ -9,7 +9,6 @@ import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/common/extensions/string_extension.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
-import 'package:smart_garden/features/domain/enum/role_type.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
 import 'package:smart_garden/features/domain/repository/user_repository.dart';
 
@@ -111,9 +110,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
         emit(
           state.copyWith(
             status: BaseStateStatus.success,
-            actionState: r.role == RoleType.admin
-                ? LoginActionState.goToAdminHome
-                : LoginActionState.goToUserHome,
+            actionState: LoginActionState.goToHome,
             user: r,
           ),
         );

@@ -33,14 +33,14 @@ class _SplashPageState
         ]);
         break;
       case SplashActionState.goToAdminHome:
-        context.router.replaceAll([
-          HomeAdminRoute(user: state.user!),
-        ]);
+        // context.router.replaceAll([
+        //   HomeAdminRoute(user: state.user!),
+        // ]);
         break;
       case SplashActionState.goToUserHome:
-        context.router.replaceAll([
-          HomeUserRoute(user: state.user!),
-        ]);
+        // context.router.replaceAll([
+        //   HomeUserRoute(user: state.user!),
+        // ]);
         break;
       default:
         break;

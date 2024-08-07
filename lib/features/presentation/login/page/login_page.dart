@@ -31,14 +31,9 @@ class _LoginPageState
   void listener(BuildContext context, LoginState state) {
     super.listener(context, state);
     switch (state.actionState) {
-      case LoginActionState.goToAdminHome:
+      case LoginActionState.goToHome:
         context.router.replaceAll([
-          HomeAdminRoute(user: state.user!),
-        ]);
-        break;
-      case LoginActionState.goToUserHome:
-        context.router.replaceAll([
-          HomeUserRoute(user: state.user!),
+          const CoreRoute(),
         ]);
         break;
       case LoginActionState.loginError:
@@ -72,10 +67,6 @@ class _LoginPageState
             SizedBox(height: 29.h),
             _loginButton(),
             SizedBox(height: 24.h),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16.w),
-            //   child: const GoogleSignInButton(),
-            // ),
           ],
         ),
       ),
@@ -142,9 +133,14 @@ class _LoginPageState
           return AppButton(
             borderRadius: 28.r,
             height: 56.h,
-            onPressed: state.validInput ? _login : null,
+            onPressed:
+                /// TODO: Implement login
+            // state.validInput ?
+            _login
+                // : null
+            ,
             backgroundColor:
-                state.validInput ? AppColors.primary500 : AppColors.primary300,
+                state.validInput ? AppColors.primary700 : AppColors.disable,
             title: 'login'.tr(),
             textStyle: AppTextStyles.s16w600,
             textColor: state.validInput
@@ -299,7 +295,11 @@ class _LoginPageState
   }
 
   void _login() {
-    bloc.add(const LoginEvent.login());
+    /// TODO: Implement login
+    // bloc.add(const LoginEvent.login());
+    context.router.replaceAll([
+      const CoreRoute(),
+    ]);
   }
 
   void _navigateToSignUp() {

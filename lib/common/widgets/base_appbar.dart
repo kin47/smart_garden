@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,27 +68,18 @@ class BaseAppBar extends StatelessWidget {
             visible: hasBack ?? true,
             child: InkWell(
               onTap: onLeadingTap ??
-                      () {
+                  () {
                     context.maybePop();
                   },
-              child: Row(
-                children: [
-                  SizedBox(width: 8.w),
-                  Assets.svg.icon16ArrowLeft.svg(
-                    width: 16.w,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.white,
-                      BlendMode.srcIn,
-                    ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                child: Assets.svg.icon16ArrowLeft.svg(
+                  width: 16.w,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
                   ),
-                  SizedBox(width: 4.w),
-                  Flexible(
-                    child: Text(
-                      'return'.tr(),
-                      style: AppTextStyles.s14w400.copyWith(color: AppColors.white),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -104,12 +94,7 @@ class BaseAppBar extends StatelessWidget {
       bottom: bottom,
       centerTitle: true,
       flexibleSpace: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Assets.images.appBarBg.path),
-            fit: BoxFit.cover,
-          ),
-        ),
+        color: AppColors.primary700,
       ),
     );
   }

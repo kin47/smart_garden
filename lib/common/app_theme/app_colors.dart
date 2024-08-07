@@ -28,12 +28,12 @@ class AppColors {
   ///primary
   static const Color primary050 = Color(0xFFf2f7f8);
   static const Color primary100 = Color(0xFFD4EFF7);
-  static const Color primary200 = Color(0xFFd4eff7);
-  static const Color primary300 = Color(0xFF68b4cb);
-  static const Color primary400 = Color(0xFF178caf);
-  static const Color primary500 = Color(0xFF0E6C8B);
-  static const Color primary700 = Color(0xFF083c4d);
-  static const Color primary900 = Color(0xFF062631);
+  static const Color primary200 = Color(0xFFd1fb96);
+  static const Color primary300 = Color(0xFFc0ee3c);
+  static const Color primary400 = Color(0xFF93c12d);
+  static const Color primary500 = Color(0xFF6FCE8F);
+  static const Color primary700 = Color(0xFF51983c);
+  static const Color primary900 = Color(0xFF006525);
 
   ///secondary
 
@@ -47,12 +47,13 @@ class AppColors {
   ///base
 
   static const Color base100 = Color(0xFFF7F2EC);
-  static const Color base200 = Color(0xFFF5EBDF);
-  static const Color base300 = Color(0xFFEDDFD0);
+  static const Color base200 = Color(0xFFF1F1F1);
+  static const Color base300 = Color(0xFFF6F5F3);
   static const Color base350 = Color(0xFFE0CDB9);
   static const Color base500 = Color(0xFFD3bca1);
 
   ///special
+  static const Color disable = Color(0xFFC5C8CA);
   static const Color danger = Color(0xFFe0032d);
   static const Color textLink = Color(0xFF0a64cc);
 

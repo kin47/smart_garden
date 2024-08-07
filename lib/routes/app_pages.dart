@@ -14,13 +14,6 @@ class AppPages extends RootStackRouter {
     AutoRoute(path: AppRoutes.initial, page: SplashRoute.page),
     AutoRoute(path: AppRoutes.login, page: LoginRoute.page),
     AutoRoute(path: AppRoutes.register, page: RegisterRoute.page),
-    AutoRoute(
-      path: AppRoutes.homeAdmin,
-      page: HomeAdminRoute.page,
-    ),
-    AutoRoute(
-      path: AppRoutes.homeUser,
-      page: HomeUserRoute.page,
-    ),
+    AutoRoute(path: AppRoutes.core, page: CoreRoute.page),
   ];
 }
