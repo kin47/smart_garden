@@ -76,7 +76,7 @@ class ItemBottomNavigation extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                item.type.bottomNavTitle,
+                item.type.title,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.s12w400.copyWith(
                   color: isActive ? AppColors.primary500 : AppColors.gray200,

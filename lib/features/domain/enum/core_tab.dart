@@ -14,7 +14,7 @@ enum CoreTab {
 
   String get path => name;
 
-  String get bottomNavTitle {
+  String get title {
     return '${name}_bottom_nav_name'.tr();
   }
 

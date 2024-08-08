@@ -41,23 +41,28 @@ class _CorePageState
   @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
-      appBar: BaseAppBar(
-        hasBack: false,
-        title: 'home'.tr(),
-        actions: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                child: Assets.svg.icon20BellOff.svg(
-                  width: 20.w,
+      appBar: blocBuilder(
+        (context, state) => BaseAppBar(
+          hasBack: false,
+          title: state.activeTab.title,
+          actions: [
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {},
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  child: Assets.svg.icon20BellOff.svg(
+                    width: 20.w,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        buildWhen: (previous, current) =>
+            previous.activeTab != current.activeTab,
       ),
       body: AutoTabsRouter(
         routes: [

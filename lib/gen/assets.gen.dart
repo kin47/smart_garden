@@ -35,6 +35,14 @@ class $AssetsImagesGen {
   AssetGenImage get appBarBg =>
       const AssetGenImage('assets/images/app_bar_bg.png');
 
+  /// File path: assets/images/avatar_default.png
+  AssetGenImage get avatarDefault =>
+      const AssetGenImage('assets/images/avatar_default.png');
+
+  /// File path: assets/images/cover_image_default.jpg
+  AssetGenImage get coverImageDefault =>
+      const AssetGenImage('assets/images/cover_image_default.jpg');
+
   /// File path: assets/images/ic_qr_code.jpg
   AssetGenImage get icQrCode =>
       const AssetGenImage('assets/images/ic_qr_code.jpg');
@@ -46,7 +54,8 @@ class $AssetsImagesGen {
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [appBarBg, icQrCode, loading, logo];
+  List<AssetGenImage> get values =>
+      [appBarBg, avatarDefault, coverImageDefault, icQrCode, loading, logo];
 }
 
 class $AssetsSvgGen {
@@ -59,6 +68,14 @@ class $AssetsSvgGen {
   /// File path: assets/svg/ic_arrow_right.svg
   SvgGenImage get icArrowRight =>
       const SvgGenImage('assets/svg/ic_arrow_right.svg');
+
+  /// File path: assets/svg/ic_bubble_chat.svg
+  SvgGenImage get icBubbleChat =>
+      const SvgGenImage('assets/svg/ic_bubble_chat.svg');
+
+  /// File path: assets/svg/ic_call_chat.svg
+  SvgGenImage get icCallChat =>
+      const SvgGenImage('assets/svg/ic_call_chat.svg');
 
   /// File path: assets/svg/ic_check_box_active.svg
   SvgGenImage get icCheckBoxActive =>
@@ -169,6 +186,8 @@ class $AssetsSvgGen {
   List<SvgGenImage> get values => [
         icArrowLeft,
         icArrowRight,
+        icBubbleChat,
+        icCallChat,
         icCheckBoxActive,
         icCheckBoxInactive,
         icClose,

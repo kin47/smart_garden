@@ -46,5 +46,10 @@
   "diagnose_bottom_nav_name": "Chẩn đoán",
   "scan_bottom_nav_name": "Quét",
   "store_bottom_nav_name": "Cửa hàng",
-  "profile_bottom_nav_name": "Tài khoản"
+  "profile_bottom_nav_name": "Tài khoản",
+  "user_profile": "Thông tin cá nhân",
+  "change_user_info": "Thay đổi thông tin cá nhân",
+  "help_center": "Trung tâm trợ giúp",
+  "chat_with_admin": "Chat với Admin",
+  "call_support": "Gọi hỗ trợ"
 }
