@@ -23,55 +23,26 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: 140.h,
-          width: 1.sw,
-        ),
-        Positioned(
-          bottom: 0,
-          child: Container(
-            color: AppColors.white,
-            width: 1.sw,
-            height: 100.h,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: items
-                  .map(
-                    (e) => Expanded(
-                      child: ItemBottomNavigation(
-                        isActive: e.type == activeTab,
-                        item: e,
-                        onPressed: () {
-                          onClickBottomBar(e);
-                        },
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 1.sw / 6,
-              width: 1.sw / 6,
-              decoration: BoxDecoration(
-                color: AppColors.primary700,
-                borderRadius: BorderRadius.circular(1.sw / 12),
+    return Container(
+      color: AppColors.white,
+      width: 1.sw,
+      height: 90.h,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: items
+            .map(
+              (e) => Expanded(
+                child: ItemBottomNavigation(
+                  isActive: e.type == activeTab,
+                  item: e,
+                  onPressed: () {
+                    onClickBottomBar(e);
+                  },
+                ),
               ),
-              child: Icon(
-                Icons.qr_code_scanner,
-                size: 1.sw / 12,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-        )
-      ],
+            )
+            .toList(),
+      ),
     );
   }
 }
@@ -107,7 +78,7 @@ class ItemBottomNavigation extends StatelessWidget {
               child: Text(
                 item.type.bottomNavTitle,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.s14w400.copyWith(
+                style: AppTextStyles.s12w400.copyWith(
                   color: isActive ? AppColors.primary500 : AppColors.gray200,
                 ),
               ),

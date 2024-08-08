@@ -92,9 +92,6 @@ class $AssetsSvgGen {
   SvgGenImage get icGoogleMap =>
       const SvgGenImage('assets/svg/ic_google_map.svg');
 
-  /// File path: assets/svg/ic_home.svg
-  SvgGenImage get icHome => const SvgGenImage('assets/svg/ic_home.svg');
-
   /// File path: assets/svg/ic_info.svg
   SvgGenImage get icInfo => const SvgGenImage('assets/svg/ic_info.svg');
 
@@ -160,10 +157,6 @@ class $AssetsSvgGen {
   SvgGenImage get icon20Close =>
       const SvgGenImage('assets/svg/icon-20-close.svg');
 
-  /// File path: assets/svg/icon-20-hospital.svg
-  SvgGenImage get icon20Hospital =>
-      const SvgGenImage('assets/svg/icon-20-hospital.svg');
-
   /// File path: assets/svg/icon-28-checkBlank.svg
   SvgGenImage get icon28CheckBlank =>
       const SvgGenImage('assets/svg/icon-28-checkBlank.svg');
@@ -185,7 +178,6 @@ class $AssetsSvgGen {
         icEyeOff,
         icGoogle,
         icGoogleMap,
-        icHome,
         icInfo,
         icLeafActive,
         icLeafInactive,
@@ -203,7 +195,6 @@ class $AssetsSvgGen {
         icon20BellOff,
         icon20BellOn,
         icon20Close,
-        icon20Hospital,
         icon28CheckBlank,
         icon28CheckIdeal
       ];

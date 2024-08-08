@@ -18,23 +18,23 @@ enum CoreTab {
     switch (this) {
       case CoreTab.home:
         return (isActive ? Assets.svg.icLeafActive : Assets.svg.icLeafInactive)
-            .svg(height: 32.h, width: 32.h);
+            .svg(width: 28.w);
       case CoreTab.diagnose:
         return (isActive
                 ? Assets.svg.icDiagnoseActive
                 : Assets.svg.icDiagnoseInactive)
-            .svg(height: 32.h, width: 32.h);
+            .svg(width: 28.w);
       case CoreTab.store:
         return (isActive
                 ? Assets.svg.icStoreActive
                 : Assets.svg.icStoreInactive)
-            .svg(height: 32.h, width: 32.h);
+            .svg(width: 28.w);
       case CoreTab.profile:
         return (isActive
             ? Assets.svg.icUserActive
-            : Assets.svg.icUserInactive).svg(height: 32.h, width: 32.h);
+            : Assets.svg.icUserInactive).svg(width: 28.w);
       default:
-        return SizedBox(height: 32.h);
+        return SizedBox(width: 28.w, height: 28.h);
     }
   }
 }

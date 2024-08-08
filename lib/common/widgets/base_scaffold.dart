@@ -20,6 +20,8 @@ class BaseScaffold extends StatelessWidget {
   final Color backgroundColor;
   final Function(bool)? showFloat;
   final Function(bool)? onScroll;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   const BaseScaffold({
     Key? key,
@@ -39,6 +41,8 @@ class BaseScaffold extends StatelessWidget {
     this.showFloat,
     this.onScroll,
     this.hasTabBar = false,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
   }) : super(key: key);
 
   @override
@@ -87,6 +91,8 @@ class BaseScaffold extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
     );
   }
 }
