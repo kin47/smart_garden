@@ -65,7 +65,7 @@ class ItemBottomNavigation extends StatelessWidget {
       onTap: onPressed,
       child: Padding(
         padding: EdgeInsets.only(
-          top: 16.h,
+          top: 10.h,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

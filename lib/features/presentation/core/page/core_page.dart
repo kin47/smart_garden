@@ -1,13 +1,18 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/custom_bottom_navigation_bar.dart';
+import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/domain/entity/bottom_nav_bar_item_entity.dart';
 import 'package:smart_garden/features/domain/enum/core_tab.dart';
+import 'package:smart_garden/features/domain/events/event_bus_event.dart';
 import 'package:smart_garden/features/presentation/core/bloc/core_bloc.dart';
+import 'package:smart_garden/gen/assets.gen.dart';
 
 @RoutePage()
 class CorePage extends StatefulWidget {
@@ -19,36 +24,65 @@ class CorePage extends StatefulWidget {
 
 class _CorePageState
     extends BaseState<CorePage, CoreEvent, CoreState, CoreBloc> {
+  TabsRouter? _tabsRouter;
+  EventBus eventBus = getIt<EventBus>();
+
+  @override
+  void initState() {
+    super.initState();
+    eventBus.on<ChangeTabEvent>().listen((event) {
+      if (event.tab != CoreTab.scan) {
+        _tabsRouter?.setActiveIndex(event.tab.index);
+        bloc.add(CoreEvent.changeTab(event.tab));
+      }
+    });
+  }
+
   @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
         hasBack: false,
         title: 'home'.tr(),
+        actions: [
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                child: Assets.svg.icon20BellOff.svg(
+                  width: 20.w,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 600.h,
-              color: Colors.red,
-            ),
-            Container(
-              height: 200.h,
-              color: Colors.blue,
-            ),
-          ],
+      body: AutoTabsRouter(
+        routes: [
+          ...CoreTab.values.map(
+            (tab) => tab.pageRouteInfo,
+          ),
+        ],
+        transitionBuilder: (context, child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
         ),
+        builder: (context, child) {
+          _tabsRouter = context.tabsRouter;
+          return child;
+        },
       ),
       bottomNavigation: blocBuilder(
-            (context, state) => CustomBottomNavigationBar(
+        (context, state) => CustomBottomNavigationBar(
           activeTab: state.activeTab,
           onClickBottomBar: (item) {
-            bloc.add(CoreEvent.changeTab(item.type));
+            eventBus.fire(ChangeTabEvent(item.type));
           },
           items: [
             ...CoreTab.values.map(
-                  (e) => BottomNavBarItemEntity(
+              (e) => BottomNavBarItemEntity(
                 type: e,
                 isSelected: e == CoreTab.home,
               ),
@@ -56,7 +90,7 @@ class _CorePageState
           ],
         ),
         buildWhen: (previous, current) =>
-        previous.activeTab != current.activeTab,
+            previous.activeTab != current.activeTab,
       ),
       floatingActionButton: Container(
         width: 1.sw / 6,
