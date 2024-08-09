@@ -79,7 +79,7 @@ enum CoreTab {
         return (isActive ? Assets.svg.icUserActive : Assets.svg.icUserInactive)
             .svg(width: 28.w);
       default:
-        return SizedBox(width: 28.w, height: 28.h);
+        return SizedBox(width: 28.w, height: 24.w);
     }
   }
 }

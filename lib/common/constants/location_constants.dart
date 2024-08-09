@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationConstants {
-  static const LatLng defaultLocation = LatLng(20.9810253, 105.7874960);
-  static const LatLng blindPersonLocation = LatLng(20.9809253, 105.7874960);
+  static const LatLng store1 = LatLng(21.015742, 105.856581);
+  static const LatLng store2 = LatLng(21.017656, 105.781437);
 }

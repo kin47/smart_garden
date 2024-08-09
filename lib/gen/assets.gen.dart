@@ -126,6 +126,10 @@ class $AssetsSvgGen {
   /// File path: assets/svg/ic_phone.svg
   SvgGenImage get icPhone => const SvgGenImage('assets/svg/ic_phone.svg');
 
+  /// File path: assets/svg/ic_sign_post.svg
+  SvgGenImage get icSignPost =>
+      const SvgGenImage('assets/svg/ic_sign_post.svg');
+
   /// File path: assets/svg/ic_sms_message.svg
   SvgGenImage get icSmsMessage =>
       const SvgGenImage('assets/svg/ic_sms_message.svg');
@@ -202,6 +206,7 @@ class $AssetsSvgGen {
         icLeafInactive,
         icMapPin,
         icPhone,
+        icSignPost,
         icSmsMessage,
         icStoreActive,
         icStoreInactive,

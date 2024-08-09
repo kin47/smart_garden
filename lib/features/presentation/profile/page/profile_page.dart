@@ -149,6 +149,7 @@ class _ProfilePageState
           SizedBox(height: 8.h),
           Center(
             child: Material(
+              color: Colors.transparent,
               child: InkWell(
                 onTap: () {},
                 child: Container(
@@ -257,7 +258,9 @@ class _ProfilePageState
 
   Widget _buildLogoutButton() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        bloc.add(const ProfileEvent.logout());
+      },
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.symmetric(horizontal: 16.w),

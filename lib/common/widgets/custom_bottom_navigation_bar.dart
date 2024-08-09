@@ -78,9 +78,12 @@ class ItemBottomNavigation extends StatelessWidget {
               child: Text(
                 item.type.title,
                 textAlign: TextAlign.center,
-                style: AppTextStyles.s12w400.copyWith(
-                  color: isActive ? AppColors.primary500 : AppColors.gray200,
-                ),
+                style: item.type == CoreTab.scan
+                    ? AppTextStyles.s12w400.copyWith(color: AppColors.black)
+                    : AppTextStyles.s12w400.copyWith(
+                        color:
+                            isActive ? AppColors.primary500 : AppColors.gray200,
+                      ),
               ),
             ),
           ],
