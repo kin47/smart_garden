@@ -1,5 +1,5 @@
 {
-  "app_title": "Base Bloc Flutter",
+  "app_title": "Smart Garden",
   "dio_cancel_request": "Request was cancelled",
   "dio_connect_timeout": "Connection timeout",
   "dio_cancel_other": "Connection failed due to internet connection",
@@ -53,5 +53,8 @@
   "chat_with_admin": "Chat với Admin",
   "show_direction": "Chỉ đường",
   "call_phone": "Gọi điện",
-  "store_list": "Danh sách cửa hàng"
+  "store_list": "Danh sách cửa hàng",
+  "call_support": "Gọi hỗ trợ",
+  "qr_scan": "Quét mã QR",
+  "qr_scan_description": "Di chuyển đến mã QR để quét"
 }

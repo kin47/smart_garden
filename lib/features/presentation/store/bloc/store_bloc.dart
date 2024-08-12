@@ -76,4 +76,10 @@ class StoreBloc extends BaseBloc<StoreEvent, StoreState>
       );
     }
   }
+
+  @override
+  Future<void> close() {
+    pagingController.dispose();
+    return super.close();
+  }
 }

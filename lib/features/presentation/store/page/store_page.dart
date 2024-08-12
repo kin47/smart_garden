@@ -43,12 +43,6 @@ class _StorePageState
   }
 
   @override
-  void dispose() {
-    bloc.pagingController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
       body: Column(
@@ -96,7 +90,7 @@ class _StorePageState
                       child: Text(
                         'store_list'.tr().toUpperCase(),
                         style: AppTextStyles.s15w700.copyWith(
-                          color: AppColors.deepDark,
+                          color: AppColors.deepDark.withOpacity(0.3),
                         ),
                       ),
                     ),

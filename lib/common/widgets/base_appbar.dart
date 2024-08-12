@@ -60,7 +60,7 @@ class BaseAppBar extends StatelessWidget {
       backgroundColor: backgroundColor ?? Colors.white,
       elevation: elevation ?? 0.7,
       shadowColor: shadowColor,
-      leadingWidth: leadingWidth ?? 100.w,
+      leadingWidth: leadingWidth,
       titleSpacing: 0,
       systemOverlayStyle: systemUiOverlayStyle ?? SystemUiOverlayStyle.dark,
       leading: leading ??

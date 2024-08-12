@@ -63,7 +63,7 @@ dependencies:
   event_bus: 2.0.0
   auto_route: ^9.2.0
   flutter_slidable: ^3.0.0
-  mobile_scanner: ^3.5.7
+  mobile_scanner: ^4.0.1
   flutter_smart_dialog: ^4.9.6
 
 dev_dependencies:

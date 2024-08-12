@@ -11,6 +11,7 @@ import 'package:smart_garden/features/domain/enum/core_tab.dart';
 import 'package:smart_garden/features/domain/events/event_bus_event.dart';
 import 'package:smart_garden/features/presentation/core/bloc/core_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
+import 'package:smart_garden/routes/app_routes.dart';
 
 @RoutePage()
 class CorePage extends StatefulWidget {
@@ -108,7 +109,9 @@ class _CorePageState
             color: Colors.white,
             size: 1.sw / 10,
           ),
-          onPressed: () {},
+          onPressed: () {
+            context.router.pushNamed(AppRoutes.qrScanner);
+          },
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
