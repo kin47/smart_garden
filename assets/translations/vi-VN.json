@@ -20,8 +20,6 @@
   "register_username_description_2": "Các ký tự đặc biệt có sẵn ( . ? _ ! @ # % & / )",
   "continue_with_google": "Tiếp tục với Google",
   "home": "Trang chủ",
-  "scan_qr_code_to_quizz": "Quét mã QR để tham gia trắc nghiệm",
-  "participate_with_quiz_id": "Tham gia với mã phòng Quiz",
   "logout": "Đăng xuất",
   "email": "Email",
   "phone_number": "Số điện thoại",
@@ -34,14 +32,12 @@
   "close": "Đóng",
   "register_success": "Đăng ký thành công",
   "register_success_dialog_description": "Chúc mừng bạn đã đăng ký thành công, vui lòng đăng nhập để sử dụng ứng dụng",
-  "locate_cane": "Định vị cây gậy",
   "send_location": "Gửi vị trí",
   "call_relative": "Gọi người thân",
   "cane_location": "Vị trí cây gậy",
   "my_location": "Vị trí của tôi",
   "send_sms": "Gửi tin nhắn",
   "send_sms_failed": "Gửi tin nhắn SMS thất bại",
-  "sms_message": "Người nhà của bạn đang ở: {address}\nBấm vào link Google Map dưới đây để xem chi tiết: {url}",
   "home_bottom_nav_name": "Trang chủ",
   "diagnose_bottom_nav_name": "Chẩn đoán",
   "scan_bottom_nav_name": "Quét",
@@ -56,5 +52,7 @@
   "store_list": "Danh sách cửa hàng",
   "call_support": "Gọi hỗ trợ",
   "qr_scan": "Quét mã QR",
-  "qr_scan_description": "Di chuyển đến mã QR để quét"
+  "qr_scan_description": "Di chuyển đến mã QR để quét",
+  "disease_detection": "Đoán bệnh",
+  "diagnose_history": "Lịch sử chẩn đoán"
 }

@@ -88,7 +88,7 @@ class _CorePageState
             ...CoreTab.values.map(
               (e) => BottomNavBarItemEntity(
                 type: e,
-                isSelected: e == CoreTab.home,
+                isSelected: e == state.activeTab,
               ),
             ),
           ],
