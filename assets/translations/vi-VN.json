@@ -54,5 +54,8 @@
   "qr_scan": "Quét mã QR",
   "qr_scan_description": "Di chuyển đến mã QR để quét",
   "disease_detection": "Đoán bệnh",
-  "diagnose_history": "Lịch sử chẩn đoán"
+  "diagnose_history": "Lịch sử chẩn đoán",
+  "diagnosis_image_input_page_description": "Chụp ảnh hoặc chọn ảnh từ thư viện để chẩn đoán",
+  "take_picture": "Chụp ảnh",
+  "choose_from_library": "Chọn từ thư viện"
 }

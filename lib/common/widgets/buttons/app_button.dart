@@ -9,7 +9,7 @@ class AppButton extends StatelessWidget {
   final double? width;
   final double? height;
   final TextStyle? textStyle;
-  final double borderRadius;
+  final double? borderRadius;
   final Color? backgroundColor;
   final Color? borderColor;
   final Widget? trailingIcon;
@@ -34,9 +34,9 @@ class AppButton extends StatelessWidget {
     this.isDisable = false,
     this.horizontalPadding,
     this.verticalPadding,
-    this.backgroundColor = AppColors.white,
+    this.backgroundColor = AppColors.primary700,
     this.borderColor,
-    this.borderRadius = 8,
+    this.borderRadius,
     required this.title,
     this.width,
     this.isOutlined,
@@ -57,7 +57,7 @@ class AppButton extends StatelessWidget {
         backgroundColor: backgroundColor,
         side: BorderSide(color: borderColor ?? AppColors.deepDark),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
+          borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
         ),
         padding: EdgeInsets.zero,
         shadowColor: shadowColor ?? AppColors.shadow,
@@ -75,7 +75,7 @@ class AppButton extends StatelessWidget {
         elevation: WidgetStateProperty.all(elevation ?? 0),
         shape: WidgetStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(borderRadius ?? 16.r),
           ),
         ),
         shadowColor: WidgetStateProperty.all(shadowColor ?? AppColors.shadow),

@@ -17,8 +17,12 @@ dependencies:
   get_it: ^7.7.0
   dartz: 0.10.1
   retrofit: ^4.1.0
+  dio: ^5.5.0+1
   logger: ^2.4.0
   url_launcher: ^6.3.0
+  event_bus: ^2.0.0
+  auto_route: ^9.2.0
+  connectivity_plus: ^4.0.2
 
   # state management
   flutter_bloc: ^8.1.6
@@ -30,20 +34,19 @@ dependencies:
   firebase_auth: ^4.19.5
   firebase_core: ^2.31.0
   cloud_firestore: ^4.17.3
+
+  # notification
   firebase_messaging: ^14.6.5
+  flutter_local_notifications: ^15.1.0+1
 
   # storage
   flutter_secure_storage: ^9.2.2
   shared_preferences: ^2.3.1
 
+  # annotation/serialization/generator
   copy_with_extension: ^5.0.4
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
-  dio: ^5.5.0+1
-  top_snackbar_flutter: ^3.1.0
-  cached_network_image: ^3.4.0
-  flutter_local_notifications: ^15.1.0+1
-  connectivity_plus: ^4.0.2
   flutter_dotenv: ^5.1.0
   flutter_svg: ^2.0.7
 
@@ -57,14 +60,16 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_gen: ^5.6.0
 
+  top_snackbar_flutter: ^3.1.0
+  cached_network_image: ^3.4.0
   infinite_scroll_pagination: ^4.0.0
   equatable: ^2.0.5
   shimmer: ^3.0.0
-  event_bus: 2.0.0
-  auto_route: ^9.2.0
   flutter_slidable: ^3.0.0
   mobile_scanner: ^4.0.1
   flutter_smart_dialog: ^4.9.6
+  image_picker: ^1.1.2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

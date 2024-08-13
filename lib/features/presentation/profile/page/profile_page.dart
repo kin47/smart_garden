@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
 import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
@@ -36,7 +37,17 @@ class _ProfilePageState
             SizedBox(height: 24.h),
             _buildHelpCenter(),
             SizedBox(height: 24.h),
-            _buildLogoutButton(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: AppButton(
+                onPressed: () {
+                  bloc.add(const ProfileEvent.logout());
+                },
+                backgroundColor: AppColors.red,
+                title: 'logout'.tr(),
+                textStyle: AppTextStyles.s15w700,
+              ),
+            ),
             SizedBox(height: 1.sw / 11),
           ],
         ),
@@ -252,31 +263,6 @@ class _ProfilePageState
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildLogoutButton() {
-    return InkWell(
-      onTap: () {
-        bloc.add(const ProfileEvent.logout());
-      },
-      child: Container(
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 16.w),
-        padding: EdgeInsets.symmetric(vertical: 16.h),
-        decoration: BoxDecoration(
-          color: AppColors.red,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Center(
-          child: Text(
-            'logout'.tr(),
-            style: AppTextStyles.s16w700.copyWith(
-              color: AppColors.white,
-            ),
-          ),
-        ),
       ),
     );
   }

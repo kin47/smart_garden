@@ -32,9 +32,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-    <string>Camera permission is required for barcode scanning.</string>
+    <string>Camera permission is required for QR code scanning.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app needs photos access to get QR code from photo library</string>
+    <string>This app needs photos access to get image to detect plant disease</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>To record videos</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
