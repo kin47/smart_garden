@@ -30,12 +30,13 @@ class StoreBloc extends BaseBloc<StoreEvent, StoreState>
     });
   }
 
-  PagingController<int, StoreEntity> pagingController =
-      PagingController(firstPageKey: 1);
   final StoreRepository _storeRepository;
 
+  PagingController<int, StoreEntity> pagingController =
+      PagingController(firstPageKey: 1);
+
   Future<void> _getData(Emitter<StoreState> emit, int page) async {
-    if(page == 1) {
+    if (page == 1) {
       emit(
         state.copyWith(
           status: BaseStateStatus.loading,

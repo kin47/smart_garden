@@ -3,8 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:smart_garden/base/base_widget.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
+import 'package:smart_garden/features/presentation/diagnosis_history/bloc/diagnosis_history_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
 @RoutePage()
@@ -12,14 +14,16 @@ class DiagnosisImageInputPage extends StatefulWidget {
   const DiagnosisImageInputPage({super.key});
 
   @override
-  State<DiagnosisImageInputPage> createState() => _DiagnosisImageInputPageState();
+  State<DiagnosisImageInputPage> createState() =>
+      _DiagnosisImageInputPageState();
 }
 
-class _DiagnosisImageInputPageState extends State<DiagnosisImageInputPage> {
+class _DiagnosisImageInputPageState extends BaseState<DiagnosisImageInputPage,
+    DiagnosisHistoryEvent, DiagnosisHistoryState, DiagnosisHistoryBloc> {
   final ImagePicker picker = ImagePicker();
 
   @override
-  Widget build(BuildContext context) {
+  Widget renderUI(BuildContext context) {
     return BaseScaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

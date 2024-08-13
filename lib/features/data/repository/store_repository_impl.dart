@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_garden/base/network/errors/error.dart';
+import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/features/domain/entity/store_entity.dart';
 import 'package:smart_garden/features/domain/repository/store_repository.dart';
 
@@ -42,8 +44,8 @@ class StoreRepositoryImpl implements StoreRepository {
           phoneNumber: "0987654323",
         ),
       ]);
-    } catch (e) {
-      return left(BaseError.httpUnknownError(e.toString()));
+    } on DioException catch (e) {
+      return left(e.baseError);
     }
   }
 }

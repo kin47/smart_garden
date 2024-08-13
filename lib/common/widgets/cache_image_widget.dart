@@ -7,18 +7,31 @@ import '../index.dart';
 ///Use for Network Image
 class CachedImageWidget extends StatelessWidget {
   final String url;
-  const CachedImageWidget({Key? key, required this.url}) : super(key: key);
+  final double? width;
+  final double? height;
+  final double? radius;
+
+  const CachedImageWidget({
+    Key? key,
+    required this.url,
+    this.width,
+    this.height,
+    this.radius,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: url,
+      width: width,
+      height: height,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,
           ),
+          borderRadius: BorderRadius.circular(radius ?? 0),
         ),
       ),
       fit: BoxFit.cover,
