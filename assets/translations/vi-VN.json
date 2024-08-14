@@ -57,5 +57,6 @@
   "diagnose_history": "Lịch sử chẩn đoán",
   "diagnosis_image_input_page_description": "Chụp ảnh hoặc chọn ảnh từ thư viện để chẩn đoán",
   "take_picture": "Chụp ảnh",
-  "choose_from_library": "Chọn từ thư viện"
+  "choose_from_library": "Chọn từ thư viện",
+  "diagnosis_result": "Kết quả chẩn đoán"
 }
