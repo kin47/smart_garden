@@ -6,11 +6,13 @@ import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
+import 'package:smart_garden/common/constants/auth_constants.dart';
 import 'package:smart_garden/common/extensions/string_extension.dart';
+import 'package:smart_garden/common/local_data/secure_storage.dart';
+import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
-import 'package:smart_garden/features/domain/repository/user_repository.dart';
 
 part 'login_event.dart';
 
@@ -22,10 +24,7 @@ part 'login_bloc.g.dart';
 
 @injectable
 class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
-  LoginBloc(
-    this._authRepository,
-    this._userRepository,
-  ) : super(LoginState.init()) {
+  LoginBloc(this._authRepository) : super(LoginState.init()) {
     on<LoginEvent>((event, emit) async {
       await event.when(
         onInputUsername: (username) => onInputUsername(emit, username),
@@ -38,7 +37,6 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   }
 
   final AuthRepository _authRepository;
-  final UserRepository _userRepository;
 
   Future<void> onInputUsername(
       Emitter<LoginState> emit, String username) async {
@@ -46,7 +44,6 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       state.copyWith(
         username: username,
         status: BaseStateStatus.idle,
-        actionState: LoginActionState.idle,
       ),
     );
   }
@@ -57,7 +54,6 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       state.copyWith(
         password: password,
         status: BaseStateStatus.idle,
-        actionState: LoginActionState.idle,
       ),
     );
   }
@@ -68,53 +64,34 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       state.copyWith(
         isPasswordVisible: isVisible,
         status: BaseStateStatus.idle,
-        actionState: LoginActionState.idle,
       ),
     );
   }
 
   Future login(Emitter<LoginState> emit) async {
-    emit(
-      state.copyWith(
-        status: BaseStateStatus.loading,
-        actionState: LoginActionState.idle,
-      ),
-    );
+    emit(state.copyWith(status: BaseStateStatus.loading));
 
-    final authRes = await _authRepository.signInWithEmailAndPassword(
+    final result = await _authRepository.login(
       request: LoginRequest(
         email: state.username,
         password: state.password,
       ),
     );
 
-    await authRes.fold((l) async {
+    await result.fold((l) async {
       emit(
         state.copyWith(
           status: BaseStateStatus.failed,
-          actionState: LoginActionState.loginError,
           message: l.getError,
         ),
       );
     }, (r) async {
-      final userRes = await _userRepository.getUserInfo(email: state.username);
-      userRes.fold((l) {
-        emit(
-          state.copyWith(
-            status: BaseStateStatus.failed,
-            actionState: LoginActionState.loginError,
-            message: l.getError,
-          ),
-        );
-      }, (r) {
-        emit(
-          state.copyWith(
-            status: BaseStateStatus.success,
-            actionState: LoginActionState.goToHome,
-            user: r,
-          ),
-        );
-      });
+      await getIt<SecureStorage>().save(AuthConstants.token, r.accessToken);
+      emit(
+        state.copyWith(
+          status: BaseStateStatus.success,
+        ),
+      );
     });
   }
 }

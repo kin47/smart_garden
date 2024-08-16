@@ -6,11 +6,12 @@ part 'register_request.g.dart';
 
 @freezed
 class RegisterRequest with _$RegisterRequest {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory RegisterRequest({
     required String email,
     required String password,
     required String phoneNumber,
-    required RoleType roles,
+    required String name,
   }) = _RegisterRequest;
 
   factory RegisterRequest.fromJson(Map<String, dynamic> json) =>

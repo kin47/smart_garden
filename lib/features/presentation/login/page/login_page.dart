@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smart_garden/base/base_widget.dart';
+import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/common/widgets/textfields/app_text_form_field.dart';
@@ -30,13 +31,13 @@ class _LoginPageState
   @override
   void listener(BuildContext context, LoginState state) {
     super.listener(context, state);
-    switch (state.actionState) {
-      case LoginActionState.goToHome:
+    switch (state.status) {
+      case BaseStateStatus.success:
         context.router.replaceAll([
           const CoreRoute(),
         ]);
         break;
-      case LoginActionState.loginError:
+      case BaseStateStatus.failed:
         DialogService.showInformationDialog(
           context,
           title: 'error'.tr(),
@@ -133,12 +134,7 @@ class _LoginPageState
           return AppButton(
             borderRadius: 28.r,
             height: 56.h,
-            onPressed:
-                /// TODO: Implement login
-            // state.validInput ?
-            _login
-                // : null
-            ,
+            onPressed: state.validInput ? _login : null,
             backgroundColor:
                 state.validInput ? AppColors.primary700 : AppColors.disable,
             title: 'login'.tr(),
@@ -295,11 +291,7 @@ class _LoginPageState
   }
 
   void _login() {
-    /// TODO: Implement login
-    // bloc.add(const LoginEvent.login());
-    context.router.replaceAll([
-      const CoreRoute(),
-    ]);
+    bloc.add(const LoginEvent.login());
   }
 
   void _navigateToSignUp() {

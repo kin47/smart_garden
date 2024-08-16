@@ -1,39 +1,39 @@
 import 'package:smart_garden/features/data/model/user_model/user_model.dart';
-import 'package:smart_garden/features/domain/enum/role_type.dart';
 
 class UserEntity {
-  final String id;
-  final String phoneNumber;
+  final int id;
   final String email;
-  final RoleType role;
+  final String name;
+  final String phoneNumber;
+  final String? avatar;
+  final bool isAdmin;
+  final bool canPredictDisease;
+  final bool canReceiveNoti;
+  final bool isVerified;
 
   const UserEntity({
     required this.id,
     required this.phoneNumber,
     required this.email,
-    required this.role,
+    required this.name,
+    this.avatar,
+    this.isAdmin = false,
+    this.canPredictDisease = false,
+    this.canReceiveNoti = false,
+    this.isVerified = false,
   });
 
   factory UserEntity.fromModel(UserModel model) {
     return UserEntity(
-      id: model.id ?? '',
+      id: model.id ?? 0,
       email: model.email ?? '',
+      name: model.name ?? '',
       phoneNumber: model.phoneNumber ?? '',
-      role: model.roles ?? RoleType.user,
-    );
-  }
-
-  UserEntity copyWith({
-    String? id,
-    String? phoneNumber,
-    String? email,
-    RoleType? role,
-  }) {
-    return UserEntity(
-      id: id ?? this.id,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      email: email ?? this.email,
-      role: role ?? this.role,
+      avatar: model.avatar,
+      isAdmin: model.isAdmin ?? false,
+      canPredictDisease: model.canPredictDisease ?? false,
+      canReceiveNoti: model.canReceiveNoti ?? false,
+      isVerified: model.isVerified ?? false,
     );
   }
 }

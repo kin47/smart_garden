@@ -1,37 +1,36 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:smart_garden/base/network/models/base_data.dart';
+import 'package:smart_garden/common/constants/endpoint_constants.dart';
+import 'package:smart_garden/features/data/model/user_model/user_model.dart';
+import 'package:smart_garden/features/data/request/login_request/login_request.dart';
+import 'package:smart_garden/features/data/request/register_request/register_request.dart';
+import 'package:smart_garden/features/data/response/login_response/login_response.dart';
+import 'package:smart_garden/features/data/response/logout_response/logout_response.dart';
+import 'package:smart_garden/features/data/response/register_response/register_response.dart';
 
+part 'auth_service.g.dart';
+
+@RestApi()
 @Injectable()
-class AuthService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+abstract class AuthService {
+  @factoryMethod
+  factory AuthService(Dio dio) = _AuthService;
 
-  User? get currentUser => _firebaseAuth.currentUser;
+  @POST(EndpointConstants.login)
+  Future<LoginResponse> login({
+    @Body() required LoginRequest request,
+  });
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  @POST(EndpointConstants.register)
+  Future<RegisterResponse> register({
+    @Body() required RegisterRequest request,
+  });
 
-  Future<UserCredential> login({
-    required String email,
-    required String password,
-  }) async {
-    final res = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return res;
-  }
+  @POST(EndpointConstants.logout)
+  Future<LogoutResponse> logout();
 
-  Future<UserCredential> register({
-    required String email,
-    required String password,
-  }) async {
-    final res = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return res;
-  }
-
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
+  @GET(EndpointConstants.me)
+  Future<BaseData<UserModel>> getUserInfo();
 }

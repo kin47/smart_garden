@@ -32,15 +32,10 @@ class _SplashPageState
           const LoginRoute(),
         ]);
         break;
-      case SplashActionState.goToAdminHome:
-        // context.router.replaceAll([
-        //   HomeAdminRoute(user: state.user!),
-        // ]);
-        break;
-      case SplashActionState.goToUserHome:
-        // context.router.replaceAll([
-        //   HomeUserRoute(user: state.user!),
-        // ]);
+      case SplashActionState.goToHome:
+        context.router.replaceAll([
+          const CoreRoute(),
+        ]);
         break;
       default:
         break;

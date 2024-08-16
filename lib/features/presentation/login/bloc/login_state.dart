@@ -6,7 +6,6 @@ class LoginState extends BaseBlocState {
   final String password;
   final UserEntity? user;
   final bool isPasswordVisible;
-  final LoginActionState actionState;
 
   const LoginState({
     required super.status,
@@ -14,7 +13,6 @@ class LoginState extends BaseBlocState {
     required this.username,
     required this.password,
     this.isPasswordVisible = false,
-    required this.actionState,
     this.user,
   });
 
@@ -24,7 +22,6 @@ class LoginState extends BaseBlocState {
       username: '',
       password: '',
       isPasswordVisible: false,
-      actionState: LoginActionState.idle,
     );
   }
 
@@ -38,12 +35,5 @@ class LoginState extends BaseBlocState {
         password,
         user,
         isPasswordVisible,
-        actionState,
       ];
-}
-
-enum LoginActionState {
-  idle,
-  loginError,
-  goToHome,
 }

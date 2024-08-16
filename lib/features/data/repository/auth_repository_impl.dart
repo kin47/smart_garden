@@ -1,11 +1,16 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:smart_garden/base/network/errors/error.dart';
+import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/features/data/datasource/remote/auth_service/auth_service.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/data/request/register_request/register_request.dart';
+import 'package:smart_garden/features/data/response/login_response/login_response.dart';
+import 'package:smart_garden/features/data/response/logout_response/logout_response.dart';
+import 'package:smart_garden/features/data/response/register_response/register_response.dart';
+import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
 
 @Injectable(as: AuthRepository)
@@ -15,55 +20,49 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._service);
 
   @override
-  Future<Either<BaseError, UserCredential>> register({
-    required RegisterRequest request,
-  }) async {
-    try {
-      final res = await _service.register(
-        email: request.email,
-        password: request.password,
-      );
-      return right(res);
-    } catch (e) {
-      return left(BaseError.httpUnknownError(e.toString()));
-    }
-  }
-
-  @override
-  Future<Either<BaseError, UserCredential>> signInWithEmailAndPassword({
+  Future<Either<BaseError, LoginResponse>> login({
     required LoginRequest request,
   }) async {
     try {
-      final res = await _service.login(
-        email: request.email,
-        password: request.password,
-      );
-      return right(res);
-    } catch (e) {
-      return left(BaseError.httpUnknownError(e.toString()));
+      final response = await _service.login(request: request);
+      return right(response);
+    } on DioException catch (e) {
+      return left(e.baseError);
     }
   }
 
   @override
-  Future<Either<BaseError, bool>> signOut() async {
+  Future<Either<BaseError, RegisterResponse>> register({
+    required RegisterRequest request,
+  }) async {
     try {
-      await _service.signOut();
-      return right(true);
-    } catch (e) {
-      return left(BaseError.httpUnknownError(e.toString()));
+      final response = await _service.register(request: request);
+      return right(response);
+    } on DioException catch (e) {
+      return left(e.baseError);
     }
   }
 
   @override
-  Either<BaseError, User> getUserInfo() {
+  Future<Either<BaseError, LogoutResponse>> logout() async {
     try {
-      final res = _service.currentUser;
-      if (res == null) {
-        return left(BaseError.httpUnknownError('User not found'));
+      final response = await _service.logout();
+      return right(response);
+    } on DioException catch (e) {
+      return left(e.baseError);
+    }
+  }
+
+  @override
+  Future<Either<BaseError, UserEntity>> getUserInfo() async {
+    try {
+      final response = await _service.getUserInfo();
+      if (response.data == null) {
+        return left(BaseError.httpUnknownError('error_system'.tr()));
       }
-      return right(res);
-    } catch (e) {
-      return left(BaseError.httpUnknownError('error_system'.tr()));
+      return right(UserEntity.fromModel(response.data!));
+    } on DioException catch (e) {
+      return left(e.baseError);
     }
   }
 }

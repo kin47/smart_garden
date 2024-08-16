@@ -5,8 +5,9 @@ part 'login_response.g.dart';
 
 @freezed
 class LoginResponse with _$LoginResponse {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory LoginResponse({
-    String? token,
+    String? accessToken,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

@@ -1,19 +1,23 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_garden/base/network/errors/error.dart';
+import 'package:smart_garden/features/data/model/user_model/user_model.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/data/request/register_request/register_request.dart';
+import 'package:smart_garden/features/data/response/login_response/login_response.dart';
+import 'package:smart_garden/features/data/response/logout_response/logout_response.dart';
+import 'package:smart_garden/features/data/response/register_response/register_response.dart';
+import 'package:smart_garden/features/domain/entity/user_entity.dart';
 
 abstract class AuthRepository {
-  Future<Either<BaseError, UserCredential>> signInWithEmailAndPassword({
+  Future<Either<BaseError, LoginResponse>> login({
     required LoginRequest request,
   });
 
-  Future<Either<BaseError, UserCredential>> register({
+  Future<Either<BaseError, RegisterResponse>> register({
     required RegisterRequest request,
   });
 
-  Either<BaseError, User> getUserInfo();
+  Future<Either<BaseError, LogoutResponse>> logout();
 
-  Future<Either<BaseError, bool>> signOut();
+  Future<Either<BaseError, UserEntity>> getUserInfo();
 }

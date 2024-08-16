@@ -3,10 +3,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
+import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
+import 'package:smart_garden/common/widgets/cache_image_widget.dart';
 import 'package:smart_garden/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
+import 'package:smart_garden/routes/app_pages.gr.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {
@@ -19,6 +22,31 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState
     extends BaseState<ProfilePage, ProfileEvent, ProfileState, ProfileBloc> {
   @override
+  void initState() {
+    super.initState();
+    bloc.add(const ProfileEvent.init());
+  }
+
+  @override
+  void listener(BuildContext context, ProfileState state) {
+    super.listener(context, state);
+    switch (state.status) {
+      case BaseStateStatus.failed:
+        DialogService.showInformationDialog(
+          context,
+          title: 'error'.tr(),
+          description: state.message ?? 'error_system'.tr(),
+        );
+        break;
+      case BaseStateStatus.logout:
+        context.router.replaceAll([const LoginRoute()]);
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
       body: SingleChildScrollView(
@@ -26,11 +54,14 @@ class _ProfilePageState
           children: [
             _buildAvatarAndCover(),
             SizedBox(height: 20.h),
-            Text(
-              'Trần Quang Minh',
-              style: AppTextStyles.s20w700.copyWith(
-                color: AppColors.black,
+            blocBuilder(
+              (context, state) => Text(
+                state.user?.name ?? '',
+                style: AppTextStyles.s20w700.copyWith(
+                  color: AppColors.black,
+                ),
               ),
+              buildWhen: (previous, current) => previous.user != current.user,
             ),
             SizedBox(height: 16.h),
             _buildUserInfo(),
@@ -75,9 +106,20 @@ class _ProfilePageState
                   width: 5.w,
                 ),
               ),
-              child: Assets.images.avatarDefault.image(
-                width: 120.w,
-                fit: BoxFit.cover,
+              child: blocBuilder(
+                (context, state) =>
+                    state.user?.avatar != null && state.user!.avatar!.isNotEmpty
+                        ? CachedImageWidget(
+                            url: state.user!.avatar!,
+                            width: 120.w,
+                            height: 120.w,
+                            radius: 60.w,
+                          )
+                        : Assets.images.avatarDefault.image(
+                            width: 120.w,
+                            fit: BoxFit.cover,
+                          ),
+                buildWhen: (previous, current) => previous.user != current.user,
               ),
             ),
           ),
@@ -117,11 +159,14 @@ class _ProfilePageState
                 size: 24.w,
               ),
               SizedBox(width: 8.w),
-              Text(
-                'Trần Quang Minh',
-                style: AppTextStyles.s14w400.copyWith(
-                  color: AppColors.black,
+              blocBuilder(
+                (context, state) => Text(
+                  state.user?.name ?? '',
+                  style: AppTextStyles.s14w400.copyWith(
+                    color: AppColors.black,
+                  ),
                 ),
+                buildWhen: (previous, current) => previous.user != current.user,
               ),
             ],
           ),
@@ -133,11 +178,14 @@ class _ProfilePageState
                 size: 24.w,
               ),
               SizedBox(width: 8.w),
-              Text(
-                '098 615 3247',
-                style: AppTextStyles.s14w400.copyWith(
-                  color: AppColors.black,
+              blocBuilder(
+                (context, state) => Text(
+                  state.user?.phoneNumber ?? '',
+                  style: AppTextStyles.s14w400.copyWith(
+                    color: AppColors.black,
+                  ),
                 ),
+                buildWhen: (previous, current) => previous.user != current.user,
               ),
             ],
           ),
@@ -149,11 +197,14 @@ class _ProfilePageState
                 size: 24.w,
               ),
               SizedBox(width: 8.w),
-              Text(
-                'kin472k2@gmail.com',
-                style: AppTextStyles.s14w400.copyWith(
-                  color: AppColors.black,
+              blocBuilder(
+                (context, state) => Text(
+                  state.user?.email ?? '',
+                  style: AppTextStyles.s14w400.copyWith(
+                    color: AppColors.black,
+                  ),
                 ),
+                buildWhen: (previous, current) => previous.user != current.user,
               ),
             ],
           ),

@@ -17,6 +17,7 @@ class DioBuilder {
         receiveTimeout: const Duration(seconds: ApiConfig.receiveTimeout),
         headers: {
           "Accept": "*/*",
+          "Content-Type": "application/json",
         },
       );
       dio = Dio(options);

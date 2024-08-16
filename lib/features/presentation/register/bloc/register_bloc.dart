@@ -8,9 +8,7 @@ import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/common/extensions/string_extension.dart';
 import 'package:smart_garden/features/data/request/register_request/register_request.dart';
-import 'package:smart_garden/features/domain/enum/role_type.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
-import 'package:smart_garden/features/domain/repository/user_repository.dart';
 
 part 'register_event.dart';
 
@@ -24,7 +22,6 @@ part 'register_bloc.g.dart';
 class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
   RegisterBloc(
     this._authRepository,
-    this._userRepository,
   ) : super(RegisterState.init()) {
     on<RegisterEvent>((event, emit) async {
       await event.when(
@@ -40,7 +37,6 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
   }
 
   final AuthRepository _authRepository;
-  final UserRepository _userRepository;
 
   Future<void> onInputEmail(Emitter<RegisterState> emit, String email) async {
     emit(
@@ -82,86 +78,29 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
   }
 
   Future<void> register(Emitter<RegisterState> emit) async {
-    emit(
-      state.copyWith(
-        status: BaseStateStatus.loading,
+    emit(state.copyWith(status: BaseStateStatus.loading));
+
+    final res = await _authRepository.register(
+      request: RegisterRequest(
+        email: state.email,
+        phoneNumber: state.phoneNumber,
+        password: state.password,
+        name: state.email.split('@').first,
       ),
     );
 
-    final authRes = await Future.wait([
-      _authRepository.register(
-        request: RegisterRequest(
-          email: state.email,
-          phoneNumber: state.phoneNumber,
-          password: state.password,
-          roles: RoleType.user,
+    res.fold(
+      (l) => emit(
+        state.copyWith(
+          status: BaseStateStatus.failed,
+          message: l.getError,
         ),
       ),
-      _authRepository.register(
-        request: RegisterRequest(
-          /// create blind user account
-          email: state.email.userEmail,
-          phoneNumber: state.phoneNumber,
-          password: state.password,
-          roles: RoleType.user,
+      (r) => emit(
+        state.copyWith(
+          status: BaseStateStatus.success,
         ),
       ),
-    ]);
-
-    for (final item in authRes) {
-      item.fold(
-        (l) {
-          emit(
-            state.copyWith(
-              status: BaseStateStatus.failed,
-              message: l.getError,
-            ),
-          );
-        },
-        (r) {},
-      );
-    }
-
-    if (authRes.every((element) => element.isRight())) {
-      final userRes = await Future.wait([
-        _userRepository.createUser(
-          request: RegisterRequest(
-            email: state.email,
-            phoneNumber: state.phoneNumber,
-            password: state.password,
-            roles: RoleType.admin,
-          ),
-        ),
-        _userRepository.createUser(
-          request: RegisterRequest(
-            /// create blind user account
-            email: state.email.userEmail,
-            phoneNumber: state.phoneNumber,
-            password: state.password,
-            roles: RoleType.user,
-          ),
-        ),
-      ]);
-      for (final item in userRes) {
-        item.fold(
-          (l) {
-            emit(
-              state.copyWith(
-                status: BaseStateStatus.failed,
-                message: l.getError,
-              ),
-            );
-          },
-          (r) {},
-        );
-      }
-      if (userRes.every((element) => element.isRight())) {
-        emit(
-          state.copyWith(
-            status: BaseStateStatus.success,
-          ),
-        );
-      }
-    }
+    );
   }
 }

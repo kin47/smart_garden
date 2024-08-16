@@ -29,6 +29,5 @@ class SplashState extends BaseBlocState {
 enum SplashActionState {
   init,
   goToLogin,
-  goToUserHome,
-  goToAdminHome,
+  goToHome,
 }
