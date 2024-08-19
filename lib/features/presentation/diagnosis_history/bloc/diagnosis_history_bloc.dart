@@ -45,7 +45,7 @@ class DiagnosisHistoryBloc
       );
     }
     final res = await _diagnosisRepository.getDiagnosisHistory(page: page);
-    pagingControllerOnLoad(
+    pagingControllerOnLoad<DiagnosisEntity>(
       page,
       pagingController,
       res,
@@ -57,7 +57,7 @@ class DiagnosisHistoryBloc
           ),
         );
       },
-      onSuccess: () {
+      onSuccess: (r) {
         emit(
           state.copyWith(
             status: BaseStateStatus.idle,

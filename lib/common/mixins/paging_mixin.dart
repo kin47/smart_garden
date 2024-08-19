@@ -11,7 +11,7 @@ class BaseCommonMethodMixin {
     int limit = 10,
     String? errorMessage,
     Function(String)? onError,
-    Function()? onSuccess,
+    Function(List<T>)? onSuccess,
   }) {
     either.fold(
       (l) {
@@ -20,13 +20,17 @@ class BaseCommonMethodMixin {
         onError?.call(error);
       },
       (r) {
+        //if page = first page key then clear the list
+        if (page == pagingController.firstPageKey) {
+          pagingController.itemList = <T>[];
+        }
         final isLastPage = r.length < limit;
         if (isLastPage) {
           pagingController.appendLastPage(r);
         } else {
-          pagingController.appendPage(r, page++);
+          pagingController.appendPage(r, page + 1);
         }
-        onSuccess?.call();
+        onSuccess?.call(r);
       },
     );
   }

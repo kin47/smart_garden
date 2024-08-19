@@ -7,6 +7,7 @@ import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/features/data/request/pagination_request/pagination_request.dart';
 import 'package:smart_garden/features/domain/entity/store_entity.dart';
 import 'package:smart_garden/features/domain/repository/store_repository.dart';
 
@@ -37,14 +38,15 @@ class StoreBloc extends BaseBloc<StoreEvent, StoreState>
 
   Future<void> _getData(Emitter<StoreState> emit, int page) async {
     if (page == 1) {
-      emit(
-        state.copyWith(
-          status: BaseStateStatus.loading,
-        ),
-      );
+      emit(state.copyWith(status: BaseStateStatus.loading));
     }
-    final res = await _storeRepository.getStores(page: page);
-    pagingControllerOnLoad(
+    final res = await _storeRepository.getStores(
+      request: PaginationRequest(
+        page: page,
+        limit: ApiConfig.limit,
+      ),
+    );
+    pagingControllerOnLoad<StoreEntity>(
       page,
       pagingController,
       res,
@@ -56,7 +58,7 @@ class StoreBloc extends BaseBloc<StoreEvent, StoreState>
           ),
         );
       },
-      onSuccess: () {
+      onSuccess: (r) {
         emit(
           state.copyWith(
             status: BaseStateStatus.idle,

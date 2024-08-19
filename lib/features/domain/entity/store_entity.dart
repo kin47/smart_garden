@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:smart_garden/features/data/model/store_model/store_model.dart';
 
 class StoreEntity extends Equatable {
   final int id;
@@ -16,6 +17,17 @@ class StoreEntity extends Equatable {
     required this.longitude,
     required this.phoneNumber,
   });
+
+  factory StoreEntity.fromModel(StoreModel model) {
+    return StoreEntity(
+      id: model.id ?? 0,
+      name: model.name ?? '',
+      address: model.address ?? '',
+      latitude: model.latitude ?? 0,
+      longitude: model.longitude ?? 0,
+      phoneNumber: model.phoneNumber ?? '',
+    );
+  }
 
   @override
   List<Object?> get props => [
