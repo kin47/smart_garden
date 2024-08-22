@@ -39,6 +39,18 @@ class $AssetsImagesGen {
   AssetGenImage get avatarDefault =>
       const AssetGenImage('assets/images/avatar_default.png');
 
+  /// File path: assets/images/carousel_slider_1.png
+  AssetGenImage get carouselSlider1 =>
+      const AssetGenImage('assets/images/carousel_slider_1.png');
+
+  /// File path: assets/images/carousel_slider_2.png
+  AssetGenImage get carouselSlider2 =>
+      const AssetGenImage('assets/images/carousel_slider_2.png');
+
+  /// File path: assets/images/carousel_slider_3.png
+  AssetGenImage get carouselSlider3 =>
+      const AssetGenImage('assets/images/carousel_slider_3.png');
+
   /// File path: assets/images/cover_image_default.jpg
   AssetGenImage get coverImageDefault =>
       const AssetGenImage('assets/images/cover_image_default.jpg');
@@ -47,15 +59,33 @@ class $AssetsImagesGen {
   AssetGenImage get icQrCode =>
       const AssetGenImage('assets/images/ic_qr_code.jpg');
 
+  /// File path: assets/images/kit_image.png
+  AssetGenImage get kitImage =>
+      const AssetGenImage('assets/images/kit_image.png');
+
   /// File path: assets/images/loading.png
   AssetGenImage get loading => const AssetGenImage('assets/images/loading.png');
 
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/news.png
+  AssetGenImage get news => const AssetGenImage('assets/images/news.png');
+
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [appBarBg, avatarDefault, coverImageDefault, icQrCode, loading, logo];
+  List<AssetGenImage> get values => [
+        appBarBg,
+        avatarDefault,
+        carouselSlider1,
+        carouselSlider2,
+        carouselSlider3,
+        coverImageDefault,
+        icQrCode,
+        kitImage,
+        loading,
+        logo,
+        news
+      ];
 }
 
 class $AssetsSvgGen {
