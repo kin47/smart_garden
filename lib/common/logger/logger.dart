@@ -28,19 +28,19 @@ class LogUtils {
     }
   }
 
-  void logD(String text) {
+  void d(String text) {
     if (showLog) _logger.d(text);
   }
 
-  void logI(String text) {
+  void i(String text) {
     if (showLog) _logger.i(text);
   }
 
-  void logW(String text) {
+  void w(String text) {
     if (showLog) _logger.w(text);
   }
 
-  void logE(String text) {
+  void e(String text) {
     if (showLog) _logger.e(text);
   }
 }

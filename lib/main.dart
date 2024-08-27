@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:smart_garden/common/constants/other_constants.dart';
+import 'package:smart_garden/common/notification/push_notification_helper.dart';
 import 'package:smart_garden/common/utils/dialog/loading_widget.dart';
 import 'package:smart_garden/di/di_setup.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -36,10 +38,13 @@ Future<void> main() async {
   await dotenv.load(
     fileName: envConfig(flavor),
   );
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await EasyLocalization.ensureInitialized();
-  // await getIt<PushNotificationHelper>().initialize();
-  // await getIt<LocalNotificationHelper>().init();
   configureDependencies();
+  await getIt<PushNotificationHelper>().initialize();
 
   runApp(
     EasyLocalization(

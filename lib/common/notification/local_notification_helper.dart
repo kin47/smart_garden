@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:smart_garden/di/di_setup.dart';
 
 import '../index.dart';
 
@@ -21,17 +23,7 @@ class LocalNotificationHelper {
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
-    // /// get message when app kill
-    // final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-    //     await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    //
-    // if (notificationAppLaunchDetails != null) {
-    //   handlerSelectNotification(notificationAppLaunchDetails.payload);
-    // }
+    await _requestPermissions();
 
     _createNotificationChannel(
       id: NotificationConfig.highChannelId,
@@ -40,6 +32,29 @@ class LocalNotificationHelper {
       // soundPath: notificationSoundPath,
       importance: Importance.max,
     );
+  }
+
+  Future<void> _requestPermissions() async {
+    if (Platform.isIOS) {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    } else if (Platform.isAndroid) {
+      final requestNotificationsPermissionResult =
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestNotificationsPermission();
+
+      logger.i(
+        'requestNotificationsPermission: $requestNotificationsPermissionResult\n'
+      );
+    }
   }
 
   static void notificationTapBackground(

@@ -37,7 +37,7 @@ dependencies:
 
   # notification
   firebase_messaging: ^14.6.5
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^17.2.2
 
   # storage
   flutter_secure_storage: ^9.2.2

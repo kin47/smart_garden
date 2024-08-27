@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
 import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/common/notification/local_notification_helper.dart';
 import 'package:smart_garden/common/widgets/custom_bottom_navigation_bar.dart';
 import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/domain/entity/bottom_nav_bar_item_entity.dart';
@@ -35,6 +36,12 @@ class _CorePageState
         bloc.add(CoreEvent.changeTab(event.tab));
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        await getIt<LocalNotificationHelper>().init();
+      },
+    );
   }
 
   @override
