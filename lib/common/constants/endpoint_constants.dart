@@ -6,8 +6,11 @@ class EndpointConstants {
 
   static const String store = '/store';
 
+  static const String weather = '/weather';
+
   static const List<String> publicAPI = [
     login,
     register,
+    weather,
   ];
 }

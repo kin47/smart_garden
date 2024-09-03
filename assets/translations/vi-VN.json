@@ -58,5 +58,17 @@
   "diagnosis_image_input_page_description": "Chụp ảnh hoặc chọn ảnh từ thư viện để chẩn đoán",
   "take_picture": "Chụp ảnh",
   "choose_from_library": "Chọn từ thư viện",
-  "diagnosis_result": "Kết quả chẩn đoán"
+  "diagnosis_result": "Kết quả chẩn đoán",
+  "my_kit": "Kit của tôi",
+  "control": "Điều khiển",
+  "environment": "Môi trường",
+  "weather": "Thời tiết",
+  "connected_date": "Ngày kết nối: {date}",
+  "highest_temperature": "t° cao nhất",
+  "lowest_temperature": "t° thấp nhất",
+  "humidity": "Độ ẩm",
+  "sunrise": "Mặt trời mọc",
+  "sunset": "Mặt trời lặn",
+  "request_location_permission": "Smart Cane cần yêu cầu quyền truy cập vào vị trí hiện tại của bạn để xác định dữ liệu thời tiết",
+  "setting": "Cài đặt"
 }

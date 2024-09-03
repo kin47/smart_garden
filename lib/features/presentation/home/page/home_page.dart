@@ -1,5 +1,6 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
@@ -10,6 +11,7 @@ import 'package:smart_garden/common/widgets/cache_image_widget.dart';
 import 'package:smart_garden/features/domain/entity/news_entity.dart';
 import 'package:smart_garden/features/presentation/home/bloc/home_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
+import 'package:smart_garden/routes/app_pages.gr.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -66,36 +68,41 @@ class _HomePageState
             ),
           ),
           SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 24.h).copyWith(top: 8.h),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(16.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: Offset(0, 2.h),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Assets.images.kitImage.image(
-                    width: 200.w,
-                  ),
-                  SizedBox(height: 16.h),
-                  Text(
-                    'Kit 1',
-                    style: AppTextStyles.s16w600,
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'Ngày kết nối: 22/08/2024',
-                    style: AppTextStyles.s14w400,
-                  ),
-                  SizedBox(height: 16.h),
-                ],
+            child: InkWell(
+              onTap: () {
+                context.router.push(const MyKitRoute());
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 24.h).copyWith(top: 8.h),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: Offset(0, 2.h),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Assets.images.kitImage.image(
+                      width: 200.w,
+                    ),
+                    SizedBox(height: 16.h),
+                    Text(
+                      'Kit 1',
+                      style: AppTextStyles.s16w600,
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      'connected_date'.tr(args: ['01/09/2024']),
+                      style: AppTextStyles.s14w400,
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+                ),
               ),
             ),
           ),

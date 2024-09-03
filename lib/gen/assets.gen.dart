@@ -55,9 +55,51 @@ class $AssetsImagesGen {
   AssetGenImage get coverImageDefault =>
       const AssetGenImage('assets/images/cover_image_default.jpg');
 
+  /// File path: assets/images/ic_cloudy.png
+  AssetGenImage get icCloudy =>
+      const AssetGenImage('assets/images/ic_cloudy.png');
+
+  /// File path: assets/images/ic_foggy.png
+  AssetGenImage get icFoggy =>
+      const AssetGenImage('assets/images/ic_foggy.png');
+
+  /// File path: assets/images/ic_light_rain.png
+  AssetGenImage get icLightRain =>
+      const AssetGenImage('assets/images/ic_light_rain.png');
+
   /// File path: assets/images/ic_qr_code.jpg
   AssetGenImage get icQrCode =>
       const AssetGenImage('assets/images/ic_qr_code.jpg');
+
+  /// File path: assets/images/ic_rain.png
+  AssetGenImage get icRain => const AssetGenImage('assets/images/ic_rain.png');
+
+  /// File path: assets/images/ic_snow.png
+  AssetGenImage get icSnow => const AssetGenImage('assets/images/ic_snow.png');
+
+  /// File path: assets/images/ic_storm.png
+  AssetGenImage get icStorm =>
+      const AssetGenImage('assets/images/ic_storm.png');
+
+  /// File path: assets/images/ic_sun_with_cloud.png
+  AssetGenImage get icSunWithCloud =>
+      const AssetGenImage('assets/images/ic_sun_with_cloud.png');
+
+  /// File path: assets/images/ic_sunny.png
+  AssetGenImage get icSunny =>
+      const AssetGenImage('assets/images/ic_sunny.png');
+
+  /// File path: assets/images/ic_sunrise.png
+  AssetGenImage get icSunrise =>
+      const AssetGenImage('assets/images/ic_sunrise.png');
+
+  /// File path: assets/images/ic_sunset.png
+  AssetGenImage get icSunset =>
+      const AssetGenImage('assets/images/ic_sunset.png');
+
+  /// File path: assets/images/ic_windy.png
+  AssetGenImage get icWindy =>
+      const AssetGenImage('assets/images/ic_windy.png');
 
   /// File path: assets/images/kit_image.png
   AssetGenImage get kitImage =>
@@ -80,7 +122,18 @@ class $AssetsImagesGen {
         carouselSlider2,
         carouselSlider3,
         coverImageDefault,
+        icCloudy,
+        icFoggy,
+        icLightRain,
         icQrCode,
+        icRain,
+        icSnow,
+        icStorm,
+        icSunWithCloud,
+        icSunny,
+        icSunrise,
+        icSunset,
+        icWindy,
         kitImage,
         loading,
         logo,
@@ -139,6 +192,13 @@ class $AssetsSvgGen {
   SvgGenImage get icGoogleMap =>
       const SvgGenImage('assets/svg/ic_google_map.svg');
 
+  /// File path: assets/svg/ic_high_temperature.svg
+  SvgGenImage get icHighTemperature =>
+      const SvgGenImage('assets/svg/ic_high_temperature.svg');
+
+  /// File path: assets/svg/ic_humidity.svg
+  SvgGenImage get icHumidity => const SvgGenImage('assets/svg/ic_humidity.svg');
+
   /// File path: assets/svg/ic_info.svg
   SvgGenImage get icInfo => const SvgGenImage('assets/svg/ic_info.svg');
 
@@ -149,6 +209,10 @@ class $AssetsSvgGen {
   /// File path: assets/svg/ic_leaf_inactive.svg
   SvgGenImage get icLeafInactive =>
       const SvgGenImage('assets/svg/ic_leaf_inactive.svg');
+
+  /// File path: assets/svg/ic_low_temperature.svg
+  SvgGenImage get icLowTemperature =>
+      const SvgGenImage('assets/svg/ic_low_temperature.svg');
 
   /// File path: assets/svg/ic_map_pin.svg
   SvgGenImage get icMapPin => const SvgGenImage('assets/svg/ic_map_pin.svg');
@@ -235,9 +299,12 @@ class $AssetsSvgGen {
         icEyeOff,
         icGoogle,
         icGoogleMap,
+        icHighTemperature,
+        icHumidity,
         icInfo,
         icLeafActive,
         icLeafInactive,
+        icLowTemperature,
         icMapPin,
         icPhone,
         icPlantDiseaseDetection,

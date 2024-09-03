@@ -6,4 +6,5 @@ enum BaseStateStatus {
   loadMoreSuccess,
   failed,
   logout,
+  showPopUp,
 }

@@ -37,3 +37,7 @@ class RegexConstants {
   // 3-digit decimal or 1-digit integer
   static final fev1 = RegExp(r'^\d?([.,]\d{0,3})?$');
 }
+
+class DateTimeConstants {
+  static int defaultTimezone = 25200; // GMT +7:00
+}

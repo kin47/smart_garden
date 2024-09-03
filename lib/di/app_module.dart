@@ -10,6 +10,10 @@ abstract class AppModule {
   @singleton
   Dio get dio => DioBuilder().getDio();
 
+  @Named('weatherDio')
+  @singleton
+  Dio get weatherDio => WeatherDioBuilder().getDio();
+
   @singleton
   EventBus get eventBus => EventBus();
 

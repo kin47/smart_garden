@@ -172,4 +172,8 @@ class DateTimeUtils {
     }
     return DateFormat('E', "JA").format(date).toUpperCase();
   }
+
+  static DateTime getDateBasedOnTimezone(DateTime date, int timezone) {
+    return date.subtract(date.timeZoneOffset).add(Duration(seconds: timezone));
+  }
 }

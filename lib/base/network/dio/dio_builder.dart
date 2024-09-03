@@ -39,3 +39,10 @@ class DioBuilder {
     return dotenv.get('BASE_URL');
   }
 }
+
+class WeatherDioBuilder extends DioBuilder {
+  @override
+  String getUrl() {
+    return dotenv.get('WEATHER_API_BASE_URL');
+  }
+}

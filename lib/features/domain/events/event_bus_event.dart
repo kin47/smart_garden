@@ -4,10 +4,10 @@ class OpenLoginPageEvent {
   const OpenLoginPageEvent();
 }
 
-class ChangeTabEvent {
+class ChangeCoreTabEvent {
   final CoreTab tab;
 
-  const ChangeTabEvent(
+  const ChangeCoreTabEvent(
     this.tab,
   );
 }
