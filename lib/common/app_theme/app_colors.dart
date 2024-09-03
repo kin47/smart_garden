@@ -56,6 +56,8 @@ class AppColors {
   static const Color disable = Color(0xFFC5C8CA);
   static const Color danger = Color(0xFFe0032d);
   static const Color textLink = Color(0xFF0a64cc);
+  static const Color lightBulb = Color(0xFFffe286);
+  static const Color water = Color(0xFFDEF4FC);
 
   ///Icon color
   static const Color iconDisabled = Color(0xFF999999);

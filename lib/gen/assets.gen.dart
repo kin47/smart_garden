@@ -105,6 +105,14 @@ class $AssetsImagesGen {
   AssetGenImage get kitImage =>
       const AssetGenImage('assets/images/kit_image.png');
 
+  /// File path: assets/images/light_bulb_off.png
+  AssetGenImage get lightBulbOff =>
+      const AssetGenImage('assets/images/light_bulb_off.png');
+
+  /// File path: assets/images/light_bulb_on.png
+  AssetGenImage get lightBulbOn =>
+      const AssetGenImage('assets/images/light_bulb_on.png');
+
   /// File path: assets/images/loading.png
   AssetGenImage get loading => const AssetGenImage('assets/images/loading.png');
 
@@ -113,6 +121,13 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/news.png
   AssetGenImage get news => const AssetGenImage('assets/images/news.png');
+
+  /// File path: assets/images/pump_off.png
+  AssetGenImage get pumpOff =>
+      const AssetGenImage('assets/images/pump_off.png');
+
+  /// File path: assets/images/pump_on.png
+  AssetGenImage get pumpOn => const AssetGenImage('assets/images/pump_on.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [
@@ -135,9 +150,13 @@ class $AssetsImagesGen {
         icSunset,
         icWindy,
         kitImage,
+        lightBulbOff,
+        lightBulbOn,
         loading,
         logo,
-        news
+        news,
+        pumpOff,
+        pumpOn
       ];
 }
 
