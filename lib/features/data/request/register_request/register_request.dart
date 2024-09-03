@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:smart_garden/features/domain/enum/role_type.dart';
 
 part 'register_request.freezed.dart';
 part 'register_request.g.dart';

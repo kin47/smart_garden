@@ -30,7 +30,7 @@ class _CorePageState
   @override
   void initState() {
     super.initState();
-    eventBus.on<ChangeTabEvent>().listen((event) {
+    eventBus.on<ChangeCoreTabEvent>().listen((event) {
       if (event.tab != CoreTab.scan) {
         _tabsRouter?.setActiveIndex(event.tab.index);
         bloc.add(CoreEvent.changeTab(event.tab));
@@ -89,7 +89,7 @@ class _CorePageState
         (context, state) => CustomBottomNavigationBar(
           activeTab: state.activeTab,
           onClickBottomBar: (item) {
-            eventBus.fire(ChangeTabEvent(item.type));
+            eventBus.fire(ChangeCoreTabEvent(item.type));
           },
           items: [
             ...CoreTab.values.map(

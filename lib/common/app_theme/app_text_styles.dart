@@ -279,6 +279,18 @@ class AppTextStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
+  static TextStyle s40w700 = TextStyle(
+    fontSize: 40.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.primary700,
+  );
+
+  static TextStyle s50w400 = TextStyle(
+    fontSize: 50.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.primary700,
+  );
+
   static TextStyle buttonMedium = TextStyle(
     fontSize: 15.sp,
     color: AppColors.primary900,
