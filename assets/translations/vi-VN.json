@@ -77,5 +77,8 @@
   "manual_turn_on": "Bật (Thủ công)",
   "auto_threshold": "Ngưỡng tự động",
   "please_turn_off_auto_mode": "Vui lòng tắt chế độ tự động để bật chế độ thủ công",
-  "please_turn_on_auto_mode": "Vui lòng bật chế độ tự động để điều chỉnh ngưỡng tự động"
+  "please_turn_on_auto_mode": "Vui lòng bật chế độ tự động để điều chỉnh ngưỡng tự động",
+  "temperature": "Nhiệt độ",
+  "light": "Ánh sáng",
+  "soil_moisture": "Độ ẩm đất"
 }

@@ -251,6 +251,10 @@ class $AssetsSvgGen {
   SvgGenImage get icSmsMessage =>
       const SvgGenImage('assets/svg/ic_sms_message.svg');
 
+  /// File path: assets/svg/ic_soil_moisture.svg
+  SvgGenImage get icSoilMoisture =>
+      const SvgGenImage('assets/svg/ic_soil_moisture.svg');
+
   /// File path: assets/svg/ic_store_active.svg
   SvgGenImage get icStoreActive =>
       const SvgGenImage('assets/svg/ic_store_active.svg');
@@ -329,6 +333,7 @@ class $AssetsSvgGen {
         icPlantDiseaseDetection,
         icSignPost,
         icSmsMessage,
+        icSoilMoisture,
         icStoreActive,
         icStoreInactive,
         icUserActive,

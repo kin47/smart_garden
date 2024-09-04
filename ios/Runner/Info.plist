@@ -35,6 +35,8 @@
     <string>Camera permission is required for QR code scanning.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>This app needs photos access to get image to detect plant disease</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs your current location for weather observation</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>To record videos</string>
 	<key>NSAppTransportSecurity</key>

@@ -126,6 +126,35 @@ class AppColors {
   static const Color backgroundGrey1 = Color(0xffFFFFFF);
   static const Color backgroundGrey3 = Color(0xffF2F3F5);
 
+  /// temperature
+  static const Color temperature1 = Color(0xffFfffff);
+  static const Color temperature2 = Color(0xffffff99);
+  static const Color temperature3 = Color(0xffffcc33);
+  static const Color temperature4 = Color(0xffee6600);
+  static const Color temperature5 = Color(0xff990000);
+
+  /// humidity
+  static const Color humidity1 = Color(0xffd4f1f9);
+  static const Color humidity2 = Color(0xffa2e6f9);
+  static const Color humidity3 = Color(0xff70dbf9);
+  static const Color humidity4 = Color(0xff3fd1f9);
+  static const Color humidity5 = Color(0xff0dc6f9);
+
+  /// light
+  static const Color light = Color(0xffFFD700);
+  static const Color light1 = Color(0xfffcffb5);
+  static const Color light2 = Color(0xfffdff86);
+  static const Color light3 = Color(0xffffff70);
+  static const Color light4 = Color(0xffffee50);
+  static const Color light5 = Color(0xffffdd40);
+
+  /// soil moisture
+  static const Color soilMoisture1 = Color(0xff422b0c);
+  static const Color soilMoisture2 = Color(0xff5c4222);
+  static const Color soilMoisture3 = Color(0xff795b36);
+  static const Color soilMoisture4 = Color(0xff93754f);
+  static const Color soilMoisture5 = Color(0xffae9068);
+
   /// color from hex String
   static Color fromHex(String hexString) {
     final buffer = StringBuffer();
