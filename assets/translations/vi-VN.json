@@ -1,5 +1,6 @@
 {
   "app_title": "Smart Garden",
+  "slogan": "Grow Smarter, Not Harder – Your Garden, Perfected with Smart Garden Apps",
   "dio_cancel_request": "Request was cancelled",
   "dio_connect_timeout": "Connection timeout",
   "dio_cancel_other": "Connection failed due to internet connection",

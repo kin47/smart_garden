@@ -12,7 +12,6 @@ class BaseScaffold extends StatelessWidget {
   final bool? resizeToAvoidBottomInset;
   final String? backgroundImage;
   final bool? hasDismissKeyboard;
-  final bool? marginTop;
   final bool? isFull;
   final bool? isBottom;
   final Widget? bottomNavigation;
@@ -26,7 +25,6 @@ class BaseScaffold extends StatelessWidget {
   const BaseScaffold({
     Key? key,
     this.appBar,
-    this.marginTop,
     this.addKey,
     this.isBottom,
     this.backgroundImage,

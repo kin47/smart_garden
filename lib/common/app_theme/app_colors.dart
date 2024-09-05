@@ -36,7 +36,6 @@ class AppColors {
   static const Color primary900 = Color(0xFF006525);
 
   ///secondary
-
   static const Color secondary200 = Color(0xFFefbe7c);
   static const Color secondary300 = Color(0xFFf47f35);
   static const Color secondary500 = Color(0xFFed640e);
@@ -45,7 +44,6 @@ class AppColors {
   static const Color transparent = Colors.transparent;
 
   ///base
-
   static const Color base100 = Color(0xFFF7F2EC);
   static const Color base200 = Color(0xFFF1F1F1);
   static const Color base300 = Color(0xFFF6F5F3);
@@ -75,6 +73,11 @@ class AppColors {
   static const Color background = Color(0xFFF6F5F3);
   static const Color bottomBarColor = Color(0xFFF1E4D5);
   static const Color stroke = Color(0xFFEBEBEB);
+
+  /// splash
+  static const splashBackground = Color(0xFFF5EBDF);
+  static const splashText = Color(0xFF0E6C8B);
+  static const splashText2 = Color(0xFF083C4D);
 
   ///products
   static const Color lightRed = Color(0xFFCB7373);

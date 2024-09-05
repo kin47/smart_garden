@@ -35,6 +35,10 @@ class $AssetsImagesGen {
   AssetGenImage get appBarBg =>
       const AssetGenImage('assets/images/app_bar_bg.png');
 
+  /// File path: assets/images/app_icon.png
+  AssetGenImage get appIcon =>
+      const AssetGenImage('assets/images/app_icon.png');
+
   /// File path: assets/images/avatar_default.png
   AssetGenImage get avatarDefault =>
       const AssetGenImage('assets/images/avatar_default.png');
@@ -122,6 +126,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/news.png
   AssetGenImage get news => const AssetGenImage('assets/images/news.png');
 
+  /// File path: assets/images/ptit.png
+  AssetGenImage get ptit => const AssetGenImage('assets/images/ptit.png');
+
   /// File path: assets/images/pump_off.png
   AssetGenImage get pumpOff =>
       const AssetGenImage('assets/images/pump_off.png');
@@ -132,6 +139,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         appBarBg,
+        appIcon,
         avatarDefault,
         carouselSlider1,
         carouselSlider2,
@@ -155,6 +163,7 @@ class $AssetsImagesGen {
         loading,
         logo,
         news,
+        ptit,
         pumpOff,
         pumpOn
       ];
