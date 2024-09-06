@@ -47,66 +47,10 @@ class _SplashPageState
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
       backgroundColor: AppColors.splashBackground,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Center(
-            child: Assets.images.logo.image(
-              width: 0.7.sw,
-            ),
-          ),
-          SizedBox(
-            height: 40.h,
-          ),
-          Text(
-            'slogan'.tr(),
-            style: AppTextStyles.s16w600.copyWith(
-              color: AppColors.splashText,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 70.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Made in',
-                style: AppTextStyles.s12w400.copyWith(
-                  color: AppColors.splashText2,
-                ),
-              ),
-              SizedBox(width: 4.w),
-              Assets.images.ptit.image(
-                height: 40.h,
-              ),
-            ],
-          ),
-          SizedBox(height: 40.h),
-          Text(
-            'Product by: Minh Tran',
-            style: AppTextStyles.s12w400.copyWith(
-              color: AppColors.splashText2,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            'Est 09/2024',
-            style: AppTextStyles.s12w400.copyWith(
-              color: AppColors.splashText2,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            'ver 1.0.0',
-            style: AppTextStyles.s12w400.copyWith(
-              color: AppColors.splashText2,
-            ),
-          ),
-          SizedBox(height: 20.h),
-        ],
+      body: Center(
+        child: Assets.images.logo.image(
+          width: 0.7.sw,
+        ),
       ),
     );
   }
