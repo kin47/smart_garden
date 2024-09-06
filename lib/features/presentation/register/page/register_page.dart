@@ -34,6 +34,7 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterEvent,
       TextEditingController(text: '');
   final TextEditingController _phoneNumberController =
       TextEditingController(text: '');
+  final TextEditingController _nameController = TextEditingController(text: '');
 
   @override
   void listener(BuildContext context, RegisterState state) {
@@ -79,6 +80,8 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterEvent,
             _buildCheckBox(),
             SizedBox(height: 26.h),
             _buildPhoneNumber(),
+            SizedBox(height: 26.h),
+            _buildName(),
             SizedBox(height: 29.h),
             _registerButton(),
           ],
@@ -216,11 +219,6 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterEvent,
                 style: AppTextStyles.s14w400,
               ),
               SizedBox(height: 8.h),
-              Text(
-                'register_username_description_2'.tr(),
-                style: AppTextStyles.s14w400,
-              ),
-              SizedBox(height: 8.h),
               AppTextFormField(
                 controller: _passwordController,
                 hintText: 'please_enter'.tr(),
@@ -282,6 +280,42 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterEvent,
               bloc.add(
                 RegisterEvent.onInputPhoneNumber(
                   phoneNumber: value,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildName() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'username'.tr(),
+            style: AppTextStyles.s16w600,
+          ),
+          SizedBox(height: 8.h),
+          AppTextFormField(
+            controller: _nameController,
+            hintText: 'please_enter'.tr(),
+            textInputAction: TextInputAction.done,
+            keyboardType: TextInputType.phone,
+            prefixIcon: SizedBox(width: 16.w),
+            fillColor: AppColors.primary050,
+            contentPadding: EdgeInsets.only(
+              top: 16.h,
+              bottom: 16.h,
+              right: 16.w,
+            ),
+            onChanged: (value) {
+              bloc.add(
+                RegisterEvent.onInputName(
+                  name: value,
                 ),
               );
             },

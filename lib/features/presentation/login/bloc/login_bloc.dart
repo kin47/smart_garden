@@ -32,6 +32,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
         onPasswordVisibilityChanged: (isVisible) =>
             onPasswordVisibilityChanged(emit, isVisible),
         login: () => login(emit),
+        resendEmail: () => resendEmail(emit),
       );
     });
   }
@@ -93,5 +94,27 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
         ),
       );
     });
+  }
+
+  Future resendEmail(Emitter<LoginState> emit) async {
+    emit(state.copyWith(status: BaseStateStatus.loading));
+
+    final result = await _authRepository.resendEmailVerification(
+      email: state.username,
+    );
+
+    result.fold(
+      (l) => emit(
+        state.copyWith(
+          status: BaseStateStatus.failed,
+          message: l.getError,
+        ),
+      ),
+      (r) => emit(
+        state.copyWith(
+          status: BaseStateStatus.showPopUp,
+        ),
+      ),
+    );
   }
 }

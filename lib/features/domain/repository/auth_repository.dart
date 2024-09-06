@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:smart_garden/base/network/errors/error.dart';
-import 'package:smart_garden/features/data/model/user_model/user_model.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/data/request/register_request/register_request.dart';
 import 'package:smart_garden/features/data/response/login_response/login_response.dart';
@@ -20,4 +19,8 @@ abstract class AuthRepository {
   Future<Either<BaseError, LogoutResponse>> logout();
 
   Future<Either<BaseError, UserEntity>> getUserInfo();
+
+  Future<Either<BaseError, bool>> resendEmailVerification({
+    required String email,
+  });
 }

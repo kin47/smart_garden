@@ -31,6 +31,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
             onInputPhoneNumber(emit, phoneNumber),
         onPasswordVisibilityChanged: (isVisible) =>
             onPasswordVisibilityChanged(emit, isVisible),
+        onInputName: (name) => onInputName(emit, name),
         register: () => register(emit),
       );
     });
@@ -67,6 +68,16 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
     );
   }
 
+  Future<void> onInputName(
+      Emitter<RegisterState> emit, String name) async {
+    emit(
+      state.copyWith(
+        name: name,
+        status: BaseStateStatus.idle,
+      ),
+    );
+  }
+
   Future<void> onPasswordVisibilityChanged(
       Emitter<RegisterState> emit, bool isVisible) async {
     emit(
@@ -85,7 +96,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
         email: state.email,
         phoneNumber: state.phoneNumber,
         password: state.password,
-        name: state.email.split('@').first,
+        name: state.name,
       ),
     );
 

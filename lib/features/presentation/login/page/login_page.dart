@@ -38,10 +38,29 @@ class _LoginPageState
         ]);
         break;
       case BaseStateStatus.failed:
+        if (state.message == 'account_not_verified'.tr()) {
+          DialogService.showActionDialog(
+            context,
+            description: state.message,
+            leftButtonText: 'resend_email'.tr(),
+            rightButtonText: 'cancel'.tr(),
+            callBackAfterClose: true,
+            onPressedLeftButton: () {
+              bloc.add(const LoginEvent.resendEmail());
+            },
+          );
+        } else {
+          DialogService.showInformationDialog(
+            context,
+            title: 'error'.tr(),
+            description: state.message ?? 'error_system'.tr(),
+          );
+        }
+        break;
+      case BaseStateStatus.showPopUp:
         DialogService.showInformationDialog(
           context,
-          title: 'error'.tr(),
-          description: state.message ?? 'error_system'.tr(),
+          description: 'resend_email_success'.tr(),
         );
         break;
       default:

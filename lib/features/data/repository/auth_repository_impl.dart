@@ -7,6 +7,7 @@ import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/features/data/datasource/remote/auth_service/auth_service.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/data/request/register_request/register_request.dart';
+import 'package:smart_garden/features/data/request/resend_email_request/resend_email_request.dart';
 import 'package:smart_garden/features/data/response/login_response/login_response.dart';
 import 'package:smart_garden/features/data/response/logout_response/logout_response.dart';
 import 'package:smart_garden/features/data/response/register_response/register_response.dart';
@@ -61,6 +62,22 @@ class AuthRepositoryImpl implements AuthRepository {
         return left(BaseError.httpUnknownError('error_system'.tr()));
       }
       return right(UserEntity.fromModel(response.data!));
+    } on DioException catch (e) {
+      return left(e.baseError);
+    }
+  }
+
+  @override
+  Future<Either<BaseError, bool>> resendEmailVerification({
+    required String email,
+  }) async {
+    try {
+      final response = await _service.resendEmailVerification(
+          request: ResendEmailRequest(email: email));
+      if (response.message == null) {
+        return left(BaseError.httpUnknownError('error_system'.tr()));
+      }
+      return right(true);
     } on DioException catch (e) {
       return left(e.baseError);
     }

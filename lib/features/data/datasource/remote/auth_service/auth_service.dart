@@ -6,6 +6,7 @@ import 'package:smart_garden/common/constants/endpoint_constants.dart';
 import 'package:smart_garden/features/data/model/user_model/user_model.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/data/request/register_request/register_request.dart';
+import 'package:smart_garden/features/data/request/resend_email_request/resend_email_request.dart';
 import 'package:smart_garden/features/data/response/login_response/login_response.dart';
 import 'package:smart_garden/features/data/response/logout_response/logout_response.dart';
 import 'package:smart_garden/features/data/response/register_response/register_response.dart';
@@ -33,4 +34,9 @@ abstract class AuthService {
 
   @GET(EndpointConstants.me)
   Future<BaseData<UserModel>> getUserInfo();
+
+  @POST(EndpointConstants.resendEmailVerification)
+  Future<BaseData> resendEmailVerification({
+    @Body() required ResendEmailRequest request,
+  });
 }

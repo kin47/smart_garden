@@ -15,4 +15,6 @@ class LoginEvent with _$LoginEvent {
   }) = LoginShowPasswordChanged;
 
   const factory LoginEvent.login() = Login;
+
+  const factory LoginEvent.resendEmail() = _ResendEmail;
 }

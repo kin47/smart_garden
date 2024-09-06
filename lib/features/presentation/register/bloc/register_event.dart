@@ -14,6 +14,10 @@ class RegisterEvent with _$RegisterEvent {
     required String phoneNumber,
   }) = RegisterInputPhoneNumber;
 
+  const factory RegisterEvent.onInputName({
+    required String name,
+  }) = RegisterInputName;
+
   const factory RegisterEvent.onPasswordVisibilityChanged({
     required bool isVisible,
   }) = RegisterShowPasswordChanged;

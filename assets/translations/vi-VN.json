@@ -32,7 +32,7 @@
   "error_system": "Đã có lỗi xảy ra, vui lòng thử lại sau",
   "close": "Đóng",
   "register_success": "Đăng ký thành công",
-  "register_success_dialog_description": "Chúc mừng bạn đã đăng ký thành công, vui lòng đăng nhập để sử dụng ứng dụng",
+  "register_success_dialog_description": "Cảm ơn bạn đã đăng ký, vui lòng kiểm tra email để xác thực tài khoản",
   "send_location": "Gửi vị trí",
   "call_relative": "Gọi người thân",
   "cane_location": "Vị trí cây gậy",
@@ -81,5 +81,8 @@
   "please_turn_on_auto_mode": "Vui lòng bật chế độ tự động để điều chỉnh ngưỡng tự động",
   "temperature": "Nhiệt độ",
   "light": "Ánh sáng",
-  "soil_moisture": "Độ ẩm đất"
+  "soil_moisture": "Độ ẩm đất",
+  "account_not_verified": "Tài khoản chưa được xác thực, hãy kiểm tra email để xác thực tài khoản",
+  "resend_email": "Gửi lại email",
+  "resend_email_success": "Gửi lại email thành công, vui lòng kiểm tra email để xác thực tài khoản"
 }
