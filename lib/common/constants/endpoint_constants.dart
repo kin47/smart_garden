@@ -9,6 +9,9 @@ class EndpointConstants {
 
   static const String weather = '/weather';
 
+  static const String notification = '/notification';
+  static const String markAsRead = '/notification/mark-as-read/{notification_id}';
+
   static const List<String> publicAPI = [
     login,
     register,

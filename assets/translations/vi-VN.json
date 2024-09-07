@@ -84,5 +84,7 @@
   "soil_moisture": "Độ ẩm đất",
   "account_not_verified": "Tài khoản chưa được xác thực, hãy kiểm tra email để xác thực tài khoản",
   "resend_email": "Gửi lại email",
-  "resend_email_success": "Gửi lại email thành công, vui lòng kiểm tra email để xác thực tài khoản"
+  "resend_email_success": "Gửi lại email thành công, vui lòng kiểm tra email để xác thực tài khoản",
+  "notification_list": "Danh sách thông báo",
+  "mark_all_as_read": "Đánh dấu tất cả là đã đọc"
 }

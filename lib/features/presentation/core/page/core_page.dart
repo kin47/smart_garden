@@ -55,7 +55,9 @@ class _CorePageState
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  context.router.pushNamed(AppRoutes.notification);
+                },
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
