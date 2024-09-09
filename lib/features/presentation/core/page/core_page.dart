@@ -40,6 +40,7 @@ class _CorePageState
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         await getIt<LocalNotificationHelper>().init();
+        bloc.add(const CoreEvent.init());
       },
     );
   }
