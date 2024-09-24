@@ -29,6 +29,13 @@ class _LoginPageState
       TextEditingController(text: '');
 
   @override
+  void dispose() {
+    super.dispose();
+    _accountIdController.dispose();
+    _passwordController.dispose();
+  }
+
+  @override
   void listener(BuildContext context, LoginState state) {
     super.listener(context, state);
     switch (state.status) {

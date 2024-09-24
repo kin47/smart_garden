@@ -13,6 +13,9 @@ class EndpointConstants {
   static const String markAsRead = '/notification/mark-as-read/{notification_id}';
   static const String deviceToken = '/device-token';
 
+  static const String predictDisease = '/disease_detection/predict';
+  static const String predictHistory = '/disease_detection/history';
+
   static const List<String> publicAPI = [
     login,
     register,

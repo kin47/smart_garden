@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/common/app_theme/app_colors.dart';
 import 'package:smart_garden/common/app_theme/app_text_styles.dart';
+import 'package:smart_garden/common/utils/date_time/date_time_utils.dart';
 import 'package:smart_garden/common/widgets/cache_image_widget.dart';
 import 'package:smart_garden/features/domain/entity/diagnosis_entity.dart';
 import 'package:smart_garden/routes/app_pages.gr.dart';
@@ -19,7 +20,7 @@ class DiagnosisItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.router.push(const DiagnosisResultRoute());
+        context.router.push(DiagnosisResultRoute());
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -32,28 +33,33 @@ class DiagnosisItem extends StatelessWidget {
               radius: 8.r,
             ),
             SizedBox(width: 16.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  diagnosis.plant,
-                  style: AppTextStyles.s16w600,
-                ),
-                Text(
-                  diagnosis.disease,
-                  style: AppTextStyles.s14w400.copyWith(
-                    color: AppColors.red,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    diagnosis.plant,
+                    style: AppTextStyles.s16w600,
                   ),
-                ),
-                Text(
-                  diagnosis.date.toString(),
-                  style: AppTextStyles.s12w300.copyWith(
-                    color: AppColors.gray500,
+                  Text(
+                    diagnosis.disease,
+                    style: AppTextStyles.s14w400.copyWith(
+                      color: AppColors.red,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    DateTimeUtils.getStringDate(
+                      diagnosis.date,
+                      Pattern.ddMMyyyyHHmm,
+                    ),
+                    style: AppTextStyles.s12w300.copyWith(
+                      color: AppColors.gray500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
             Icon(
               Icons.arrow_forward_ios,
               color: AppColors.gray500,

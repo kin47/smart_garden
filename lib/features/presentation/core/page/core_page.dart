@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +28,12 @@ class _CorePageState
     extends BaseState<CorePage, CoreEvent, CoreState, CoreBloc> {
   TabsRouter? _tabsRouter;
   EventBus eventBus = getIt<EventBus>();
+  late StreamSubscription _eventBusSubscription;
 
   @override
   void initState() {
     super.initState();
-    eventBus.on<ChangeCoreTabEvent>().listen((event) {
+    _eventBusSubscription = eventBus.on<ChangeCoreTabEvent>().listen((event) {
       if (event.tab != CoreTab.scan) {
         _tabsRouter?.setActiveIndex(event.tab.index);
         bloc.add(CoreEvent.changeTab(event.tab));
@@ -43,6 +46,12 @@ class _CorePageState
         bloc.add(const CoreEvent.init());
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _eventBusSubscription.cancel();
   }
 
   @override

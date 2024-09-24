@@ -86,5 +86,9 @@
   "resend_email": "Gửi lại email",
   "resend_email_success": "Gửi lại email thành công, vui lòng kiểm tra email để xác thực tài khoản",
   "notification_list": "Danh sách thông báo",
-  "mark_all_as_read": "Đánh dấu tất cả là đã đọc"
+  "mark_all_as_read": "Đánh dấu tất cả là đã đọc",
+  "predicting_disease_dialog_description": "Đang chẩn đoán bệnh, vui lòng đợi trong giây lát...",
+  "diagnose": "Chẩn đoán",
+  "treatment": "Điều trị",
+  "reference": "Tham khảo"
 }

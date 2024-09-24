@@ -7,6 +7,7 @@ import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/features/data/request/pagination_request/pagination_request.dart';
 import 'package:smart_garden/features/domain/entity/diagnosis_entity.dart';
 import 'package:smart_garden/features/domain/repository/diagnosis_repository.dart';
 
@@ -34,7 +35,7 @@ class DiagnosisHistoryBloc
   final DiagnosisRepository _diagnosisRepository;
 
   PagingController<int, DiagnosisEntity> pagingController =
-  PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: 1);
 
   Future _getData(int page, Emitter<DiagnosisHistoryState> emit) async {
     if (page == 1) {
@@ -44,7 +45,11 @@ class DiagnosisHistoryBloc
         ),
       );
     }
-    final res = await _diagnosisRepository.getDiagnosisHistory(page: page);
+    final res = await _diagnosisRepository.getDiagnosisHistory(
+      request: PaginationRequest(
+        page: page,
+      ),
+    );
     pagingControllerOnLoad<DiagnosisEntity>(
       page,
       pagingController,

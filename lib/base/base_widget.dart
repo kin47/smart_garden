@@ -222,11 +222,6 @@ mixin BaseMethodMixin<S extends BaseBlocState> {
   }
 
   void listener(BuildContext context, S state) {
-    // if (state.status == BaseStateStatus.failed) {
-    //   if (state.message != null && state.message!.isNotEmpty) {
-    //     showMessage(context, state.message!);
-    //   }
-    // }
     if (state.status == BaseStateStatus.loading) {
       DialogService.showLoading();
     } else {

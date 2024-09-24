@@ -37,6 +37,15 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterEvent,
   final TextEditingController _nameController = TextEditingController(text: '');
 
   @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _phoneNumberController.dispose();
+    _nameController.dispose();
+  }
+
+  @override
   void listener(BuildContext context, RegisterState state) {
     super.listener(context, state);
     switch (state.status) {

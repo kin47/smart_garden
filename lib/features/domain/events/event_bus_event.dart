@@ -7,7 +7,11 @@ class OpenLoginPageEvent {
 class ChangeCoreTabEvent {
   final CoreTab tab;
 
-  const ChangeCoreTabEvent(
-    this.tab,
-  );
+  const ChangeCoreTabEvent(this.tab);
+}
+
+class UploadFileEvent {
+  final double percent;
+
+  const UploadFileEvent(this.percent);
 }

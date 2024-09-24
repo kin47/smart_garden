@@ -29,15 +29,16 @@ enum DiagnosisTab {
   static DiagnosisTab get defaultRoute => DiagnosisTab.imageInput;
 
   static List<AutoRoute> get routes => [
-    RedirectRoute(
-      path: '',
-      redirectTo: DiagnosisTab.defaultRoute.path,
-    ),
-    ...DiagnosisTab.values.map(
+        RedirectRoute(
+          path: '',
+          redirectTo: DiagnosisTab.defaultRoute.path,
+        ),
+        ...DiagnosisTab.values.map(
           (tab) => AutoRoute(
-        path: tab.path,
-        page: tab.pageInfo,
-      ),
-    ),
-  ];
+            path: tab.path,
+            page: tab.pageInfo,
+            maintainState: tab != DiagnosisTab.history,
+          ),
+        ),
+      ];
 }
