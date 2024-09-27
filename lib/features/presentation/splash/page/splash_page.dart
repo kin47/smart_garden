@@ -30,7 +30,7 @@ class _SplashPageState
     switch (state.actionState) {
       case SplashActionState.goToLogin:
         context.router.replaceAll([
-          const LoginRoute(),
+          const CoreRoute(),
         ]);
         break;
       case SplashActionState.goToHome:

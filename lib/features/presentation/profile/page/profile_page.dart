@@ -7,6 +7,7 @@ import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/common/widgets/cache_image_widget.dart';
+import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 import 'package:smart_garden/routes/app_pages.gr.dart';
@@ -213,7 +214,21 @@ class _ProfilePageState
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  // if (bloc.state.user != null) {
+                  context.router.push(
+                    ChangeUserInformationRoute(
+                      user: bloc.state.user ??
+                          UserEntity(
+                            id: 0,
+                            phoneNumber: '0987654321',
+                            email: 'alo@gmail.com',
+                            name: 'Kin',
+                          ),
+                    ),
+                  );
+                  // }
+                },
                 child: Container(
                   padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
                   child: Row(

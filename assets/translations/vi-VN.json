@@ -90,5 +90,8 @@
   "predicting_disease_dialog_description": "Đang chẩn đoán bệnh, vui lòng đợi trong giây lát...",
   "diagnose": "Chẩn đoán",
   "treatment": "Điều trị",
-  "reference": "Tham khảo"
+  "reference": "Tham khảo",
+  "current_password": "Mật khẩu hiện tại",
+  "new_password": "Mật khẩu mới",
+  "save": "Lưu"
 }

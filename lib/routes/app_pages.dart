@@ -29,5 +29,6 @@ class AppPages extends RootStackRouter {
       children: MyKitTab.routes,
     ),
     AutoRoute(path: AppRoutes.notification, page: NotificationListRoute.page),
+    AutoRoute(path: AppRoutes.changeUserInformation, page: ChangeUserInformationRoute.page),
   ];
 }

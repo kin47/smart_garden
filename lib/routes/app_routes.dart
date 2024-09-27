@@ -7,4 +7,5 @@ class AppRoutes {
   static const String diagnosisResult = '/diagnosis-result';
   static const String myKit = '/my-kit';
   static const String notification = '/notification';
+  static const String changeUserInformation = '/change-user-information';
 }
