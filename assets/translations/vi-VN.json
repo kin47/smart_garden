@@ -93,5 +93,7 @@
   "reference": "Tham khảo",
   "current_password": "Mật khẩu hiện tại",
   "new_password": "Mật khẩu mới",
-  "save": "Lưu"
+  "save": "Lưu",
+  "change_avatar_description": "Bấm vào ảnh bìa/avatar để thay đổi",
+  "change_password_description": "Để cập nhật mật khẩu, vui lòng nhập mật khẩu hiện tại và mật khẩu mới"
 }

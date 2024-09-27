@@ -13,6 +13,7 @@ class UserModel with _$UserModel {
     String? name,
     String? phoneNumber,
     String? avatar,
+    String? coverImage,
     bool? isAdmin,
     bool? canPredictDisease,
     bool? canReceiveNoti,

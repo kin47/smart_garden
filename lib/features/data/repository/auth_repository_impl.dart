@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -74,6 +76,54 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _service.resendEmailVerification(
           request: ResendEmailRequest(email: email));
+      if (response.message == null) {
+        return left(BaseError.httpUnknownError('error_system'.tr()));
+      }
+      return right(true);
+    } on DioException catch (e) {
+      return left(e.baseError);
+    }
+  }
+
+  @override
+  Future<Either<BaseError, bool>> updateUserInfo({
+    String? name,
+    String? currentPassword,
+    String? newPassword,
+    File? avatar,
+    File? coverImage,
+  }) async {
+    try {
+      final FormData formData = FormData();
+      if (name != null) {
+        formData.fields.add(MapEntry('new_name', name));
+      }
+      if (currentPassword != null &&
+          newPassword != null &&
+          currentPassword.isNotEmpty &&
+          newPassword.isNotEmpty) {
+        formData.fields.add(MapEntry('current_password', currentPassword));
+        formData.fields.add(MapEntry('new_password', newPassword));
+      }
+      if (avatar != null) {
+        formData.files.add(
+          MapEntry(
+            'new_avatar',
+            MultipartFile.fromFileSync(avatar.path),
+          ),
+        );
+      }
+      if (coverImage != null) {
+        formData.files.add(
+          MapEntry(
+            'new_cover_image',
+            MultipartFile.fromFileSync(coverImage.path),
+          ),
+        );
+      }
+      final response = await _service.updateUserInfo(
+        request: formData,
+      );
       if (response.message == null) {
         return left(BaseError.httpUnknownError('error_system'.tr()));
       }

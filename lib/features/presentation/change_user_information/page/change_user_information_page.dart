@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smart_garden/base/base_widget.dart';
+import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/common/widgets/cache_image_widget.dart';
@@ -45,6 +46,7 @@ class _ChangeUserInformationPageState extends BaseState<
   void initState() {
     super.initState();
     bloc.add(ChangeUserInformationEvent.init(user: widget.user));
+    _nameController.text = widget.user.name;
   }
 
   @override
@@ -53,6 +55,25 @@ class _ChangeUserInformationPageState extends BaseState<
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void listener(BuildContext context, ChangeUserInformationState state) {
+    super.listener(context, state);
+    switch (state.status) {
+      case BaseStateStatus.success:
+        context.router.maybePop(true);
+        break;
+      case BaseStateStatus.failed:
+        DialogService.showInformationDialog(
+          context,
+          title: 'error'.tr(),
+          description: state.message ?? 'error_system'.tr(),
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   @override
@@ -65,6 +86,11 @@ class _ChangeUserInformationPageState extends BaseState<
         child: Column(
           children: [
             _buildAvatarAndCover(),
+            SizedBox(height: 8.h),
+            Text(
+              'change_avatar_description'.tr(),
+              style: AppTextStyles.s14w400,
+            ),
             SizedBox(height: 16.h),
             _buildName(),
             SizedBox(height: 16.h),
@@ -239,6 +265,11 @@ class _ChangeUserInformationPageState extends BaseState<
               Text(
                 'current_password'.tr(),
                 style: AppTextStyles.s16w600,
+              ),
+              SizedBox(height: 8.h),
+              Text(
+                'change_password_description'.tr(),
+                style: AppTextStyles.s14w400,
               ),
               SizedBox(height: 8.h),
               AppTextFormField(

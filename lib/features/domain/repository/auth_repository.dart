@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:smart_garden/base/network/errors/error.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
@@ -19,6 +21,14 @@ abstract class AuthRepository {
   Future<Either<BaseError, LogoutResponse>> logout();
 
   Future<Either<BaseError, UserEntity>> getUserInfo();
+
+  Future<Either<BaseError, bool>> updateUserInfo({
+    String? name,
+    String? currentPassword,
+    String? newPassword,
+    File? avatar,
+    File? coverImage,
+  });
 
   Future<Either<BaseError, bool>> resendEmailVerification({
     required String email,

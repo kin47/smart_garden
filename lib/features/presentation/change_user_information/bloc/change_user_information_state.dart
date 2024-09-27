@@ -35,12 +35,18 @@ class ChangeUserInformationState extends BaseBlocState {
         isPasswordVisible: false,
       );
 
-  bool get enableSaveButton =>
-      currentName != newName ||
-      currentPassword.isNotEmpty ||
-      newPassword.isNotEmpty ||
-      newAvatar != null ||
-      newCoverImage != null;
+  bool get enableSaveButton {
+    if ((currentPassword.isNotEmpty && newPassword.isEmpty) ||
+        (newPassword.isNotEmpty && currentPassword.isEmpty)) {
+      return false;
+    } else {
+      return currentName != newName ||
+          currentPassword.isNotEmpty ||
+          newPassword.isNotEmpty ||
+          newAvatar != null ||
+          newCoverImage != null;
+    }
+  }
 
   @override
   List get props => [

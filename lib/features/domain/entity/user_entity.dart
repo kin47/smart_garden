@@ -6,6 +6,7 @@ class UserEntity {
   final String name;
   final String phoneNumber;
   final String? avatar;
+  final String? coverImage;
   final bool isAdmin;
   final bool canPredictDisease;
   final bool canReceiveNoti;
@@ -17,6 +18,7 @@ class UserEntity {
     required this.email,
     required this.name,
     this.avatar,
+    this.coverImage,
     this.isAdmin = false,
     this.canPredictDisease = false,
     this.canReceiveNoti = false,
@@ -30,6 +32,7 @@ class UserEntity {
       name: model.name ?? '',
       phoneNumber: model.phoneNumber ?? '',
       avatar: model.avatar,
+      coverImage: model.coverImage,
       isAdmin: model.isAdmin ?? false,
       canPredictDisease: model.canPredictDisease ?? false,
       canReceiveNoti: model.canReceiveNoti ?? false,

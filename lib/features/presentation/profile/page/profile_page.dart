@@ -7,7 +7,6 @@ import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/common/widgets/cache_image_widget.dart';
-import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 import 'package:smart_garden/routes/app_pages.gr.dart';
@@ -91,10 +90,20 @@ class _ProfilePageState
     return Stack(
       children: [
         SizedBox(height: 300.h),
-        Assets.images.coverImageDefault.image(
-          width: 1.sw,
-          height: 250.h,
-          fit: BoxFit.cover,
+        blocBuilder(
+          (context, state) => state.user?.coverImage != null &&
+                  state.user!.coverImage!.isNotEmpty
+              ? CachedImageWidget(
+                  url: state.user!.coverImage!,
+                  width: double.infinity,
+                  height: 250.h,
+                )
+              : Assets.images.coverImageDefault.image(
+                  width: 1.sw,
+                  height: 250.h,
+                  fit: BoxFit.cover,
+                ),
+          buildWhen: (previous, current) => previous.user != current.user,
         ),
         Positioned.fill(
           child: Align(
@@ -215,19 +224,17 @@ class _ProfilePageState
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  // if (bloc.state.user != null) {
-                  context.router.push(
-                    ChangeUserInformationRoute(
-                      user: bloc.state.user ??
-                          UserEntity(
-                            id: 0,
-                            phoneNumber: '0987654321',
-                            email: 'alo@gmail.com',
-                            name: 'Kin',
-                          ),
-                    ),
-                  );
-                  // }
+                  if (bloc.state.user != null) {
+                    context.router.push(
+                      ChangeUserInformationRoute(
+                        user: bloc.state.user!,
+                      ),
+                    ).then((value) {
+                      if (value != null && value is bool && value) {
+                        bloc.add(const ProfileEvent.init());
+                      }
+                    });
+                  }
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),

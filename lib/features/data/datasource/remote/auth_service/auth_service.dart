@@ -35,6 +35,11 @@ abstract class AuthService {
   @GET(EndpointConstants.me)
   Future<BaseData<UserModel>> getUserInfo();
 
+  @PUT(EndpointConstants.updateInfo)
+  Future<BaseData> updateUserInfo({
+    @Body() required FormData request,
+  });
+
   @POST(EndpointConstants.resendEmailVerification)
   Future<BaseData> resendEmailVerification({
     @Body() required ResendEmailRequest request,

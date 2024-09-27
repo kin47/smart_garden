@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -6,7 +8,9 @@ import 'package:injectable/injectable.dart';
 import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
+import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
+import 'package:smart_garden/features/domain/repository/auth_repository.dart';
 
 part 'change_user_information_event.dart';
 
@@ -19,7 +23,8 @@ part 'change_user_information_bloc.g.dart';
 @injectable
 class ChangeUserInformationBloc
     extends BaseBloc<ChangeUserInformationEvent, ChangeUserInformationState> {
-  ChangeUserInformationBloc() : super(ChangeUserInformationState.init()) {
+  ChangeUserInformationBloc(this._authRepository)
+      : super(ChangeUserInformationState.init()) {
     on<ChangeUserInformationEvent>((event, emit) async {
       await event.when(
         init: (user) => _init(emit, user),
@@ -37,6 +42,8 @@ class ChangeUserInformationBloc
     });
   }
 
+  final AuthRepository _authRepository;
+
   Future _init(
       Emitter<ChangeUserInformationState> emit, UserEntity user) async {
     emit(
@@ -44,6 +51,7 @@ class ChangeUserInformationBloc
         currentName: user.name,
         newName: user.name,
         avatarUrl: user.avatar,
+        coverImageUrl: user.coverImage,
       ),
     );
   }
@@ -109,8 +117,30 @@ class ChangeUserInformationBloc
   }
 
   Future _updateUserInfo(Emitter<ChangeUserInformationState> emit) async {
-    emit(
-      state.copyWith(status: BaseStateStatus.loading),
+    emit(state.copyWith(status: BaseStateStatus.loading));
+    final File? newAvatar =
+        state.newAvatar != null ? File(state.newAvatar!.path) : null;
+    final File? newCoverImage =
+        state.newCoverImage != null ? File(state.newCoverImage!.path) : null;
+    final response = await _authRepository.updateUserInfo(
+      name: state.newName,
+      currentPassword: state.currentPassword,
+      newPassword: state.newPassword,
+      avatar: newAvatar,
+      coverImage: newCoverImage,
+    );
+    response.fold(
+      (l) => emit(
+        state.copyWith(
+          status: BaseStateStatus.failed,
+          message: l.getError,
+        ),
+      ),
+      (r) => emit(
+        state.copyWith(
+          status: BaseStateStatus.success,
+        ),
+      ),
     );
   }
 }
