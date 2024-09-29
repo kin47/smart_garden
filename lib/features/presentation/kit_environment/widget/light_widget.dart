@@ -6,21 +6,21 @@ import 'package:smart_garden/common/app_theme/app_text_styles.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
 class LightWidget extends StatelessWidget {
-  final double light;
+  final double? light;
 
   const LightWidget({
     super.key,
-    required this.light,
+    this.light,
   });
 
   Color get color {
-    if (light < 10) {
+    if (light == null || light! < 10) {
       return AppColors.light1;
-    } else if (light < 100) {
+    } else if (light! < 100) {
       return AppColors.light2;
-    } else if (light < 500) {
+    } else if (light! < 500) {
       return AppColors.light3;
-    } else if (light < 1000) {
+    } else if (light! < 1000) {
       return AppColors.light4;
     } else {
       return AppColors.light5;
@@ -61,7 +61,7 @@ class LightWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '${light.toStringAsFixed(0)} lux',
+                '${light?.toStringAsFixed(0)} lux',
                 style: AppTextStyles.s24w600.copyWith(
                   color: Colors.black,
                 ),

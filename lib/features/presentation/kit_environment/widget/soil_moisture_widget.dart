@@ -6,21 +6,21 @@ import 'package:smart_garden/common/app_theme/app_text_styles.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
 class SoilMoistureWidget extends StatelessWidget {
-  final double soilMoisture;
+  final double? soilMoisture;
 
   const SoilMoistureWidget({
     super.key,
-    required this.soilMoisture,
+    this.soilMoisture,
   });
 
   Color get color {
-    if (soilMoisture < 10) {
+    if (soilMoisture == null || soilMoisture! < 10) {
       return AppColors.soilMoisture1;
-    } else if (soilMoisture < 30) {
+    } else if (soilMoisture! < 30) {
       return AppColors.soilMoisture2;
-    } else if (soilMoisture < 50) {
+    } else if (soilMoisture! < 50) {
       return AppColors.soilMoisture3;
-    } else if (soilMoisture < 70) {
+    } else if (soilMoisture! < 70) {
       return AppColors.soilMoisture4;
     } else {
       return AppColors.soilMoisture5;
@@ -65,7 +65,7 @@ class SoilMoistureWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '${soilMoisture.toStringAsFixed(0)}%',
+                '${soilMoisture?.toStringAsFixed(0)}%',
                 style: AppTextStyles.s24w600.copyWith(
                   color: Colors.white,
                 ),

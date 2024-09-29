@@ -6,21 +6,21 @@ import 'package:smart_garden/common/app_theme/app_text_styles.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
 class HumidityWidget extends StatelessWidget {
-  final double humidity;
+  final double? humidity;
 
   const HumidityWidget({
     super.key,
-    required this.humidity,
+    this.humidity,
   });
 
   Color get color {
-    if (humidity < 20) {
+    if (humidity == null || humidity! < 20) {
       return AppColors.humidity1;
-    } else if (humidity < 40) {
+    } else if (humidity! < 40) {
       return AppColors.humidity2;
-    } else if (humidity < 60) {
+    } else if (humidity! < 60) {
       return AppColors.humidity3;
-    } else if (humidity < 80) {
+    } else if (humidity! < 80) {
       return AppColors.humidity4;
     } else {
       return AppColors.humidity5;
@@ -61,7 +61,7 @@ class HumidityWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '${humidity.toStringAsFixed(0)}%',
+                '${humidity?.toStringAsFixed(0)}%',
                 style: AppTextStyles.s24w600.copyWith(
                   color: Colors.black,
                 ),

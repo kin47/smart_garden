@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_garden/common/constants/other_constants.dart';
+import 'package:smart_garden/common/mqtt/mqtt_app_state.dart';
 import 'package:smart_garden/common/notification/push_notification_helper.dart';
 import 'package:smart_garden/common/utils/dialog/loading_widget.dart';
 import 'package:smart_garden/di/di_setup.dart';
@@ -90,7 +92,10 @@ class MyApp extends StatelessWidget {
               data: MediaQuery.of(context).copyWith(
                 textScaler: const TextScaler.linear(1),
               ),
-              child: child ?? const SizedBox(),
+              child: ChangeNotifierProvider<MQTTAppState>(
+                create: (_) => MQTTAppState(),
+                child: child ?? const SizedBox(),
+              ),
             ),
           ),
           routerConfig: _appRoute.config(),

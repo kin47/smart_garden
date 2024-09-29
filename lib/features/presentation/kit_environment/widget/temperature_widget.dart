@@ -6,21 +6,21 @@ import 'package:smart_garden/common/app_theme/app_text_styles.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
 class TemperatureWidget extends StatelessWidget {
-  final double temperature;
+  final double? temperature;
 
   const TemperatureWidget({
     super.key,
-    required this.temperature,
+    this.temperature,
   });
 
   Color get color {
-    if (temperature <= 5) {
+    if (temperature == null || temperature! <= 5) {
       return AppColors.white;
-    } else if (temperature <= 20) {
+    } else if (temperature! <= 20) {
       return AppColors.temperature2;
-    } else if (temperature < 30) {
+    } else if (temperature! < 30) {
       return AppColors.temperature3;
-    } else if (temperature < 40) {
+    } else if (temperature! < 40) {
       return AppColors.temperature4;
     } else {
       return AppColors.temperature5;
@@ -28,7 +28,7 @@ class TemperatureWidget extends StatelessWidget {
   }
 
   Color get textColor {
-    if (temperature < 30) {
+    if (temperature == null || temperature! < 30) {
       return AppColors.black;
     } else {
       return AppColors.white;
@@ -36,7 +36,7 @@ class TemperatureWidget extends StatelessWidget {
   }
 
   Color get iconColor {
-    if (temperature < 30) {
+    if (temperature == null || temperature! < 30) {
       return AppColors.temperature5;
     } else {
       return AppColors.white;
@@ -81,7 +81,7 @@ class TemperatureWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '${temperature.toStringAsFixed(1)}°C',
+                '${temperature?.toStringAsFixed(1)}°C',
                 style: AppTextStyles.s24w600.copyWith(
                   color: textColor,
                 ),

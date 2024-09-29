@@ -1,17 +1,17 @@
+import 'dart:convert';
+
 import 'package:auto_route/annotations.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_garden/base/base_widget.dart';
-import 'package:smart_garden/common/app_theme/app_colors.dart';
-import 'package:smart_garden/common/app_theme/app_text_styles.dart';
+import 'package:smart_garden/common/mqtt/mqtt_app_state.dart';
 import 'package:smart_garden/common/widgets/base_scaffold.dart';
 import 'package:smart_garden/features/presentation/kit_environment/bloc/kit_environment_bloc.dart';
 import 'package:smart_garden/features/presentation/kit_environment/widget/humidity_widget.dart';
 import 'package:smart_garden/features/presentation/kit_environment/widget/light_widget.dart';
 import 'package:smart_garden/features/presentation/kit_environment/widget/soil_moisture_widget.dart';
 import 'package:smart_garden/features/presentation/kit_environment/widget/temperature_widget.dart';
-import 'package:smart_garden/gen/assets.gen.dart';
 
 @RoutePage()
 class KitEnvironmentPage extends StatefulWidget {
@@ -23,6 +23,28 @@ class KitEnvironmentPage extends StatefulWidget {
 
 class _KitEnvironmentPageState extends BaseState<KitEnvironmentPage,
     KitEnvironmentEvent, KitEnvironmentState, KitEnvironmentBloc> {
+  late MQTTAppState currentAppState;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    currentAppState = Provider.of<MQTTAppState>(context);
+    listenToMQTT(currentAppState.getReceivedText);
+  }
+
+  void listenToMQTT(String jsonString) {
+    print("MQTT: $jsonString");
+    if (jsonString.isNotEmpty) {
+      final data = json.decode(jsonString);
+      bloc.add(KitEnvironmentEvent.updateData(
+        temperature: data['temperature'],
+        humidity: data['humidity'],
+        light: data['light'],
+        soilMoisture: data['soil_moisture'],
+      ));
+    }
+  }
+
   @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
