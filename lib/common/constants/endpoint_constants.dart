@@ -17,6 +17,9 @@ class EndpointConstants {
   static const String predictDisease = '/disease_detection/predict';
   static const String predictHistory = '/disease_detection/history';
 
+  static const String kitDetail = '/kit/{kit_id}';
+  static const String controlKit = '/kit/{kit_id}/control';
+
   static const List<String> publicAPI = [
     login,
     register,

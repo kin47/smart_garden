@@ -53,7 +53,8 @@ class _DiagnosisImageInputPageState extends BaseState<
         Navigator.of(context).pop();
         DialogService.showInformationDialog(
           context,
-          description: state.message,
+          title: 'error'.tr(),
+          description: state.message ?? 'error_system'.tr(),
         );
         break;
       default:
