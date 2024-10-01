@@ -18,6 +18,7 @@ class UserModel with _$UserModel {
     bool? canPredictDisease,
     bool? canReceiveNoti,
     bool? isVerified,
+    int? kitId,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

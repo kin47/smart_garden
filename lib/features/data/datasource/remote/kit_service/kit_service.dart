@@ -15,7 +15,7 @@ abstract class KitService {
   factory KitService(Dio dio) = _KitService;
 
   @GET(EndpointConstants.kitDetail)
-  Future<BaseData<KitModel>> getKits({
+  Future<BaseData<KitModel>> getKitDetail({
     @Path('kit_id') required int kitId,
   });
 
