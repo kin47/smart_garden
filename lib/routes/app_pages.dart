@@ -30,5 +30,6 @@ class AppPages extends RootStackRouter {
     ),
     AutoRoute(path: AppRoutes.notification, page: NotificationListRoute.page),
     AutoRoute(path: AppRoutes.changeUserInformation, page: ChangeUserInformationRoute.page),
+    AutoRoute(path: AppRoutes.chat, page: ChatRoute.page),
   ];
 }

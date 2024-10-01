@@ -291,7 +291,9 @@ class _ProfilePageState
             child: Column(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.router.push(const ChatRoute());
+                  },
                   child: ListTile(
                     title: Text(
                       'chat_with_admin'.tr(),
