@@ -11,6 +11,7 @@ class UserEntity {
   final bool canPredictDisease;
   final bool canReceiveNoti;
   final bool isVerified;
+  final int? kitId;
 
   const UserEntity({
     required this.id,
@@ -23,6 +24,7 @@ class UserEntity {
     this.canPredictDisease = false,
     this.canReceiveNoti = false,
     this.isVerified = false,
+    this.kitId,
   });
 
   factory UserEntity.fromModel(UserModel model) {
@@ -37,6 +39,7 @@ class UserEntity {
       canPredictDisease: model.canPredictDisease ?? false,
       canReceiveNoti: model.canReceiveNoti ?? false,
       isVerified: model.isVerified ?? false,
+      kitId: model.kitId,
     );
   }
 }

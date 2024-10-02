@@ -8,4 +8,5 @@ class AppRoutes {
   static const String myKit = '/my-kit';
   static const String notification = '/notification';
   static const String changeUserInformation = '/change-user-information';
+  static const String chat = '/chat';
 }

@@ -61,10 +61,11 @@
   "choose_from_library": "Chọn từ thư viện",
   "diagnosis_result": "Kết quả chẩn đoán",
   "my_kit": "Kit của tôi",
+  "no_kit_connected_description": "Không có kit nào được kết nối, vui lòng bấm quét để kết nối kit ngay",
   "control": "Điều khiển",
   "environment": "Môi trường",
   "weather": "Thời tiết",
-  "connected_date": "Ngày kết nối: {date}",
+  "connected_date": "Ngày kết nối: ",
   "highest_temperature": "t° cao nhất",
   "lowest_temperature": "t° thấp nhất",
   "humidity": "Độ ẩm",
@@ -95,5 +96,6 @@
   "new_password": "Mật khẩu mới",
   "save": "Lưu",
   "change_avatar_description": "Bấm vào ảnh bìa/avatar để thay đổi",
-  "change_password_description": "Để cập nhật mật khẩu, vui lòng nhập mật khẩu hiện tại và mật khẩu mới"
+  "change_password_description": "Để cập nhật mật khẩu, vui lòng nhập mật khẩu hiện tại và mật khẩu mới",
+  "chat_no_history": "Không có lịch sử chat"
 }

@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
+import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
 
@@ -29,20 +31,23 @@ class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
 
   Future init(Emitter<SplashState> emit) async {
     final res = await _authRepository.getUserInfo();
-    res.fold(
-      (l) => emit(
+    await res.fold(
+      (l) async => emit(
         state.copyWith(
           status: BaseStateStatus.idle,
           actionState: SplashActionState.goToLogin,
         ),
       ),
-      (r) => emit(
-        state.copyWith(
-          status: BaseStateStatus.success,
-          actionState: SplashActionState.goToHome,
-          user: r,
-        ),
-      ),
+      (r) async {
+        await getIt<LocalStorage>().save(KitConstants.kitId, r.id);
+        emit(
+          state.copyWith(
+            status: BaseStateStatus.success,
+            actionState: SplashActionState.goToHome,
+            user: r,
+          ),
+        );
+      }
     );
   }
 }

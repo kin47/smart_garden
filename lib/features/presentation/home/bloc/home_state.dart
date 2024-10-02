@@ -2,9 +2,12 @@ part of 'home_bloc.dart';
 
 @CopyWith()
 class HomeState extends BaseBlocState {
+  final KitEntity? kit;
+
   const HomeState({
     required super.status,
     super.message,
+    this.kit,
   });
 
   factory HomeState.init() {
@@ -17,5 +20,6 @@ class HomeState extends BaseBlocState {
   List get props => [
     status,
     message,
+    kit,
   ];
 }

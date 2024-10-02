@@ -55,6 +55,10 @@ class $AssetsImagesGen {
   AssetGenImage get carouselSlider3 =>
       const AssetGenImage('assets/images/carousel_slider_3.png');
 
+  /// File path: assets/images/chat_no_history.png
+  AssetGenImage get chatNoHistory =>
+      const AssetGenImage('assets/images/chat_no_history.png');
+
   /// File path: assets/images/cover_image_default.jpg
   AssetGenImage get coverImageDefault =>
       const AssetGenImage('assets/images/cover_image_default.jpg');
@@ -126,6 +130,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/news.png
   AssetGenImage get news => const AssetGenImage('assets/images/news.png');
 
+  /// File path: assets/images/no_kit_connected.png
+  AssetGenImage get noKitConnected =>
+      const AssetGenImage('assets/images/no_kit_connected.png');
+
   /// File path: assets/images/ptit.png
   AssetGenImage get ptit => const AssetGenImage('assets/images/ptit.png');
 
@@ -144,6 +152,7 @@ class $AssetsImagesGen {
         carouselSlider1,
         carouselSlider2,
         carouselSlider3,
+        chatNoHistory,
         coverImageDefault,
         icCloudy,
         icFoggy,
@@ -163,6 +172,7 @@ class $AssetsImagesGen {
         loading,
         logo,
         news,
+        noKitConnected,
         ptit,
         pumpOff,
         pumpOn

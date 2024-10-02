@@ -22,9 +22,9 @@ class KitControllerEvent with _$KitControllerEvent {
 
   const factory KitControllerEvent.changeLightThreshold({
     required int lightThreshold,
-  }) = _ChangeLightThreshold;
+  }) = ChangeLightThreshold;
 
   const factory KitControllerEvent.changePumpThreshold({
     required int pumpThreshold,
-  }) = _ChangePumpThreshold;
+  }) = ChangePumpThreshold;
 }

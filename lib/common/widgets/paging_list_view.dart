@@ -199,6 +199,7 @@ class CustomListViewSeparated<T> extends StatelessWidget {
   final Widget? newPageProgressIndicatorBuilder;
   final Widget? newPageErrorIndicatorBuilder;
   final Widget? firstPageErrorIndicator;
+  final bool reverse;
 
   const CustomListViewSeparated({
     Key? key,
@@ -215,6 +216,7 @@ class CustomListViewSeparated<T> extends StatelessWidget {
     this.newPageProgressIndicatorBuilder,
     this.newPageErrorIndicatorBuilder,
     this.firstPageErrorIndicator,
+    this.reverse = false,
   }) : super(key: key);
 
   @override
@@ -225,6 +227,7 @@ class CustomListViewSeparated<T> extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       physics: physics,
       padding: padding,
+      reverse: reverse,
       builderDelegate: PagedChildBuilderDelegate<T>(
         itemBuilder: builder,
         noItemsFoundIndicatorBuilder: (_) => emptyWidget,

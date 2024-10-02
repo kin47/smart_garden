@@ -2,6 +2,7 @@ part of 'kit_controller_bloc.dart';
 
 @CopyWith()
 class KitControllerState extends BaseBlocState {
+  final int kitId;
   final bool isLightOn;
   final bool isPumpOn;
   final bool autoLight;
@@ -12,6 +13,7 @@ class KitControllerState extends BaseBlocState {
   const KitControllerState({
     required super.status,
     super.message,
+    required this.kitId,
     required this.isLightOn,
     required this.isPumpOn,
     required this.autoLight,
@@ -22,6 +24,7 @@ class KitControllerState extends BaseBlocState {
 
   factory KitControllerState.init() => const KitControllerState(
         status: BaseStateStatus.init,
+        kitId: 0,
         isLightOn: false,
         isPumpOn: false,
         autoLight: false,
@@ -34,6 +37,7 @@ class KitControllerState extends BaseBlocState {
   List get props => [
         status,
         message,
+        kitId,
         isLightOn,
         isPumpOn,
         autoLight,

@@ -23,6 +23,7 @@ dependencies:
   event_bus: ^2.0.0
   auto_route: ^9.2.0
   connectivity_plus: ^4.0.2
+  rxdart: ^0.28.0
 
   # state management
   flutter_bloc: ^8.1.6

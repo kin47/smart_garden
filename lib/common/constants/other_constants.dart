@@ -23,8 +23,8 @@ class AnimationConstants {
   static const crossFadeDuration = Duration(milliseconds: 200);
 }
 
-class QuizConstants {
-  static const double defaultTime = 30; // seconds
+class KitConstants {
+  static const String kitId = 'kitId';
 }
 
 class RegexConstants {
