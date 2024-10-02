@@ -18,11 +18,6 @@ enum ScreenViewType {
     screenClass: 'login',
     routeName: RegisterRoute.name,
   ),
-  profile(
-    screenName: 'profile',
-    screenClass: 'home',
-    routeName: ProfileRoute.name,
-  ),
   home(
     screenName: 'home',
     screenClass: 'home',
@@ -32,6 +27,61 @@ enum ScreenViewType {
     screenName: 'notification-list',
     screenClass: 'notification',
     routeName: NotificationListRoute.name,
+  ),
+  inputDiseaseImage(
+    screenName: 'input_disease_image',
+    screenClass: 'disease-diagnosis',
+    routeName: DiagnosisImageInputRoute.name,
+  ),
+  diagnosisPage(
+    screenName: 'diagnosis_page',
+    screenClass: 'disease-diagnosis',
+    routeName: DiagnosisRoute.name,
+  ),
+  diagnosisResult(
+    screenName: 'diagnosis_result',
+    screenClass: 'disease-diagnosis',
+    routeName: DiagnosisResultRoute.name,
+  ),
+  diagnosisHistory(
+    screenName: 'diagnosis_history',
+    screenClass: 'disease-diagnosis',
+    routeName: DiagnosisHistoryRoute.name,
+  ),
+  store(
+    screenName: 'store',
+    screenClass: 'store',
+    routeName: StoreRoute.name,
+  ),
+  chat(
+    screenName: 'chat',
+    screenClass: 'chat',
+    routeName: ChatRoute.name,
+  ),
+  myKit(
+    screenName: 'my_kit',
+    screenClass: 'kit',
+    routeName: MyKitRoute.name,
+  ),
+  kitController(
+    screenName: 'kit-controller',
+    screenClass: 'kit',
+    routeName: KitControllerRoute.name,
+  ),
+  kitEnvironment(
+    screenName: 'kit-environment',
+    screenClass: 'kit',
+    routeName: KitEnvironmentRoute.name,
+  ),
+  weather(
+    screenName: 'weather',
+    screenClass: 'kits',
+    routeName: WeatherRoute.name,
+  ),
+  profile(
+    screenName: 'profile',
+    screenClass: 'profile',
+    routeName: ProfileRoute.name,
   );
 
   const ScreenViewType({

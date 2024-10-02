@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
               FirebaseAnalyticsRouteObserver(),
             ]
           ),
-          routerConfig: _appRoute.config(),
+          routeInformationParser: _appRoute.defaultRouteParser(),
         );
       },
     );

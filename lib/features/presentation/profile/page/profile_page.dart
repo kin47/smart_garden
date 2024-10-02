@@ -225,11 +225,13 @@ class _ProfilePageState
               child: InkWell(
                 onTap: () {
                   if (bloc.state.user != null) {
-                    context.router.push(
+                    context.router
+                        .push(
                       ChangeUserInformationRoute(
                         user: bloc.state.user!,
                       ),
-                    ).then((value) {
+                    )
+                        .then((value) {
                       if (value != null && value is bool && value) {
                         bloc.add(const ProfileEvent.init());
                       }

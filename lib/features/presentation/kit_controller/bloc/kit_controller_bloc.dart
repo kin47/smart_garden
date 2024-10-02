@@ -61,7 +61,18 @@ class KitControllerBloc
   Future _init(Emitter<KitControllerState> emit) async {
     emit(state.copyWith(status: BaseStateStatus.loading));
     final kitId =
-        await getIt<LocalStorage>().get<int>(KitConstants.kitId) ?? -1;
+        await getIt<LocalStorage>().get(KitConstants.kitId) ?? -1;
+    if (kitId == -1) {
+      emit(
+        state.copyWith(
+          status: BaseStateStatus.failed,
+          message: 'error_system'.tr(),
+        ),
+      );
+      return;
+    } else {
+      emit(state.copyWith(kitId: kitId));
+    }
     final res = await _kitRepository.getKitDetail(kitId: kitId);
     res.fold(
       (l) => emit(

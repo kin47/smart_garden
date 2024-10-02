@@ -43,8 +43,8 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState>
 
   Future init(Emitter<HomeState> emit) async {
     emit(state.copyWith(status: BaseStateStatus.loading));
-    final kitId =
-        await getIt<LocalStorage>().get<int>(KitConstants.kitId) ?? -1;
+    final int kitId =
+        await getIt<LocalStorage>().get(KitConstants.kitId) ?? -1;
     final res = await _kitRepository.getKitDetail(kitId: kitId);
     res.fold(
       (l) => emit(
