@@ -17,8 +17,8 @@ extension StringExtension on String? {
   bool get isValidEmail {
     if (this == null || this!.isEmpty) return false;
     return RegExp(
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
-    ).hasMatch(this!.trim()) &&
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',
+        ).hasMatch(this!.trim()) &&
         isValidLengthEmail;
   }
 
@@ -41,4 +41,6 @@ extension StringExtension on String? {
     if (this == null || this!.isEmpty) return '';
     return this!.trim().split("@")[0];
   }
+
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
 }

@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_garden/common/extensions/datetime_extension.dart';
 
 enum Pattern {
   hhmm,
@@ -31,6 +33,7 @@ enum Pattern {
   HHmmyyyyMMddWithLineSeparator,
   yyyyMMddE,
   MMddE,
+  E,
 }
 
 extension PatternExtension on Pattern {
@@ -92,6 +95,8 @@ extension PatternExtension on Pattern {
         return 'MM/dd (E)';
       case Pattern.yyyyMM:
         return 'yyyy/MM';
+      case Pattern.E:
+        return 'E';
       default:
         return '';
     }
@@ -119,10 +124,10 @@ class DateTimeUtils {
   }
 
   static String getStringDate(
-      dynamic dateToConvert,
-      Pattern pattern, {
-        String? languageCode,
-      }) {
+    dynamic dateToConvert,
+    Pattern pattern, {
+    String? languageCode,
+  }) {
     if (dateToConvert == null) {
       return '';
     }
@@ -175,5 +180,20 @@ class DateTimeUtils {
 
   static DateTime getDateBasedOnTimezone(DateTime date, int timezone) {
     return date.subtract(date.timeZoneOffset).add(Duration(seconds: timezone));
+  }
+
+  static String? getDateMessage(DateTime? time, {String? languageCode}) {
+    if (time == null) {
+      return null;
+    }
+    final date = time.getOnlyDate;
+    final now = DateTime.now().getOnlyDate;
+    if (date.isSameDay(now)) {
+      return "today".tr();
+    }
+    if (date.isSameDay(now.subtract(const Duration(days: 1)))) {
+      return "yesterday".tr();
+    }
+    return "${date.month}/${date.day}(${getStringDate(date, Pattern.E, languageCode: languageCode)})";
   }
 }

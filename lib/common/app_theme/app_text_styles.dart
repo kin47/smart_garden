@@ -107,6 +107,11 @@ class AppTextStyles {
     color: AppColors.primary900,
     fontWeight: FontWeight.w500,
   );
+  static TextStyle s11w500 = TextStyle(
+    fontSize: 11.sp,
+    color: AppColors.primary900,
+    fontWeight: FontWeight.w500,
+  );
   static TextStyle s12w500 = TextStyle(
     fontSize: 12.sp,
     color: AppColors.primary900,
@@ -150,6 +155,11 @@ class AppTextStyles {
   );
 
   //w600
+  static TextStyle s9w600 = TextStyle(
+    fontSize: 9.sp,
+    color: AppColors.primary900,
+    fontWeight: FontWeight.w600,
+  );
   static TextStyle s12w600 = TextStyle(
     fontSize: 12.sp,
     color: AppColors.primary900,

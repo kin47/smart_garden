@@ -2,8 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:smart_garden/base/base_widget.dart';
+import 'package:smart_garden/common/extensions/datetime_extension.dart';
 import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/common/utils/date_time/date_time_utils.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
 import 'package:smart_garden/features/domain/enum/owner_type_enum.dart';
 import 'package:smart_garden/features/presentation/chat_page/bloc/chat_bloc.dart';
@@ -23,6 +26,14 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState
     extends BaseState<ChatPage, ChatEvent, ChatState, ChatBloc> {
   @override
+  void initState() {
+    super.initState();
+    bloc.pagingController.addPageRequestListener((pageKey) {
+      bloc.add(ChatEvent.getChatMessages(pageKey));
+    });
+  }
+
+  @override
   void dispose() {
     super.dispose();
     bloc.chatTextController.dispose();
@@ -39,6 +50,7 @@ class _ChatPageState
           Expanded(
             child: CustomListViewSeparated<ChatMessageEntity>(
               controller: bloc.pagingController,
+              reverse: true,
               emptyWidget: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -70,13 +82,25 @@ class _ChatPageState
                 ),
               ),
               builder: (context, message, index) {
+                ChatMessageEntity? previousMessage =
+                    getPreviousMessage(bloc.pagingController, index);
+                String? firstMessageInDay;
+                if (!(previousMessage?.transDate.isSameDay(message.transDate) ??
+                    false)) {
+                  firstMessageInDay = DateTimeUtils.getDateMessage(
+                    message.transDate,
+                    languageCode: context.locale.languageCode,
+                  );
+                }
                 if (message.ownerType == OwnerTypeEnum.admin) {
                   return AdminMessageWidget(
                     message: message,
+                    firstMessageInDay: firstMessageInDay,
                   );
                 } else {
                   return UserMessageWidget(
                     message: message,
+                    firstMessageInDay: firstMessageInDay,
                   );
                 }
               },
@@ -87,5 +111,16 @@ class _ChatPageState
         ],
       ),
     );
+  }
+
+  ChatMessageEntity? getPreviousMessage(
+    PagingController controller,
+    int index,
+  ) {
+    if ((controller.itemList?.isEmpty ?? true) ||
+        index > controller.itemList!.length - 2) {
+      return null;
+    }
+    return controller.itemList?[index + 1];
   }
 }

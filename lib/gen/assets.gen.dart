@@ -43,6 +43,14 @@ class $AssetsImagesGen {
   AssetGenImage get avatarDefault =>
       const AssetGenImage('assets/images/avatar_default.png');
 
+  /// File path: assets/images/bubble_chat_purple.9.png
+  AssetGenImage get bubbleChatPurple9 =>
+      const AssetGenImage('assets/images/bubble_chat_purple.9.png');
+
+  /// File path: assets/images/bubble_chat_white.9.png
+  AssetGenImage get bubbleChatWhite9 =>
+      const AssetGenImage('assets/images/bubble_chat_white.9.png');
+
   /// File path: assets/images/carousel_slider_1.png
   AssetGenImage get carouselSlider1 =>
       const AssetGenImage('assets/images/carousel_slider_1.png');
@@ -149,6 +157,8 @@ class $AssetsImagesGen {
         appBarBg,
         appIcon,
         avatarDefault,
+        bubbleChatPurple9,
+        bubbleChatWhite9,
         carouselSlider1,
         carouselSlider2,
         carouselSlider3,

@@ -159,6 +159,9 @@ class AppColors {
   static const Color soilMoisture4 = Color(0xff93754f);
   static const Color soilMoisture5 = Color(0xffae9068);
 
+  // chat
+  static const Color color00000080 = Color(0x80000000);
+
   /// color from hex String
   static Color fromHex(String hexString) {
     final buffer = StringBuffer();

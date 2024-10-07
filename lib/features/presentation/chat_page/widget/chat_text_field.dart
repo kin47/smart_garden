@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/common/app_theme/app_colors.dart';
@@ -20,7 +21,7 @@ class ChatTextField extends StatelessWidget {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintText: 'chat_hint',
+                hintText: 'chat_hint'.tr(),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(
                     color: AppColors.primary700,
