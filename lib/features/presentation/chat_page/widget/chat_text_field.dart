@@ -5,10 +5,12 @@ import 'package:smart_garden/common/app_theme/app_colors.dart';
 
 class ChatTextField extends StatelessWidget {
   final TextEditingController controller;
+  final Function(String?) onSend;
 
   const ChatTextField({
     super.key,
     required this.controller,
+    required this.onSend,
   });
 
   @override
@@ -39,7 +41,10 @@ class ChatTextField extends StatelessWidget {
               Icons.send,
               color: AppColors.primary700,
             ),
-            onPressed: () {},
+            onPressed: () {
+              onSend(controller.text);
+              controller.clear();
+            },
           ),
         ],
       ),

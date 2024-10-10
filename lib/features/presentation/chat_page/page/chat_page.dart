@@ -107,7 +107,14 @@ class _ChatPageState
               separatorBuilder: (context, index) => const SizedBox.shrink(),
             ),
           ),
-          ChatTextField(controller: bloc.chatTextController),
+          ChatTextField(
+            controller: bloc.chatTextController,
+            onSend: (message) {
+              if (message?.isNotEmpty ?? false) {
+                bloc.add(ChatEvent.sendMessage(message: message!));
+              }
+            },
+          ),
         ],
       ),
     );

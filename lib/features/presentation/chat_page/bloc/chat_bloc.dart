@@ -27,8 +27,8 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
     on<ChatEvent>(
       (event, emit) async {
         await event.when(
-          init: () => _init(emit),
           getChatMessages: (page) => _getChatMessages(emit, page),
+          sendMessage: (message) => _sendMessage(emit, message),
         );
       },
     );
@@ -40,10 +40,6 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
 
   final PagingController<int, ChatMessageEntity> pagingController =
       PagingController(firstPageKey: 1);
-
-  Future _init(Emitter<ChatState> emit) async {
-
-  }
 
   Future _getChatMessages(Emitter<ChatState> emit, int page) async {
     final res = await _chatRepository.getChatMessages(
@@ -72,5 +68,9 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
         );
       },
     );
+  }
+
+  Future _sendMessage(Emitter<ChatState> emit, String message) async {
+
   }
 }
