@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +9,12 @@ import 'package:injectable/injectable.dart';
 import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
+import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/features/data/request/pagination_request/pagination_request.dart';
+import 'package:smart_garden/features/data/request/send_message_request/send_message_request.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
+import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/domain/repository/chat_repository.dart';
 
 part 'chat_event.dart';
@@ -27,6 +32,7 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
     on<ChatEvent>(
       (event, emit) async {
         await event.when(
+          init: () => _init(emit),
           getChatMessages: (page) => _getChatMessages(emit, page),
           sendMessage: (message) => _sendMessage(emit, message),
         );
@@ -35,17 +41,23 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
   }
 
   final ChatRepository _chatRepository;
-
+  late final StreamSubscription wsMessageStream;
   final TextEditingController chatTextController = TextEditingController();
 
   final PagingController<int, ChatMessageEntity> pagingController =
       PagingController(firstPageKey: 1);
 
+  Future _init(Emitter<ChatState> emit) async {
+    wsMessageStream = _chatRepository.wsMessageStream().listen((event) {
+      _addMessage(emit, event);
+    });
+  }
+
   Future _getChatMessages(Emitter<ChatState> emit, int page) async {
     final res = await _chatRepository.getChatMessages(
       request: PaginationRequest(
         page: page,
-        limit: ApiConfig.limit,
+        limit: 20,
       ),
     );
     pagingControllerOnLoad<ChatMessageEntity>(
@@ -71,6 +83,61 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
   }
 
   Future _sendMessage(Emitter<ChatState> emit, String message) async {
+    emit(state.copyWith(status: BaseStateStatus.idle));
+    ChatMessageEntity newMessage = ChatMessageEntity(
+      sender: SenderEnum.user,
+      message: message,
+      time: DateTime.now(),
+      isAdminRead: false,
+    );
+    _addMessage(emit, newMessage);
+    final res = await _chatRepository.sendMessage(
+      request: SendMessageRequest(
+        message: message,
+        sender: SenderEnum.user,
+        time: DateTime.now(),
+      ),
+    );
+    res.fold(
+      (l) {
+        _removeMessage(newMessage);
+        emit(
+          state.copyWith(
+            status: BaseStateStatus.failed,
+            message: l.getError,
+          ),
+        );
+      },
+      (r) {
+        emit(
+          state.copyWith(
+            status: BaseStateStatus.idle,
+          ),
+        );
+        pagingControllerUpdateItem(pagingController, 0, r);
+      },
+    );
+  }
 
+  void _addMessage(
+    Emitter<ChatState> emit,
+    ChatMessageEntity message,
+  ) {
+    pagingControllerAddItem(pagingController, message, 0);
+  }
+
+  void _removeMessage(ChatMessageEntity message) {
+    if (pagingController.itemList?.contains(message) ?? false) {
+      pagingControllerRemoveItem(
+        pagingController,
+        pagingController.itemList!.indexOf(message),
+      );
+    }
+  }
+
+  @override
+  Future<void> close() {
+    wsMessageStream.cancel();
+    return super.close();
   }
 }

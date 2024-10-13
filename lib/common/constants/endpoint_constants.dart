@@ -20,6 +20,9 @@ class EndpointConstants {
   static const String kitDetail = '/kit/{kit_id}';
   static const String controlKit = '/kit/{kit_id}/control';
 
+  static const String getChatMessages = '/chat/get-chat-messages';
+  static const String sendMessage = '/chat/send-message';
+
   static const List<String> publicAPI = [
     login,
     register,

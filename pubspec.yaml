@@ -24,6 +24,7 @@ dependencies:
   auto_route: ^9.2.0
   connectivity_plus: ^4.0.2
   rxdart: ^0.28.0
+  web_socket_channel: ^3.0.1
 
   # state management
   flutter_bloc: ^8.1.6

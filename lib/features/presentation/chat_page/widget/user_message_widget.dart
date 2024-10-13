@@ -56,7 +56,7 @@ class _UserMessageWidgetState extends State<UserMessageWidget> {
               padding: EdgeInsets.only(bottom: 20.h),
               child: Text(
                 DateTimeUtils.getStringDate(
-                  widget.message.transDate,
+                  widget.message.time,
                   Pattern.hhmm,
                 ),
                 style: AppTextStyles.s9w600.copyWith(

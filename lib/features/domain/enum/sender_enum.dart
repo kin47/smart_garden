@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-enum OwnerTypeEnum {
-  @JsonValue(1)
+enum SenderEnum {
+  @JsonValue(0)
   user,
-  @JsonValue(2)
+  @JsonValue(1)
   admin,
 }

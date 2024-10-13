@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:smart_garden/base/base_widget.dart';
+import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/extensions/datetime_extension.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/utils/date_time/date_time_utils.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
-import 'package:smart_garden/features/domain/enum/owner_type_enum.dart';
+import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/presentation/chat_page/bloc/chat_bloc.dart';
 import 'package:smart_garden/features/presentation/chat_page/widget/admin_message_widget.dart';
 import 'package:smart_garden/features/presentation/chat_page/widget/chat_text_field.dart';
@@ -17,7 +18,12 @@ import 'package:smart_garden/gen/assets.gen.dart';
 
 @RoutePage()
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  final int userId;
+
+  const ChatPage({
+    super.key,
+    required this.userId,
+  });
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -28,6 +34,7 @@ class _ChatPageState
   @override
   void initState() {
     super.initState();
+    bloc.add(const ChatEvent.init());
     bloc.pagingController.addPageRequestListener((pageKey) {
       bloc.add(ChatEvent.getChatMessages(pageKey));
     });
@@ -37,6 +44,22 @@ class _ChatPageState
   void dispose() {
     super.dispose();
     bloc.chatTextController.dispose();
+  }
+
+  @override
+  void listener(BuildContext context, ChatState state) {
+    super.listener(context, state);
+    switch (state.status) {
+      case BaseStateStatus.failed:
+        DialogService.showInformationDialog(
+          context,
+          title: 'error'.tr(),
+          description: state.message,
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   @override
@@ -85,14 +108,13 @@ class _ChatPageState
                 ChatMessageEntity? previousMessage =
                     getPreviousMessage(bloc.pagingController, index);
                 String? firstMessageInDay;
-                if (!(previousMessage?.transDate.isSameDay(message.transDate) ??
-                    false)) {
+                if (!(previousMessage?.time.isSameDay(message.time) ?? false)) {
                   firstMessageInDay = DateTimeUtils.getDateMessage(
-                    message.transDate,
+                    message.time,
                     languageCode: context.locale.languageCode,
                   );
                 }
-                if (message.ownerType == OwnerTypeEnum.admin) {
+                if (message.sender == SenderEnum.admin) {
                   return AdminMessageWidget(
                     message: message,
                     firstMessageInDay: firstMessageInDay,

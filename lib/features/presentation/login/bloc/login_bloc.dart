@@ -7,12 +7,10 @@ import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/common/constants/auth_constants.dart';
-import 'package:smart_garden/common/extensions/string_extension.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/local_data/secure_storage.dart';
 import 'package:smart_garden/common/utils/functions/jwt_decode.dart';
 import 'package:smart_garden/di/di_setup.dart';
-import 'package:smart_garden/features/data/model/jwt_model/jwt_model.dart';
 import 'package:smart_garden/features/data/request/login_request/login_request.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
@@ -105,11 +103,9 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
 
   Future resendEmail(Emitter<LoginState> emit) async {
     emit(state.copyWith(status: BaseStateStatus.loading));
-
     final result = await _authRepository.resendEmailVerification(
       email: state.username,
     );
-
     result.fold(
       (l) => emit(
         state.copyWith(

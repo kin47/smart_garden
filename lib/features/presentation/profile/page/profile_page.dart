@@ -294,7 +294,13 @@ class _ProfilePageState
               children: [
                 InkWell(
                   onTap: () {
-                    context.router.push(const ChatRoute());
+                    if (bloc.state.user != null) {
+                      context.router.push(
+                        ChatRoute(
+                          userId: bloc.state.user!.id,
+                        ),
+                      );
+                    }
                   },
                   child: ListTile(
                     title: Text(
