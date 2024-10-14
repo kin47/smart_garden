@@ -6,6 +6,7 @@ import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/data/model/chat_message_socket/chat_message_socket.dart';
 import 'package:smart_garden/features/data/model/web_socket_model/web_socket_model.dart';
 import 'package:smart_garden/features/data/request/connect_ws_request/connect_ws_request.dart';
+import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/domain/enum/ws_action_enum.dart';
 import 'package:web_socket_channel/status.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -16,13 +17,14 @@ class _Const {
 
 class ChatSocket {
   WebSocketChannel? _channel;
-  final StreamController<ChatMessageSocket> _wsEventStreamController =
-  StreamController<ChatMessageSocket>.broadcast();
+  final StreamController<WebSocketModel<ChatMessageSocket>>
+      _wsEventStreamController =
+      StreamController<WebSocketModel<ChatMessageSocket>>.broadcast();
   final int retryDelay = 1;
   late final int _userId;
   Future<String?> Function()? _getNewToken;
 
-  Stream<ChatMessageSocket> get wsEventStream =>
+  Stream<WebSocketModel<ChatMessageSocket>> get wsEventStream =>
       _wsEventStreamController.stream;
 
   StreamSubscription listen(void Function(dynamic)? handler) =>
@@ -82,7 +84,7 @@ class ChatSocket {
         'ChatService => WebSocketChannel connected to $endpoint/${connectRequest.userId} = ${!isDisconnected}!',
       );
       WebSocketModel<ConnectWSRequest> connectRequestModel =
-      WebSocketModel<ConnectWSRequest>(
+          WebSocketModel<ConnectWSRequest>(
         action: WSActionEnum.authenticate,
         data: connectRequest,
       );
@@ -99,18 +101,68 @@ class ChatSocket {
     try {
       if (message is String) {
         Map<String, dynamic> messageData = jsonDecode(message);
-        if (messageData['action'] ==
-            WSActionEnum.sendChatMessage.value) {
+        if (messageData['action'] == WSActionEnum.sendChatMessage.value) {
           final data = messageData['data'];
           final chatMessage = ChatMessageSocket.fromJson(data);
           logger.d('ChatService => New message: $data');
-          _wsEventStreamController.sink.add(chatMessage);
+          _wsEventStreamController.sink.add(
+            WebSocketModel<ChatMessageSocket>(
+              action: WSActionEnum.sendChatMessage,
+              data: chatMessage,
+            ),
+          );
+        } else if (messageData['action'] == WSActionEnum.seen.value) {
+          final sender = messageData['data']['sender'];
+          if (sender == 1) {
+            _wsEventStreamController.sink.add(
+              WebSocketModel<ChatMessageSocket>(
+                action: WSActionEnum.seen,
+                data: const ChatMessageSocket(
+                  sender: SenderEnum.admin,
+                ),
+              ),
+            );
+            logger.d('ChatService => Admin read message');
+          }
         } else {
           logger.d('ChatService => Unknown message: $message');
         }
       }
     } catch (e) {
       logger.d('ChatService => error: $message');
+    }
+  }
+
+  Future<bool> sendMessage(String message) async {
+    WebSocketModel<ChatMessageSocket> chatMessage =
+        WebSocketModel<ChatMessageSocket>(
+      action: WSActionEnum.sendChatMessage,
+      data: ChatMessageSocket(
+        message: message,
+        sender: SenderEnum.user,
+      ),
+    );
+    await add(jsonEncode(chatMessage.toJson((value) => value)));
+    if (!isDisconnected) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> readMessage() async {
+    WebSocketModel<ChatMessageSocket> chatMessage =
+        WebSocketModel<ChatMessageSocket>(
+      action: WSActionEnum.seen,
+      data: const ChatMessageSocket(
+        sender: SenderEnum.user,
+      ),
+    );
+    await add(jsonEncode(chatMessage.toJson((value) => value)));
+    if (!isDisconnected) {
+      return true;
+    } else {
+      return false;
     }
   }
 

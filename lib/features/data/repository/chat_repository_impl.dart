@@ -6,11 +6,13 @@ import 'package:smart_garden/base/network/errors/error.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/base/network/web_socket/chat_socket.dart';
 import 'package:smart_garden/features/data/datasource/remote/chat_service/chat_service.dart';
-import 'package:smart_garden/features/data/model/chat_message_model/chat_message_model.dart';
+import 'package:smart_garden/features/data/model/chat_message_socket/chat_message_socket.dart';
+import 'package:smart_garden/features/data/model/web_socket_model/web_socket_model.dart';
 import 'package:smart_garden/features/data/request/connect_ws_request/connect_ws_request.dart';
 import 'package:smart_garden/features/data/request/pagination_request/pagination_request.dart';
-import 'package:smart_garden/features/data/request/send_message_request/send_message_request.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
+import 'package:smart_garden/features/domain/enum/sender_enum.dart';
+import 'package:smart_garden/features/domain/enum/ws_action_enum.dart';
 import 'package:smart_garden/features/domain/repository/chat_repository.dart';
 
 @Injectable(as: ChatRepository)
@@ -38,17 +40,24 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Either<BaseError, ChatMessageEntity>> sendMessage({
-    required SendMessageRequest request,
+  Future<bool> readMessage() async {
+    try {
+      final res = await _chatSocket.readMessage();
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> sendMessage({
+    required String message,
   }) async {
     try {
-      final res = await _service.sendMessage(request: request);
-      if (res.data == null) {
-        return left(BaseError.httpUnknownError('error_system'.tr()));
-      }
-      return right(ChatMessageEntity.fromModel(res.data!));
-    } on DioException catch (e) {
-      return left(e.baseError);
+      final res = await _chatSocket.sendMessage(message);
+      return res;
+    } catch (e) {
+      return false;
     }
   }
 
@@ -67,16 +76,31 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<ChatMessageEntity> wsMessageStream() async* {
+  Stream<WebSocketModel<ChatMessageSocket>> wsMessageStream() async* {
     yield* _chatSocket.wsEventStream.asyncExpand(
       (event) async* {
-        if (event.message == null) return;
-        yield ChatMessageEntity.fromModel(
-          ChatMessageModel(
-            message: event.message,
-            sender: event.sender,
-          ),
-        );
+        switch (event.action) {
+          case WSActionEnum.sendChatMessage:
+            yield WebSocketModel<ChatMessageSocket>(
+              action: WSActionEnum.sendChatMessage,
+              data: ChatMessageSocket(
+                message: event.data?.message ?? '',
+                sender: event.data?.sender ?? SenderEnum.user,
+              ),
+            );
+            break;
+          case WSActionEnum.seen:
+            final sender = event.data?.sender;
+            if (sender == SenderEnum.admin) {
+              yield WebSocketModel<ChatMessageSocket>(
+                action: WSActionEnum.seen,
+                data: null,
+              );
+            }
+            break;
+          default:
+            break;
+        }
       },
     );
   }

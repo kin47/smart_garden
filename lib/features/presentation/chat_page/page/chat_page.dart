@@ -31,6 +31,8 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState
     extends BaseState<ChatPage, ChatEvent, ChatState, ChatBloc> {
+  int? lastSeenMessageIndex;
+
   @override
   void initState() {
     super.initState();
@@ -120,9 +122,22 @@ class _ChatPageState
                     firstMessageInDay: firstMessageInDay,
                   );
                 } else {
-                  return UserMessageWidget(
-                    message: message,
-                    firstMessageInDay: firstMessageInDay,
+                  if (message.isAdminRead && lastSeenMessageIndex == null) {
+                    lastSeenMessageIndex = index;
+                    bloc.add(ChatEvent.updateLastSeenMessageIndex(index));
+                  }
+                  return blocBuilder(
+                    (context, state) => UserMessageWidget(
+                      message: message,
+                      firstMessageInDay: firstMessageInDay,
+                      isLastSeenMessage: state.lastSeenMessageIndex != null
+                          ? index == state.lastSeenMessageIndex
+                          : index == lastSeenMessageIndex,
+                    ),
+                    buildWhen: (previous, current) {
+                      return previous.lastSeenMessageIndex !=
+                          current.lastSeenMessageIndex;
+                    },
                   );
                 }
               },
