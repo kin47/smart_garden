@@ -56,7 +56,6 @@ class ChatSocket {
             'ChatService => WebSocketChannel is disconnected. Try to reconnect after $retryDelay second...',
           );
           await Future.delayed(Duration(seconds: retryDelay));
-          final token = "Bearer ${await _getNewToken?.call()}";
           _connect(
             ConnectWSRequest(
               userId: _userId,

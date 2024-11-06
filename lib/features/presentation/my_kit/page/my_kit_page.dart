@@ -58,19 +58,6 @@ class _MyKitPageState
     manager.connect();
   }
 
-  void _disconnect() {
-    manager.disconnect();
-  }
-
-  void _publishMessage(String text) {
-    String osPrefix = 'Flutter_iOS';
-    if (Platform.isAndroid) {
-      osPrefix = 'Flutter_Android';
-    }
-    final String message = '$osPrefix says: $text';
-    manager.publish(message);
-  }
-
   @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(

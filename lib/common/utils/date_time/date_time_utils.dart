@@ -1,7 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:intl/intl.dart';
 import 'package:smart_garden/common/extensions/datetime_extension.dart';
 
 enum Pattern {
@@ -194,6 +193,6 @@ class DateTimeUtils {
     if (date.isSameDay(now.subtract(const Duration(days: 1)))) {
       return "yesterday".tr();
     }
-    return "${date.month}/${date.day}(${getStringDate(date, Pattern.E, languageCode: languageCode)})";
+    return "${date.day}/${date.month} (${getStringDate(date, Pattern.E, languageCode: languageCode)})";
   }
 }

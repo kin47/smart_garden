@@ -9,7 +9,7 @@ import 'package:smart_garden/features/data/datasource/remote/chat_service/chat_s
 import 'package:smart_garden/features/data/model/chat_message_socket/chat_message_socket.dart';
 import 'package:smart_garden/features/data/model/web_socket_model/web_socket_model.dart';
 import 'package:smart_garden/features/data/request/connect_ws_request/connect_ws_request.dart';
-import 'package:smart_garden/features/data/request/pagination_request/pagination_request.dart';
+import 'package:smart_garden/features/data/request/get_chat_messages_request/get_chat_messages_request.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
 import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/domain/enum/ws_action_enum.dart';
@@ -24,7 +24,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<Either<BaseError, List<ChatMessageEntity>>> getChatMessages({
-    required PaginationRequest request,
+    required GetChatMessagesRequest request,
   }) async {
     try {
       final res = await _service.getChatMessages(request: request);

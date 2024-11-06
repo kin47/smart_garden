@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
@@ -42,17 +41,13 @@ class KitControllerBloc
       (event, emit) async {
         await _changeLightThreshold(emit, event.lightThreshold);
       },
-      transformer: (events, mapper) => events.debounceTime(
-        const Duration(milliseconds: 300),
-      ),
+      transformer: debounce(const Duration(milliseconds: 300)),
     );
     on<ChangePumpThreshold>(
       (event, emit) async {
         await _changePumpThreshold(emit, event.pumpThreshold);
       },
-      transformer: (events, mapper) => events.debounceTime(
-        const Duration(milliseconds: 300),
-      ),
+      transformer: debounce(const Duration(milliseconds: 300)),
     );
   }
 

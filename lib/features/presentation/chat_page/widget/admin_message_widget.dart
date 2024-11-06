@@ -53,7 +53,7 @@ class _AdminMessageWidgetState extends State<AdminMessageWidget> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                BubbleChatPurple(message: widget.message.message ?? ""),
+                BubbleChatPurple(message: widget.message.message),
                 Padding(
                   padding: EdgeInsets.only(bottom: 20.h),
                   child: Text(

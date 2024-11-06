@@ -11,7 +11,7 @@ import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
-import 'package:smart_garden/features/data/request/pagination_request/pagination_request.dart';
+import 'package:smart_garden/features/data/request/get_chat_messages_request/get_chat_messages_request.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
 import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/domain/enum/ws_action_enum.dart';
@@ -34,7 +34,8 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
         await event.when(
           init: () => _init(emit),
           readMessage: () => _readMessage(emit),
-          getChatMessages: (page) => _getChatMessages(emit, page),
+          getChatMessages: (page, lastMessageId) =>
+              _getChatMessages(emit, page, lastMessageId),
           sendMessage: (message) => _sendMessage(emit, message),
           updateLastSeenMessageIndex: (index) =>
               _updateLastSeenMessageIndex(emit, index),
@@ -68,13 +69,17 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
               add(ChatEvent.updateLastSeenMessageIndex(
                   state.lastSeenMessageIndex! + 1));
             }
+            if (event.data?.sender == SenderEnum.user) {
+              add(const ChatEvent.readMessage());
+            }
             break;
           case WSActionEnum.seen:
             int index = -1;
             for (int i = 0; i < (pagingController.itemList?.length ?? 0); i++) {
               final item = pagingController.itemList![i];
               if (index == -1 && item.sender == SenderEnum.user) {
-                pagingController.itemList![i] = item.copyWith(isAdminRead: true);
+                pagingController.itemList![i] =
+                    item.copyWith(isAdminRead: true);
                 index = i;
                 add(ChatEvent.updateLastSeenMessageIndex(i));
                 break;
@@ -108,11 +113,14 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
     }
   }
 
-  Future _getChatMessages(Emitter<ChatState> emit, int page) async {
+  Future _getChatMessages(
+    Emitter<ChatState> emit,
+    int page,
+    int? lastMessageId,
+  ) async {
     final res = await _chatRepository.getChatMessages(
-      request: PaginationRequest(
-        page: page,
-        limit: 20,
+      request: GetChatMessagesRequest(
+        lastId: lastMessageId,
       ),
     );
     pagingControllerOnLoad<ChatMessageEntity>(

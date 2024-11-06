@@ -38,7 +38,12 @@ class _ChatPageState
     super.initState();
     bloc.add(const ChatEvent.init());
     bloc.pagingController.addPageRequestListener((pageKey) {
-      bloc.add(ChatEvent.getChatMessages(pageKey));
+      bloc.add(
+        ChatEvent.getChatMessages(
+          page: pageKey,
+          lastId: bloc.pagingController.itemList?.last.id,
+        ),
+      );
     });
   }
 

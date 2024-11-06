@@ -6,7 +6,10 @@ class ChatEvent with _$ChatEvent {
 
   const factory ChatEvent.readMessage() = _ReadMessage;
 
-  const factory ChatEvent.getChatMessages(int page) = _GetChatMessages;
+  const factory ChatEvent.getChatMessages({
+    required int page,
+    int? lastId,
+  }) = _GetChatMessages;
 
   const factory ChatEvent.sendMessage({
     required String message,
