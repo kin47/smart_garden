@@ -20,7 +20,9 @@ class DiagnosisItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.router.push(DiagnosisResultRoute());
+        context.router.push(DiagnosisResultRoute(
+          id: diagnosis.id,
+        ));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),

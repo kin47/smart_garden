@@ -27,4 +27,9 @@ abstract class DiagnosisService {
   Future<BaseListData<DiagnosisModel>> getDiagnosisHistory({
     @Queries() required PaginationRequest request,
   });
+
+  @GET(EndpointConstants.predictDetail)
+  Future<BaseData<DiagnosisModel>> getDiagnosisDetail({
+    @Path() required int id,
+  });
 }

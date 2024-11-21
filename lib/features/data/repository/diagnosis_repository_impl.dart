@@ -36,6 +36,21 @@ class DiagnosisRepositoryImpl implements DiagnosisRepository {
   }
 
   @override
+  Future<Either<BaseError, DiagnosisEntity>> getDiagnosisDetail({
+    required int id,
+  }) async {
+    try {
+      final res = await _service.getDiagnosisDetail(id: id);
+      if (res.data == null) {
+        return left(BaseError.httpUnknownError('error_system'.tr()));
+      }
+      return right(DiagnosisEntity.fromModel(res.data!));
+    } on DioException catch (e) {
+      return left(e.baseError);
+    }
+  }
+
+  @override
   Future<Either<BaseError, DiagnosisEntity>> predictDisease({
     required File image,
   }) async {

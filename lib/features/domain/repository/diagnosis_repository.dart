@@ -9,6 +9,10 @@ abstract class DiagnosisRepository {
     required PaginationRequest request,
   });
 
+  Future<Either<BaseError, DiagnosisEntity>> getDiagnosisDetail({
+    required int id,
+  });
+
   Future<Either<BaseError, DiagnosisEntity>> predictDisease({
     required File image,
   });
