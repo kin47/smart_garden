@@ -1,12 +1,14 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:smart_garden/base/base_widget.dart';
+import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/features/presentation/qr_scanner/bloc/qr_scanner_bloc.dart';
 import 'package:smart_garden/features/presentation/qr_scanner/widget/qr_scanner_overlay.dart';
+import 'package:smart_garden/routes/app_pages.gr.dart';
 
 @RoutePage()
 class QrScannerPage extends StatefulWidget {
@@ -19,6 +21,29 @@ class QrScannerPage extends StatefulWidget {
 class _QrScannerPageState extends BaseState<QrScannerPage, QrScannerEvent,
     QrScannerState, QrScannerBloc> {
   @override
+  void listener(BuildContext context, QrScannerState state) {
+    super.listener(context, state);
+    switch (state.status) {
+      case BaseStateStatus.failed:
+        DialogService.showInformationDialog(
+          context,
+          title: 'error'.tr(),
+          description: state.message,
+          callBackAfterClose: true,
+          onPressedButton: () {
+            bloc.add(const QrScannerEvent.refreshState());
+          },
+        );
+        break;
+      case BaseStateStatus.success:
+        context.router.push(KitConnectRoute(kitId: state.kitId!));
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
       appBar: BaseAppBar(
@@ -27,7 +52,13 @@ class _QrScannerPageState extends BaseState<QrScannerPage, QrScannerEvent,
       backgroundColor: AppColors.black.withOpacity(0.6),
       body: MobileScanner(
         onDetect: (capture) {
-
+          final List<Barcode> barcodes = capture.barcodes;
+          for (final barcode in barcodes) {
+            debugPrint('Barcode found! ${barcode.rawValue}');
+            if (barcode.rawValue != null && barcode.rawValue!.isNotEmpty) {
+              bloc.add(QrScannerEvent.scanQR(qrCode: barcode.rawValue!));
+            }
+          }
         },
         overlay: QRScannerOverlay(
           overlayColor: AppColors.black.withOpacity(0.6),

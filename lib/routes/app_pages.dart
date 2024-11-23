@@ -22,6 +22,7 @@ class AppPages extends RootStackRouter {
       children: CoreTab.routes,
     ),
     AutoRoute(path: AppRoutes.qrScanner, page: QrScannerRoute.page),
+    AutoRoute(path: AppRoutes.connectToKit, page: KitConnectRoute.page),
     AutoRoute(path: AppRoutes.diagnosisResult, page: DiagnosisResultRoute.page),
     AutoRoute(
       path: AppRoutes.myKit,

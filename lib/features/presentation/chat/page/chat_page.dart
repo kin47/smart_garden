@@ -10,10 +10,10 @@ import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/utils/date_time/date_time_utils.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
 import 'package:smart_garden/features/domain/enum/sender_enum.dart';
-import 'package:smart_garden/features/presentation/chat_page/bloc/chat_bloc.dart';
-import 'package:smart_garden/features/presentation/chat_page/widget/admin_message_widget.dart';
-import 'package:smart_garden/features/presentation/chat_page/widget/chat_text_field.dart';
-import 'package:smart_garden/features/presentation/chat_page/widget/user_message_widget.dart';
+import 'package:smart_garden/features/presentation/chat/bloc/chat_bloc.dart';
+import 'package:smart_garden/features/presentation/chat/widget/admin_message_widget.dart';
+import 'package:smart_garden/features/presentation/chat/widget/chat_text_field.dart';
+import 'package:smart_garden/features/presentation/chat/widget/user_message_widget.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 
 @RoutePage()

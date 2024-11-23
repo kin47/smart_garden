@@ -90,7 +90,7 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     }, (r) async {
       await getIt<SecureStorage>().save(AuthConstants.token, r.accessToken);
       final jwtModel = JwtDecoder.tryDecode(r.accessToken ?? '');
-      if (jwtModel != null) {
+      if (jwtModel != null && jwtModel.kitId != null) {
         await getIt<LocalStorage>().save(KitConstants.kitId, jwtModel.kitId);
       }
       emit(

@@ -15,3 +15,7 @@ class UploadFileEvent {
 
   const UploadFileEvent(this.percent);
 }
+
+class RefreshHomeDataEvent {
+  const RefreshHomeDataEvent();
+}

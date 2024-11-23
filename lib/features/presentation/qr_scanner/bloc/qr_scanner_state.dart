@@ -2,7 +2,7 @@ part of 'qr_scanner_bloc.dart';
 
 @CopyWith()
 class QrScannerState extends BaseBlocState {
-  final String? kitId;
+  final int? kitId;
 
   const QrScannerState({
     required super.status,

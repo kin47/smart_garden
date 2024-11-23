@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:smart_garden/base/network/errors/error.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/features/data/datasource/remote/kit_service/kit_service.dart';
+import 'package:smart_garden/features/data/request/connect_to_kit_request/connect_to_kit_request.dart';
 import 'package:smart_garden/features/data/request/control_kit_request/control_kit_request.dart';
 import 'package:smart_garden/features/domain/entity/kit_entity.dart';
 import 'package:smart_garden/features/domain/repository/kit_repository.dart';
@@ -40,6 +41,18 @@ class KitRepositoryImpl implements KitRepository {
         kitId: kitId,
         request: request,
       );
+      return right(true);
+    } on DioException catch (e) {
+      return left(e.baseError);
+    }
+  }
+
+  @override
+  Future<Either<BaseError, bool>> connectToKit({
+    required ConnectToKitRequest request,
+  }) async {
+    try {
+      await _service.connectToKit(request: request);
       return right(true);
     } on DioException catch (e) {
       return left(e.baseError);

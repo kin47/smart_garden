@@ -101,5 +101,8 @@
   "chat_hint": "Nhập tin nhắn...",
   "today": "Hôm nay",
   "yesterday": "Hôm qua",
-  "seen": "Đã xem"
+  "seen": "Đã xem",
+  "connect_to_kit": "Kết nối tới kit",
+  "qr_code_invalid": "Mã QR không hợp lệ",
+  "connect": "Kết nối"
 }

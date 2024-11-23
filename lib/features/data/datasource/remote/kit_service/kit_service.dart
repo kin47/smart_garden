@@ -4,6 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:smart_garden/base/network/models/base_data.dart';
 import 'package:smart_garden/common/constants/endpoint_constants.dart';
 import 'package:smart_garden/features/data/model/kit_model/kit_model.dart';
+import 'package:smart_garden/features/data/request/connect_to_kit_request/connect_to_kit_request.dart';
 import 'package:smart_garden/features/data/request/control_kit_request/control_kit_request.dart';
 
 part 'kit_service.g.dart';
@@ -17,6 +18,11 @@ abstract class KitService {
   @GET(EndpointConstants.kitDetail)
   Future<BaseData<KitModel>> getKitDetail({
     @Path('kit_id') required int kitId,
+  });
+
+  @POST(EndpointConstants.connectToKit)
+  Future<BaseData<KitModel>> connectToKit({
+    @Body() required ConnectToKitRequest request,
   });
 
   @POST(EndpointConstants.controlKit)

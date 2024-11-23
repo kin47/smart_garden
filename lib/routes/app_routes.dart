@@ -4,6 +4,7 @@ class AppRoutes {
   static const String register = '/register';
   static const String core = '/core';
   static const String qrScanner = '/qr-scanner';
+  static const String connectToKit = '/connect-to-kit';
   static const String diagnosisResult = '/diagnosis-result';
   static const String myKit = '/my-kit';
   static const String notification = '/notification';

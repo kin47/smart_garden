@@ -39,7 +39,11 @@ class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
         ),
       ),
       (r) async {
-        await getIt<LocalStorage>().save(KitConstants.kitId, r.id);
+        if (r.kitId != null) {
+          await getIt<LocalStorage>().save(KitConstants.kitId, r.kitId);
+        } else {
+          await getIt<LocalStorage>().remove(KitConstants.kitId);
+        }
         emit(
           state.copyWith(
             status: BaseStateStatus.success,

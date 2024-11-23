@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
 import 'package:smart_garden/common/index.dart';
+import 'package:smart_garden/di/di_setup.dart';
+import 'package:smart_garden/features/domain/events/event_bus_event.dart';
 import 'package:smart_garden/features/presentation/home/bloc/home_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 import 'package:smart_garden/routes/app_pages.gr.dart';
@@ -19,10 +24,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState
     extends BaseState<HomePage, HomeEvent, HomeState, HomeBloc> {
+  late StreamSubscription _eventBusSubscription;
+
   @override
   void initState() {
     super.initState();
     bloc.add(const HomeEvent.init());
+    _eventBusSubscription =
+        getIt<EventBus>().on<RefreshHomeDataEvent>().listen((event) {
+      bloc.add(const HomeEvent.init());
+    });
+  }
+
+  @override
+  void dispose() {
+    _eventBusSubscription.cancel();
+    super.dispose();
   }
 
   @override
