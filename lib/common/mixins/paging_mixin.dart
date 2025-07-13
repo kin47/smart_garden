@@ -3,7 +3,7 @@ import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:dartz/dartz.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class BaseCommonMethodMixin {
+mixin BaseCommonMethodMixin {
   void pagingControllerOnLoad<T>(
     int page,
     PagingController<int, T> pagingController,

@@ -60,10 +60,10 @@ class _QrScannerPageState extends BaseState<QrScannerPage, QrScannerEvent,
             }
           }
         },
-        overlay: QRScannerOverlay(
-          overlayColor: AppColors.black.withOpacity(0.6),
-          scannerFrameSize: 250.w,
-        ),
+        overlayBuilder: (context, constraints) => QRScannerOverlay(
+            overlayColor: AppColors.black.withOpacity(0.6),
+            scannerFrameSize: 250.w,
+          ),
       ),
     );
   }
