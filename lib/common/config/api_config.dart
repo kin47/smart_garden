@@ -1,7 +1,7 @@
 class ApiConfig {
   static const int limit = 10;
-  static const int connectTimeout = 30; // second
-  static const int receiveTimeout = 30; // second
+  static const int connectTimeout = 60; // second
+  static const int receiveTimeout = 60; // second
   static const String xAuthToken = 'X-Auth-Token';
   static const String xUserId = 'X-User-Id';
   static const String authorization = 'Authorization';
