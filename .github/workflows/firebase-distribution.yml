@@ -1,0 +1,150 @@
+name: Firebase App Distribution
+
+on:
+  push:
+    branches:
+      - develop
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: 'Build flavor'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - production
+      groups:
+        description: 'Tester groups (comma-separated)'
+        required: false
+        default: 'testers'
+        type: string
+
+env:
+  FLUTTER_VERSION: '3.22.3'
+  JAVA_VERSION: '17'
+  PROJECT_ID: 'smart-garden-cd3b0'
+  APP_ID: '1:702709402883:android:6ea2d9e5faaabb704d2d36'
+
+jobs:
+  deploy-to-firebase:
+    name: Deploy to Firebase App Distribution
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for git info
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+            build/
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build APK
+        run: |
+          FLAVOR="${{ github.event.inputs.flavor || 'dev' }}"
+          flutter build apk --flavor $FLAVOR --release
+          echo "APK_BUILD_PATH=build/app/outputs/flutter-apk/app-$FLAVOR-release.apk" >> $GITHUB_ENV
+
+      - name: Setup Firebase CLI
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only appdistribution
+        env:
+          FIREBASE_SERVICE_ACCOUNT_${{ env.PROJECT_ID }}: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')
+          DATE=$(date '+%Y-%m-%d %H:%M:%S')
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          BRANCH=${GITHUB_REF#refs/heads/}
+          
+          cat << EOF > release_notes.txt
+          🚀 Smart Garden App v$VERSION
+          
+          📅 Released: $DATE
+          🔗 Commit: $COMMIT_HASH
+          🌿 Branch: $BRANCH
+          
+          📱 What's New:
+          • Automated deployment from CI/CD
+          • Bug fixes and performance improvements
+          • Enhanced user experience
+          
+          🔧 Technical Details:
+          • Flutter version: ${{ env.FLUTTER_VERSION }}
+          • Build flavor: ${{ github.event.inputs.flavor || 'dev' }}
+          • Build type: release
+          
+          📋 Installation:
+          1. Download the APK from the link below
+          2. Enable "Install from unknown sources" in your device settings
+          3. Install the APK file
+          
+          ⚠️ Note: This is a development build for testing purposes.
+          EOF
+          
+          echo "notes_file=release_notes.txt" >> $GITHUB_OUTPUT
+
+      - name: Deploy to Firebase App Distribution
+        run: |
+          GROUPS="${{ github.event.inputs.groups || 'testers' }}"
+          
+          firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
+            --app "${{ env.APP_ID }}" \
+            --release-notes-file "${{ steps.release_notes.outputs.notes_file }}" \
+            --groups "$GROUPS" \
+            --project "${{ env.PROJECT_ID }}"
+
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-garden-apk
+          path: ${{ env.APK_BUILD_PATH }}
+          retention-days: 30
+
+      - name: Show recent distributions
+        run: |
+          firebase appdistribution:releases:list \
+            --app "${{ env.APP_ID }}" \
+            --project "${{ env.PROJECT_ID }}" \
+            --limit 3
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "✅ Successfully deployed to Firebase App Distribution!"
+          echo "📱 Version: $(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')"
+          echo "🔗 Check Firebase Console for distribution link"
+          echo "👥 Tester groups: ${{ github.event.inputs.groups || 'testers' }}" 
