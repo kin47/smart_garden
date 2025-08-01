@@ -24,7 +24,7 @@ dependencies:
   auto_route: ^9.2.0
   connectivity_plus: ^4.0.2
   stream_transform: ^2.1.0
-  web_socket_channel: ^2.4.5
+  web_socket_channel: ^3.0.3
 
   # state management
   flutter_bloc: ^8.1.6
