@@ -73,7 +73,7 @@ dependencies:
   equatable: ^2.0.5
   shimmer: ^3.0.0
   flutter_slidable: ^3.0.0
-  mobile_scanner: ^6.0.10
+  mobile_scanner: ^7.0.1
   flutter_smart_dialog: ^4.9.6
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
