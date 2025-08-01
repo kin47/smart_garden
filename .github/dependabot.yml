@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "kin472k2"
+    assignees:
+      - "kin472k2"
+
+  # Enable version updates for Dart dependencies
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "kin472k2"
+    assignees:
+      - "kin472k2"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope" 
