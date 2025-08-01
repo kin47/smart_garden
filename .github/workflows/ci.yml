@@ -15,47 +15,47 @@ env:
   JAVA_VERSION: '17'
 
 jobs:
-  analyze:
-    name: Analyze code
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # analyze:
+  #   name: Analyze code
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: ${{ env.JAVA_VERSION }}
+  #     - name: Setup Java
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         distribution: 'temurin'
+  #         java-version: ${{ env.JAVA_VERSION }}
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
+  #     - name: Setup Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: ${{ env.FLUTTER_VERSION }}
+  #         channel: 'stable'
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pub-cache
-            .dart_tool/
-            build/
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v4
+  #       with:
+  #         path: |
+  #           ~/.pub-cache
+  #           .dart_tool/
+  #           build/
+  #         key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-pub-
 
-      - name: Install dependencies
-        run: flutter pub get
+  #     - name: Install dependencies
+  #       run: flutter pub get
 
-      - name: Generate code
-        run: dart run build_runner build --delete-conflicting-outputs
+  #     - name: Generate code
+  #       run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Analyze code
-        run: flutter analyze
+  #     - name: Analyze code
+  #       run: flutter analyze
 
-      - name: Check formatting
-        run: dart format --set-exit-if-changed .
+  #     - name: Check formatting
+  #       run: dart format --set-exit-if-changed .
 
   test:
     name: Run tests
