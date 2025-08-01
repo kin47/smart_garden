@@ -48,6 +48,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
       - name: Analyze code
         run: flutter analyze
 
@@ -142,7 +145,6 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-
   # build-ios:
   #   name: Build iOS
   #   runs-on: macos-latest
@@ -188,3 +190,4 @@ jobs:
   #       with:
   #         name: smart-garden-ios
   #         path: build/ios/iphoneos/Runner.app
+  #         retention-days: 30
