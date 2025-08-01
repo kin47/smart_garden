@@ -69,7 +69,7 @@ dependencies:
 
   top_snackbar_flutter: ^3.1.0
   cached_network_image: ^3.4.0
-  infinite_scroll_pagination: ^4.0.0
+  infinite_scroll_pagination: ^5.1.0
   equatable: ^2.0.5
   shimmer: ^3.0.0
   flutter_slidable: ^3.0.0
