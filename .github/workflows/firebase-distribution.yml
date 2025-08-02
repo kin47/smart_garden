@@ -83,11 +83,14 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
+      - name: Setup Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          service_account_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          project_id: ${{ env.PROJECT_ID }}
+
       - name: Authenticate to Firebase
         run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-service-account.json
-          export GOOGLE_APPLICATION_CREDENTIALS="/tmp/firebase-service-account.json"
-          firebase projects:list
           firebase use ${{ env.PROJECT_ID }}
 
       - name: Generate release notes
@@ -126,8 +129,6 @@ jobs:
           echo "notes_file=release_notes.txt" >> $GITHUB_OUTPUT
 
       - name: Deploy to Firebase App Distribution
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
         run: |
           GROUPS="${{ github.event.inputs.groups || 'testers' }}"
           
@@ -145,8 +146,6 @@ jobs:
           retention-days: 30
 
       - name: Show recent distributions
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
         run: |
           firebase appdistribution:releases:list \
             --app "${{ env.APP_ID }}" \
