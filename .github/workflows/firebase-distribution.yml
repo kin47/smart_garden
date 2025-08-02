@@ -91,7 +91,8 @@ jobs:
 
       - name: Authenticate to Firebase
         run: |
-          firebase use ${{ env.PROJECT_ID }}
+          export FIREBASE_TOKEN=$(gcloud auth print-access-token)
+          firebase use ${{ env.PROJECT_ID }} --token $FIREBASE_TOKEN
 
       - name: Generate release notes
         id: release_notes
@@ -131,12 +132,14 @@ jobs:
       - name: Deploy to Firebase App Distribution
         run: |
           GROUPS="${{ github.event.inputs.groups || 'testers' }}"
+          export FIREBASE_TOKEN=$(gcloud auth print-access-token)
           
           firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
             --app "${{ env.APP_ID }}" \
             --release-notes-file "${{ steps.release_notes.outputs.notes_file }}" \
             --groups "$GROUPS" \
-            --project "${{ env.PROJECT_ID }}"
+            --project "${{ env.PROJECT_ID }}" \
+            --token $FIREBASE_TOKEN
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
@@ -147,10 +150,12 @@ jobs:
 
       - name: Show recent distributions
         run: |
+          export FIREBASE_TOKEN=$(gcloud auth print-access-token)
           firebase appdistribution:releases:list \
             --app "${{ env.APP_ID }}" \
             --project "${{ env.PROJECT_ID }}" \
-            --limit 3
+            --limit 3 \
+            --token $FIREBASE_TOKEN
 
       - name: Notify deployment success
         if: success()
