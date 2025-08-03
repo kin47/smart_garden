@@ -85,7 +85,7 @@ jobs:
 
       - name: Setup Firebase CLI with Service Account
         run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-service-account.json
+          cp android/app/smart-garden-cd3b0-firebase-adminsdk-ztz3u-5c74a40af5.json /tmp/firebase-service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS="/tmp/firebase-service-account.json"
           firebase use ${{ env.PROJECT_ID }}
 
