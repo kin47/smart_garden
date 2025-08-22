@@ -105,7 +105,7 @@ jobs:
           🌿 Branch: $BRANCH
           
           📱 What's New:
-          • $LAST_COMMIT
+          • $(git log -1 --pretty=format:"%h | %an | %s")
           
           🔧 Technical Details:
           • Flutter version: ${{ env.FLUTTER_VERSION }}
@@ -126,7 +126,11 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          GROUPS="${{ github.event.inputs.groups || 'android-testers' }}"
+#          ⚠️ Issues:
+#             In GitHub Actions, the expression syntax inside run scripts (${{ ... }}) does not evaluate inline inside shell scripts.
+#             It will literally substitute as text only if it’s in an env: block or at the top level of YAML.
+          GROUPS="${{ github.event.inputs.groups }}"
+          GROUPS=${GROUPS:-android-testers}
           
           firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
             --app "${{ env.APP_ID }}" \
