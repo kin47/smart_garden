@@ -126,7 +126,8 @@ jobs:
 
       - name: Deploy to Firebase App Distribution
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
         run: |
           GROUPS="${{ github.event.inputs.groups || 'testers' }}"
           
