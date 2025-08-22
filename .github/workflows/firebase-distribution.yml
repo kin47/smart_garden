@@ -105,9 +105,7 @@ jobs:
           🌿 Branch: $BRANCH
           
           📱 What's New:
-          • Automated deployment from CI/CD
-          • Bug fixes and performance improvements
-          • Enhanced user experience
+          • $LAST_COMMIT
           
           🔧 Technical Details:
           • Flutter version: ${{ env.FLUTTER_VERSION }}
@@ -127,9 +125,8 @@ jobs:
       - name: Deploy to Firebase App Distribution
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-#          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
         run: |
-          GROUPS="${{ github.event.inputs.groups || 'testers' }}"
+          GROUPS="${{ github.event.inputs.groups || 'android-testers' }}"
           
           firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
             --app "${{ env.APP_ID }}" \
