@@ -87,75 +87,77 @@ jobs:
         run: |
           cp android/app/smart-garden-cd3b0-firebase-adminsdk-ztz3u-5c74a40af5.json /tmp/firebase-service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS="/tmp/firebase-service-account.json"
-          firebase use ${{ env.PROJECT_ID }}
+          
+      - name: Deploy to Firebase
+        run: firebase deploy --project ${{ env.PROJECT_ID }}
 
-      - name: Generate release notes
-        id: release_notes
-        run: |
-          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')
-          DATE=$(date '+%Y-%m-%d %H:%M:%S')
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          BRANCH=${GITHUB_REF#refs/heads/}
-          
-          cat << EOF > release_notes.txt
-          🚀 Smart Garden App v$VERSION
-          
-          📅 Released: $DATE
-          🔗 Commit: $COMMIT_HASH
-          🌿 Branch: $BRANCH
-          
-          📱 What's New:
-          • Automated deployment from CI/CD
-          • Bug fixes and performance improvements
-          • Enhanced user experience
-          
-          🔧 Technical Details:
-          • Flutter version: ${{ env.FLUTTER_VERSION }}
-          • Build flavor: ${{ github.event.inputs.flavor || 'dev' }}
-          • Build type: release
-          
-          📋 Installation:
-          1. Download the APK from the link below
-          2. Enable "Install from unknown sources" in your device settings
-          3. Install the APK file
-          
-          ⚠️ Note: This is a development build for testing purposes.
-          EOF
-          
-          echo "notes_file=release_notes.txt" >> $GITHUB_OUTPUT
-
-      - name: Deploy to Firebase App Distribution
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
-        run: |
-          GROUPS="${{ github.event.inputs.groups || 'testers' }}"
-          
-          firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
-            --app "${{ env.APP_ID }}" \
-            --release-notes-file "${{ steps.release_notes.outputs.notes_file }}" \
-            --groups "$GROUPS" \
-            --project "${{ env.PROJECT_ID }}"
-
-      - name: Upload APK as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: smart-garden-apk
-          path: ${{ env.APK_BUILD_PATH }}
-          retention-days: 30
-
-      - name: Show recent distributions
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
-        run: |
-          firebase appdistribution:releases:list \
-            --app "${{ env.APP_ID }}" \
-            --project "${{ env.PROJECT_ID }}" \
-            --limit 3
-
-      - name: Notify deployment success
-        if: success()
-        run: |
-          echo "✅ Successfully deployed to Firebase App Distribution!"
-          echo "📱 Version: $(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')"
-          echo "🔗 Check Firebase Console for distribution link"
-          echo "👥 Tester groups: ${{ github.event.inputs.groups || 'testers' }}" 
+#      - name: Generate release notes
+#        id: release_notes
+#        run: |
+#          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')
+#          DATE=$(date '+%Y-%m-%d %H:%M:%S')
+#          COMMIT_HASH=$(git rev-parse --short HEAD)
+#          BRANCH=${GITHUB_REF#refs/heads/}
+#
+#          cat << EOF > release_notes.txt
+#          🚀 Smart Garden App v$VERSION
+#
+#          📅 Released: $DATE
+#          🔗 Commit: $COMMIT_HASH
+#          🌿 Branch: $BRANCH
+#
+#          📱 What's New:
+#          • Automated deployment from CI/CD
+#          • Bug fixes and performance improvements
+#          • Enhanced user experience
+#
+#          🔧 Technical Details:
+#          • Flutter version: ${{ env.FLUTTER_VERSION }}
+#          • Build flavor: ${{ github.event.inputs.flavor || 'dev' }}
+#          • Build type: release
+#
+#          📋 Installation:
+#          1. Download the APK from the link below
+#          2. Enable "Install from unknown sources" in your device settings
+#          3. Install the APK file
+#
+#          ⚠️ Note: This is a development build for testing purposes.
+#          EOF
+#
+#          echo "notes_file=release_notes.txt" >> $GITHUB_OUTPUT
+#
+#      - name: Deploy to Firebase App Distribution
+#        env:
+#          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
+#        run: |
+#          GROUPS="${{ github.event.inputs.groups || 'testers' }}"
+#
+#          firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
+#            --app "${{ env.APP_ID }}" \
+#            --release-notes-file "${{ steps.release_notes.outputs.notes_file }}" \
+#            --groups "$GROUPS" \
+#            --project "${{ env.PROJECT_ID }}"
+#
+#      - name: Upload APK as artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: smart-garden-apk
+#          path: ${{ env.APK_BUILD_PATH }}
+#          retention-days: 30
+#
+#      - name: Show recent distributions
+#        env:
+#          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
+#        run: |
+#          firebase appdistribution:releases:list \
+#            --app "${{ env.APP_ID }}" \
+#            --project "${{ env.PROJECT_ID }}" \
+#            --limit 3
+#
+#      - name: Notify deployment success
+#        if: success()
+#        run: |
+#          echo "✅ Successfully deployed to Firebase App Distribution!"
+#          echo "📱 Version: $(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')"
+#          echo "🔗 Check Firebase Console for distribution link"
+#          echo "👥 Tester groups: ${{ github.event.inputs.groups || 'testers' }}"
