@@ -87,7 +87,7 @@ jobs:
         run: |
           cp android/app/smart-garden-cd3b0-firebase-adminsdk-ztz3u-5c74a40af5.json /tmp/firebase-service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS="/tmp/firebase-service-account.json"
-          firebase use ${{ env.PROJECT_ID }}
+          echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-service-account.json" >> $GITHUB_ENV
 
       - name: Generate release notes
         id: release_notes
@@ -105,9 +105,7 @@ jobs:
           🌿 Branch: $BRANCH
           
           📱 What's New:
-          • Automated deployment from CI/CD
-          • Bug fixes and performance improvements
-          • Enhanced user experience
+          • $(git log -1 --pretty=format:"%h | %an | %s")
           
           🔧 Technical Details:
           • Flutter version: ${{ env.FLUTTER_VERSION }}
@@ -126,9 +124,13 @@ jobs:
 
       - name: Deploy to Firebase App Distribution
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/firebase-service-account.json"
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          GROUPS="${{ github.event.inputs.groups || 'testers' }}"
+#          ⚠️ Issues:
+#             In GitHub Actions, the expression syntax inside run scripts (${{ ... }}) does not evaluate inline inside shell scripts.
+#             It will literally substitute as text only if it’s in an env: block or at the top level of YAML.
+          GROUPS="${{ github.event.inputs.groups }}"
+          GROUPS=${GROUPS:-android-testers}
           
           firebase appdistribution:distribute "${{ env.APK_BUILD_PATH }}" \
             --app "${{ env.APP_ID }}" \
@@ -158,4 +160,4 @@ jobs:
           echo "✅ Successfully deployed to Firebase App Distribution!"
           echo "📱 Version: $(grep '^version:' pubspec.yaml | sed 's/version: //' | tr -d ' ')"
           echo "🔗 Check Firebase Console for distribution link"
-          echo "👥 Tester groups: ${{ github.event.inputs.groups || 'testers' }}" 
+          echo "👥 Tester groups: ${{ github.event.inputs.groups || 'testers' }}"
