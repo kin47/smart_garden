@@ -8,6 +8,9 @@ abstract class LoginResponse with _$LoginResponse {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory LoginResponse({
     String? accessToken,
+    String? refreshToken,
+    int? expiresIn,
+    String? tokenType,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>

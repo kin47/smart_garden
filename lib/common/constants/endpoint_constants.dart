@@ -1,5 +1,6 @@
 class EndpointConstants {
   static const String login = '/auth/login';
+  static const String refresh = '/auth/refresh';
   static const String register = '/auth/register';
   static const String logout = '/auth/logout';
   static const String me = '/auth/me';
@@ -27,6 +28,7 @@ class EndpointConstants {
 
   static const List<String> publicAPI = [
     login,
+    refresh,
     register,
     resendEmailVerification,
     weather,
