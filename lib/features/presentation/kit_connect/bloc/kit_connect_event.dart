@@ -1,7 +1,7 @@
 part of 'kit_connect_bloc.dart';
 
 @freezed
-class KitConnectEvent with _$KitConnectEvent {
+abstract class KitConnectEvent with _$KitConnectEvent {
   const factory KitConnectEvent.init({
     required int kitId,
   }) = _Init;

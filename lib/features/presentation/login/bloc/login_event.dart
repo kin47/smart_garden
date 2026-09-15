@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
 @freezed
-class LoginEvent with _$LoginEvent {
+abstract class LoginEvent with _$LoginEvent {
   const factory LoginEvent.onInputUsername({
     required String username,
   }) = LoginInputUsername;

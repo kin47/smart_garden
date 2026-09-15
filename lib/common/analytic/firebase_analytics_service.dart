@@ -28,9 +28,14 @@ class FirebaseAnalyticsService {
   Future<void> logEvent({
     required AnalyticsEvent event,
   }) async {
+    final parameters = Map<String, Object>.fromEntries(
+      event.params.toJson().entries
+          .where((entry) => entry.value != null)
+          .map((entry) => MapEntry(entry.key, entry.value as Object)),
+    );
     await firebaseAnalytics.logEvent(
       name: event.name.value,
-      parameters: event.params.toJson(),
+      parameters: parameters,
     );
   }
 

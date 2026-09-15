@@ -1,7 +1,7 @@
 part of 'kit_controller_bloc.dart';
 
 @freezed
-class KitControllerEvent with _$KitControllerEvent {
+abstract class KitControllerEvent with _$KitControllerEvent {
   const factory KitControllerEvent.init() = _Init;
 
   const factory KitControllerEvent.toggleLightManual({

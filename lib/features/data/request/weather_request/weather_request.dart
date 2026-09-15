@@ -4,7 +4,7 @@ part 'weather_request.freezed.dart';
 part 'weather_request.g.dart';
 
 @freezed
-class WeatherRequest with _$WeatherRequest {
+abstract class WeatherRequest with _$WeatherRequest {
   const factory WeatherRequest({
     required double lat,
     required double lon,

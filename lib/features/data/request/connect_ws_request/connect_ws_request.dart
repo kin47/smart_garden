@@ -4,7 +4,7 @@ part 'connect_ws_request.freezed.dart';
 part 'connect_ws_request.g.dart';
 
 @freezed
-class ConnectWSRequest with _$ConnectWSRequest {
+abstract class ConnectWSRequest with _$ConnectWSRequest {
   const factory ConnectWSRequest({
     required int userId,
   }) = _ConnectWSRequest;

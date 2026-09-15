@@ -5,7 +5,7 @@ part 'diagnosis_model.freezed.dart';
 part 'diagnosis_model.g.dart';
 
 @freezed
-class DiagnosisModel with _$DiagnosisModel {
+abstract class DiagnosisModel with _$DiagnosisModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory DiagnosisModel({
     int? id,

@@ -1,7 +1,7 @@
 part of 'chat_bloc.dart';
 
 @freezed
-class ChatEvent with _$ChatEvent {
+abstract class ChatEvent with _$ChatEvent {
   const factory ChatEvent.init() = _Init;
 
   const factory ChatEvent.readMessage() = _ReadMessage;

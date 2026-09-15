@@ -4,7 +4,7 @@ part 'control_kit_request.freezed.dart';
 part 'control_kit_request.g.dart';
 
 @freezed
-class ControlKitRequest with _$ControlKitRequest {
+abstract class ControlKitRequest with _$ControlKitRequest {
   @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
   const factory ControlKitRequest({
     bool? turnOnLight,

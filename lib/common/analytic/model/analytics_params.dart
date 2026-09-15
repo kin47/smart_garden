@@ -5,7 +5,7 @@ part 'analytics_params.freezed.dart';
 part 'analytics_params.g.dart';
 
 @freezed
-class AnalyticsEvent with _$AnalyticsEvent {
+abstract class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent({
     required AnalyticsEventType name,
     required AnalyticsParams params,
@@ -35,7 +35,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
 }
 
 @freezed
-class AnalyticsParams with _$AnalyticsParams {
+abstract class AnalyticsParams with _$AnalyticsParams {
   //"お知らせ一覧
   // List thông báo"	information_list	information	"メッセージID
   // message ID"

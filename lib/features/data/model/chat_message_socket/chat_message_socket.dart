@@ -5,7 +5,7 @@ part 'chat_message_socket.freezed.dart';
 part 'chat_message_socket.g.dart';
 
 @freezed
-class ChatMessageSocket with _$ChatMessageSocket {
+abstract class ChatMessageSocket with _$ChatMessageSocket {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory ChatMessageSocket({
     String? message,

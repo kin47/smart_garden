@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'error.freezed.dart';
 
 @freezed
-class BaseError with _$BaseError {
+abstract class BaseError with _$BaseError {
   const factory BaseError.httpInternalServerError(String errorBody) =
       HttpInternalServerError;
 

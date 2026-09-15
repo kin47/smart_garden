@@ -1,7 +1,7 @@
 part of 'store_bloc.dart';
 
 @freezed
-class StoreEvent with _$StoreEvent {
+abstract class StoreEvent with _$StoreEvent {
   const factory StoreEvent.getData({
     required int pageKey,
   }) = _GetData;

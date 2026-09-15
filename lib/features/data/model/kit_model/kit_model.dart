@@ -4,7 +4,7 @@ part 'kit_model.freezed.dart';
 part 'kit_model.g.dart';
 
 @freezed
-class KitModel with _$KitModel {
+abstract class KitModel with _$KitModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory KitModel({
     int? id,

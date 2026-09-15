@@ -4,7 +4,7 @@ part 'get_chat_messages_request.freezed.dart';
 part 'get_chat_messages_request.g.dart';
 
 @freezed
-class GetChatMessagesRequest with _$GetChatMessagesRequest {
+abstract class GetChatMessagesRequest with _$GetChatMessagesRequest {
   @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
   factory GetChatMessagesRequest({
     int? lastId,

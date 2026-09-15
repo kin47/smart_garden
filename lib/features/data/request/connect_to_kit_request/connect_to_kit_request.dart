@@ -4,7 +4,7 @@ part 'connect_to_kit_request.freezed.dart';
 part 'connect_to_kit_request.g.dart';
 
 @freezed
-class ConnectToKitRequest with _$ConnectToKitRequest {
+abstract class ConnectToKitRequest with _$ConnectToKitRequest {
   @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory ConnectToKitRequest({
     required int kitId,

@@ -1,7 +1,7 @@
 part of 'register_bloc.dart';
 
 @freezed
-class RegisterEvent with _$RegisterEvent {
+abstract class RegisterEvent with _$RegisterEvent {
   const factory RegisterEvent.onInputEmail({
     required String email,
   }) = RegisterInputEmail;

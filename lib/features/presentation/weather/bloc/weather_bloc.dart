@@ -92,8 +92,9 @@ class WeatherBloc extends BaseBloc<WeatherEvent, WeatherState> {
   ) async {
     emit(state.copyWith(status: BaseStateStatus.loading));
     final res = await _repository.fetchWeather(lat: lat, lon: lon);
+    final geocoding = Geocoding();
     List<Placemark> placemarks =
-        await placemarkFromCoordinates(lat, lon);
+      await geocoding.placemarkFromCoordinates(lat, lon);
 
     res.fold(
       (l) => emit(

@@ -4,7 +4,7 @@ part 'resend_email_request.freezed.dart';
 part 'resend_email_request.g.dart';
 
 @freezed
-class ResendEmailRequest with _$ResendEmailRequest {
+abstract class ResendEmailRequest with _$ResendEmailRequest {
   const factory ResendEmailRequest({
     required String email,
   }) = _ResendEmailRequest;

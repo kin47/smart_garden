@@ -5,7 +5,7 @@ part 'notification_model.freezed.dart';
 part 'notification_model.g.dart';
 
 @freezed
-class NotificationModel with _$NotificationModel {
+abstract class NotificationModel with _$NotificationModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory NotificationModel({
     int? id,

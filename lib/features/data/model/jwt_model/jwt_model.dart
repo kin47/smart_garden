@@ -3,7 +3,7 @@ part 'jwt_model.freezed.dart';
 part 'jwt_model.g.dart';
 
 @freezed
-class JWTModel with _$JWTModel {
+abstract class JWTModel with _$JWTModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory JWTModel({
     int? userId,

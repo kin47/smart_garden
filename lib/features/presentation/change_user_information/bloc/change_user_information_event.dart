@@ -1,7 +1,7 @@
 part of 'change_user_information_bloc.dart';
 
 @freezed
-class ChangeUserInformationEvent with _$ChangeUserInformationEvent {
+abstract class ChangeUserInformationEvent with _$ChangeUserInformationEvent {
   const factory ChangeUserInformationEvent.init({
     required UserEntity user,
   }) = _Init;

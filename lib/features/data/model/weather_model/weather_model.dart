@@ -4,7 +4,7 @@ part 'weather_model.freezed.dart';
 part 'weather_model.g.dart';
 
 @freezed
-class Weather with _$Weather {
+abstract class Weather with _$Weather {
   const factory Weather({
     int? id,
     String? main,
@@ -17,7 +17,7 @@ class Weather with _$Weather {
 }
 
 @freezed
-class Main with _$Main {
+abstract class Main with _$Main {
   const factory Main({
     double? temp,
     @JsonKey(name: "temp_min") double? tempMin,
@@ -30,7 +30,7 @@ class Main with _$Main {
 }
 
 @freezed
-class Sys with _$Sys {
+abstract class Sys with _$Sys {
   const factory Sys({
     int? type,
     int? id,
@@ -42,7 +42,7 @@ class Sys with _$Sys {
 }
 
 @freezed
-class WeatherModel with _$WeatherModel {
+abstract class WeatherModel with _$WeatherModel {
   const factory WeatherModel({
     List<Weather>? weather,
     String? base,

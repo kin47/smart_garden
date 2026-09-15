@@ -63,7 +63,7 @@ enum CoreTab {
       case CoreTab.profile:
         return ProfileRoute.page;
       default:
-        return HomeRoute.page;
+        return CoreRoute.page;
     }
   }
 

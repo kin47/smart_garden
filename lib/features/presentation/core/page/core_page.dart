@@ -66,7 +66,7 @@ class _CorePageState
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  context.router.pushNamed(AppRoutes.notification);
+                  context.router.pushPath(AppRoutes.notification);
                 },
                 child: Padding(
                   padding:
@@ -129,7 +129,7 @@ class _CorePageState
             size: 1.sw / 10,
           ),
           onPressed: () {
-            context.router.pushNamed(AppRoutes.qrScanner);
+            context.router.pushPath(AppRoutes.qrScanner);
           },
         ),
       ),

@@ -5,7 +5,7 @@ part 'send_message_request.freezed.dart';
 part 'send_message_request.g.dart';
 
 @freezed
-class SendMessageRequest with _$SendMessageRequest {
+abstract class SendMessageRequest with _$SendMessageRequest {
   const factory SendMessageRequest({
     required SenderEnum sender,
     required String message,
