@@ -9,21 +9,23 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:smart_garden/base/network/errors/error.dart' as _i5;
-import 'package:smart_garden/common/local_data/shared_pref.dart' as _i13;
+import 'package:smart_garden/common/local_data/shared_pref.dart' as _i14;
 import 'package:smart_garden/features/data/model/chat_message_socket/chat_message_socket.dart'
-    as _i12;
+    as _i13;
 import 'package:smart_garden/features/data/model/web_socket_model/web_socket_model.dart'
-    as _i11;
+    as _i12;
 import 'package:smart_garden/features/data/request/connect_ws_request/connect_ws_request.dart'
-    as _i10;
+    as _i11;
+import 'package:smart_garden/features/data/request/device_token_delete_request/device_token_delete_request.dart'
+    as _i7;
 import 'package:smart_garden/features/data/request/device_token_request/device_token_request.dart'
     as _i6;
 import 'package:smart_garden/features/data/request/get_chat_messages_request/get_chat_messages_request.dart'
-    as _i9;
+    as _i10;
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart'
-    as _i8;
+    as _i9;
 import 'package:smart_garden/features/domain/repository/chat_repository.dart'
-    as _i7;
+    as _i8;
 import 'package:smart_garden/features/domain/repository/device_token_repository.dart'
     as _i3;
 
@@ -81,7 +83,7 @@ class MockDeviceTokenRepository extends _i1.Mock
 
   @override
   _i4.Future<_i2.Either<_i5.BaseError, bool>> deleteDeviceToken({
-    required _i6.DeviceTokenRequest? request,
+    required _i7.DeviceTokenDeleteRequest? request,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#deleteDeviceToken, [], {#request: request}),
@@ -107,17 +109,17 @@ class MockDeviceTokenRepository extends _i1.Mock
 /// A class which mocks [ChatRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockChatRepository extends _i1.Mock implements _i7.ChatRepository {
+class MockChatRepository extends _i1.Mock implements _i8.ChatRepository {
   @override
-  _i4.Future<_i2.Either<_i5.BaseError, List<_i8.ChatMessageEntity>>>
-  getChatMessages({required _i9.GetChatMessagesRequest? request}) =>
+  _i4.Future<_i2.Either<_i5.BaseError, List<_i9.ChatMessageEntity>>>
+  getChatMessages({required _i10.GetChatMessagesRequest? request}) =>
       (super.noSuchMethod(
             Invocation.method(#getChatMessages, [], {#request: request}),
             returnValue:
                 _i4.Future<
-                  _i2.Either<_i5.BaseError, List<_i8.ChatMessageEntity>>
+                  _i2.Either<_i5.BaseError, List<_i9.ChatMessageEntity>>
                 >.value(
-                  _FakeEither_0<_i5.BaseError, List<_i8.ChatMessageEntity>>(
+                  _FakeEither_0<_i5.BaseError, List<_i9.ChatMessageEntity>>(
                     this,
                     Invocation.method(#getChatMessages, [], {
                       #request: request,
@@ -126,9 +128,9 @@ class MockChatRepository extends _i1.Mock implements _i7.ChatRepository {
                 ),
             returnValueForMissingStub:
                 _i4.Future<
-                  _i2.Either<_i5.BaseError, List<_i8.ChatMessageEntity>>
+                  _i2.Either<_i5.BaseError, List<_i9.ChatMessageEntity>>
                 >.value(
-                  _FakeEither_0<_i5.BaseError, List<_i8.ChatMessageEntity>>(
+                  _FakeEither_0<_i5.BaseError, List<_i9.ChatMessageEntity>>(
                     this,
                     Invocation.method(#getChatMessages, [], {
                       #request: request,
@@ -137,7 +139,7 @@ class MockChatRepository extends _i1.Mock implements _i7.ChatRepository {
                 ),
           )
           as _i4.Future<
-            _i2.Either<_i5.BaseError, List<_i8.ChatMessageEntity>>
+            _i2.Either<_i5.BaseError, List<_i9.ChatMessageEntity>>
           >);
 
   @override
@@ -159,7 +161,7 @@ class MockChatRepository extends _i1.Mock implements _i7.ChatRepository {
           as _i4.Future<bool>);
 
   @override
-  void chatInitialize({required _i10.ConnectWSRequest? connectRequest}) =>
+  void chatInitialize({required _i11.ConnectWSRequest? connectRequest}) =>
       super.noSuchMethod(
         Invocation.method(#chatInitialize, [], {
           #connectRequest: connectRequest,
@@ -177,21 +179,21 @@ class MockChatRepository extends _i1.Mock implements _i7.ChatRepository {
           as _i4.Future<void>);
 
   @override
-  _i4.Stream<_i11.WebSocketModel<_i12.ChatMessageSocket>> wsMessageStream() =>
+  _i4.Stream<_i12.WebSocketModel<_i13.ChatMessageSocket>> wsMessageStream() =>
       (super.noSuchMethod(
             Invocation.method(#wsMessageStream, []),
             returnValue:
-                _i4.Stream<_i11.WebSocketModel<_i12.ChatMessageSocket>>.empty(),
+                _i4.Stream<_i12.WebSocketModel<_i13.ChatMessageSocket>>.empty(),
             returnValueForMissingStub:
-                _i4.Stream<_i11.WebSocketModel<_i12.ChatMessageSocket>>.empty(),
+                _i4.Stream<_i12.WebSocketModel<_i13.ChatMessageSocket>>.empty(),
           )
-          as _i4.Stream<_i11.WebSocketModel<_i12.ChatMessageSocket>>);
+          as _i4.Stream<_i12.WebSocketModel<_i13.ChatMessageSocket>>);
 }
 
 /// A class which mocks [LocalStorage].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalStorage extends _i1.Mock implements _i13.LocalStorage {
+class MockLocalStorage extends _i1.Mock implements _i14.LocalStorage {
   @override
   _i4.Future<T?> get<T>(String? key) =>
       (super.noSuchMethod(

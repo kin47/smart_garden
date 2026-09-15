@@ -2,8 +2,10 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:smart_garden/base/bloc/index.dart';
 import 'package:smart_garden/common/constants/auth_constants.dart';
+import 'package:smart_garden/common/local_data/device_identity.dart';
 import 'package:smart_garden/common/local_data/secure_storage.dart';
 import 'package:smart_garden/common/notification/index.dart';
 import 'package:smart_garden/common/utils/functions/jwt_decode.dart';
@@ -13,6 +15,7 @@ import 'package:smart_garden/features/data/request/device_token_request/device_t
 import 'package:smart_garden/features/domain/enum/core_tab.dart';
 import 'package:smart_garden/features/domain/repository/chat_repository.dart';
 import 'package:smart_garden/features/domain/repository/device_token_repository.dart';
+import 'dart:io';
 
 part 'core_event.dart';
 
@@ -24,10 +27,8 @@ part 'core_bloc.g.dart';
 
 @injectable
 class CoreBloc extends BaseBloc<CoreEvent, CoreState> {
-  CoreBloc(
-    this._deviceTokenRepository,
-    this._chatRepository,
-  ) : super(CoreState.init()) {
+  CoreBloc(this._deviceTokenRepository, this._chatRepository)
+    : super(CoreState.init()) {
     on<CoreEvent>((event, emit) async {
       await event.when(
         init: () => onInit(emit),
@@ -42,16 +43,18 @@ class CoreBloc extends BaseBloc<CoreEvent, CoreState> {
   final ChatRepository _chatRepository;
 
   Future onInit(Emitter<CoreState> emit) async {
-    await Future.wait([
-      registerDeviceToken(),
-      initializeWebSocket(),
-    ]);
+    await Future.wait([registerDeviceToken(), initializeWebSocket()]);
   }
 
   Future registerDeviceToken() async {
+    final packageInfo = await PackageInfo.fromPlatform();
     final res = await _deviceTokenRepository.registerDeviceToken(
       request: DeviceTokenRequest(
-        deviceToken: await getIt<PushNotificationHelper>().getPushToken() ?? "",
+        deviceId: await getIt<DeviceIdentity>().getDeviceId(),
+        fcmToken: await getIt<PushNotificationHelper>().getPushToken() ?? '',
+        platform: Platform.operatingSystem,
+        appVersion: packageInfo.version,
+        locale: Platform.localeName.replaceFirst('_', '-'),
       ),
     );
     res.fold(
@@ -65,20 +68,14 @@ class CoreBloc extends BaseBloc<CoreEvent, CoreState> {
     final jwtModel = JwtDecoder.tryDecode(accessToken ?? '');
     if (jwtModel != null) {
       _chatRepository.chatInitialize(
-        connectRequest: ConnectWSRequest(
-          userId: jwtModel.userId ?? 0,
-        ),
+        connectRequest: ConnectWSRequest(userId: jwtModel.userId ?? 0),
       );
     }
   }
 
   Future onChangeTab(CoreTab tabType, Emitter<CoreState> emit) async {
     if (tabType != state.activeTab && tabType != CoreTab.scan) {
-      emit(
-        state.copyWith(
-          activeTab: tabType,
-        ),
-      );
+      emit(state.copyWith(activeTab: tabType));
     }
   }
 

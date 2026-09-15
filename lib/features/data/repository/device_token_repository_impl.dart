@@ -6,6 +6,7 @@ import 'package:smart_garden/base/network/errors/error.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
 import 'package:smart_garden/features/data/datasource/remote/device_token_service/device_token_service.dart';
 import 'package:smart_garden/features/data/request/device_token_request/device_token_request.dart';
+import 'package:smart_garden/features/data/request/device_token_delete_request/device_token_delete_request.dart';
 import 'package:smart_garden/features/domain/repository/device_token_repository.dart';
 
 @Injectable(as: DeviceTokenRepository)
@@ -31,7 +32,7 @@ class DeviceTokenRepositoryImpl implements DeviceTokenRepository {
 
   @override
   Future<Either<BaseError, bool>> deleteDeviceToken({
-    required DeviceTokenRequest request,
+    required DeviceTokenDeleteRequest request,
   }) async {
     try {
       final res = await _service.deleteDeviceToken(request: request);

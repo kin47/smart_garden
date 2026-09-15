@@ -7,7 +7,11 @@ part 'device_token_request.g.dart';
 abstract class DeviceTokenRequest with _$DeviceTokenRequest {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory DeviceTokenRequest({
-    required String deviceToken,
+    required String deviceId,
+    required String fcmToken,
+    required String platform,
+    required String appVersion,
+    required String locale,
   }) = _DeviceTokenRequest;
 
   factory DeviceTokenRequest.fromJson(Map<String, dynamic> json) =>

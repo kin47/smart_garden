@@ -4,6 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:smart_garden/base/network/models/base_data.dart';
 import 'package:smart_garden/common/constants/endpoint_constants.dart';
 import 'package:smart_garden/features/data/request/device_token_request/device_token_request.dart';
+import 'package:smart_garden/features/data/request/device_token_delete_request/device_token_delete_request.dart';
 
 part 'device_token_service.g.dart';
 
@@ -20,6 +21,6 @@ abstract class DeviceTokenService {
 
   @DELETE(EndpointConstants.deviceToken)
   Future<BaseData> deleteDeviceToken({
-    @Body() required DeviceTokenRequest request,
+    @Body() required DeviceTokenDeleteRequest request,
   });
 }

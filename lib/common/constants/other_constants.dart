@@ -27,6 +27,10 @@ class KitConstants {
   static const String kitId = 'kitId';
 }
 
+class DeviceTokenConstants {
+  static const String deviceId = 'device_id';
+}
+
 class RegexConstants {
   // allow these character . ? _  ! @ # % & / and a-z, A-Z, 0-9
   static final password = RegExp(r'''^[a-zA-Z0-9.?_!@#%&/]+''');
