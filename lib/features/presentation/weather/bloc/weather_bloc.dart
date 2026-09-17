@@ -39,21 +39,10 @@ class WeatherBloc extends BaseBloc<WeatherEvent, WeatherState> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      emit(
-        state.copyWith(
-          status: BaseStateStatus.showPopUp,
-          message: 'request_location_permission'.tr(),
-        ),
-      );
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
+    try {
+      // Test if location services are enabled.
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
         emit(
           state.copyWith(
             status: BaseStateStatus.showPopUp,
@@ -61,28 +50,50 @@ class WeatherBloc extends BaseBloc<WeatherEvent, WeatherState> {
           ),
         );
       }
-    }
 
-    if (permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          emit(
+            state.copyWith(
+              status: BaseStateStatus.showPopUp,
+              message: 'request_location_permission'.tr(),
+            ),
+          );
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        emit(
+          state.copyWith(
+            status: BaseStateStatus.showPopUp,
+            message: 'request_location_permission'.tr(),
+          ),
+        );
+      }
+
+      emit(state.copyWith(status: BaseStateStatus.loading));
+
+      final Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.medium,
+        forceAndroidLocationManager: true,
+        timeLimit: const Duration(seconds: 30),
+      );
+
+      await onGetWeather(
+        position.latitude,
+        position.longitude,
+        emit,
+      );
+    } catch (ex) {
       emit(
         state.copyWith(
-          status: BaseStateStatus.showPopUp,
-          message: 'request_location_permission'.tr(),
+          status: BaseStateStatus.failed,
+          message: 'error_system'.tr(),
         ),
       );
     }
-
-    emit(state.copyWith(status: BaseStateStatus.loading));
-
-    final Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.medium,
-    );
-
-    await onGetWeather(
-      position.latitude,
-      position.longitude,
-      emit,
-    );
   }
 
   Future onGetWeather(
