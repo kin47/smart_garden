@@ -8,7 +8,6 @@ import 'package:smart_garden/base/network/web_socket/chat_socket.dart';
 import 'package:smart_garden/features/data/datasource/remote/chat_service/chat_service.dart';
 import 'package:smart_garden/features/data/model/chat_message_socket/chat_message_socket.dart';
 import 'package:smart_garden/features/data/model/web_socket_model/web_socket_model.dart';
-import 'package:smart_garden/features/data/request/connect_ws_request/connect_ws_request.dart';
 import 'package:smart_garden/features/data/request/get_chat_messages_request/get_chat_messages_request.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
 import 'package:smart_garden/features/domain/enum/sender_enum.dart';
@@ -21,13 +20,39 @@ class ChatRepositoryImpl implements ChatRepository {
   final ChatSocket _chatSocket;
 
   ChatRepositoryImpl(this._service, this._chatSocket);
+  int? _conversationId;
+
+  @override
+  Future<int?> createSupportConversation() async {
+    try {
+      final response = await _service.createSupportConversation(
+        body: const {'kind': 'support'},
+      );
+      return response.data?.id;
+    } on DioException {
+      return null;
+    }
+  }
+
+  @override
+  void initializeConversation(int conversationId) {
+    _conversationId = conversationId;
+    _chatSocket.initialize(conversationId: conversationId);
+  }
 
   @override
   Future<Either<BaseError, List<ChatMessageEntity>>> getChatMessages({
     required GetChatMessagesRequest request,
   }) async {
+    final conversationId = _conversationId;
+    if (conversationId == null) {
+      return left(BaseError.httpUnknownError('error_system'.tr()));
+    }
     try {
-      final res = await _service.getChatMessages(request: request);
+      final res = await _service.getChatMessages(
+        conversationId: conversationId,
+        request: request,
+      );
       if (res.data == null) {
         return left(BaseError.httpUnknownError('error_system'.tr()));
       }
@@ -59,15 +84,6 @@ class ChatRepositoryImpl implements ChatRepository {
     } catch (e) {
       return false;
     }
-  }
-
-  @override
-  void chatInitialize({
-    required ConnectWSRequest connectRequest,
-  }) {
-    _chatSocket.initialize(
-      connectRequest: connectRequest,
-    );
   }
 
   @override

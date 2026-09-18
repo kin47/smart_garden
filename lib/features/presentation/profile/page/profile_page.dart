@@ -8,6 +8,8 @@ import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/common/widgets/cache_image_widget.dart';
 import 'package:smart_garden/features/presentation/profile/bloc/profile_bloc.dart';
+import 'package:smart_garden/features/domain/repository/chat_repository.dart';
+import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 import 'package:smart_garden/routes/app_pages.gr.dart';
 
@@ -293,11 +295,24 @@ class _ProfilePageState
             child: Column(
               children: [
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (bloc.state.user != null) {
+                      final conversationId =
+                          await getIt<ChatRepository>().createSupportConversation();
+                      if (!context.mounted) {
+                        return;
+                      }
+                      if (conversationId == null) {
+                        DialogService.showInformationDialog(
+                          context,
+                          title: 'error'.tr(),
+                          description: 'error_system'.tr(),
+                        );
+                        return;
+                      }
                       context.router.push(
                         ChatRoute(
-                          userId: bloc.state.user!.id,
+                          userId: conversationId,
                         ),
                       );
                     }

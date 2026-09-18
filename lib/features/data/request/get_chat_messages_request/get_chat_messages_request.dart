@@ -7,6 +7,7 @@ part 'get_chat_messages_request.g.dart';
 abstract class GetChatMessagesRequest with _$GetChatMessagesRequest {
   @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
   factory GetChatMessagesRequest({
+    @JsonKey(name: 'before')
     int? lastId,
     @Default(ApiConfig.limit) int limit,
   }) = _GetChatMessagesRequest;

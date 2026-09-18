@@ -64,13 +64,7 @@ class CoreBloc extends BaseBloc<CoreEvent, CoreState> {
   }
 
   Future initializeWebSocket() async {
-    final accessToken = await getIt<SecureStorage>().get(AuthConstants.token);
-    final jwtModel = JwtDecoder.tryDecode(accessToken ?? '');
-    if (jwtModel != null) {
-      _chatRepository.chatInitialize(
-        connectRequest: ConnectWSRequest(userId: jwtModel.userId ?? 0),
-      );
-    }
+    // Chat sockets are scoped to a conversation and are opened by ChatPage.
   }
 
   Future onChangeTab(CoreTab tabType, Emitter<CoreState> emit) async {

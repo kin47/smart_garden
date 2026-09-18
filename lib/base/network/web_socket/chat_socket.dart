@@ -2,181 +2,128 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:smart_garden/common/constants/auth_constants.dart';
+import 'package:smart_garden/common/local_data/secure_storage.dart';
 import 'package:smart_garden/di/di_setup.dart';
+import 'package:smart_garden/common/utils/functions/jwt_decode.dart';
 import 'package:smart_garden/features/data/model/chat_message_socket/chat_message_socket.dart';
 import 'package:smart_garden/features/data/model/web_socket_model/web_socket_model.dart';
-import 'package:smart_garden/features/data/request/connect_ws_request/connect_ws_request.dart';
 import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/domain/enum/ws_action_enum.dart';
-import 'package:web_socket_channel/status.dart';
+import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
-
-class _Const {
-  static const int timeOutCloseCode = 1000;
-}
 
 class ChatSocket {
   WebSocketChannel? _channel;
-  final StreamController<WebSocketModel<ChatMessageSocket>>
-      _wsEventStreamController =
+  StreamSubscription<dynamic>? _subscription;
+  final _events =
       StreamController<WebSocketModel<ChatMessageSocket>>.broadcast();
-  final int retryDelay = 1;
-  late final int _userId;
-  Future<String?> Function()? _getNewToken;
+  int? _conversationId;
+  int? _lastReceivedMessageId;
+  bool _manualDisconnect = false;
 
-  Stream<WebSocketModel<ChatMessageSocket>> get wsEventStream =>
-      _wsEventStreamController.stream;
+  Stream<WebSocketModel<ChatMessageSocket>> get wsEventStream => _events.stream;
 
-  StreamSubscription listen(void Function(dynamic)? handler) =>
-      _wsEventStreamController.stream.listen(handler);
-  final String endpoint = dotenv.get('WS_URL');
-  bool? isManualDisconnect;
-
-  void initialize({
-    required ConnectWSRequest connectRequest,
-    Future<String?> Function()? getNewToken,
-  }) {
-    _userId = connectRequest.userId;
-    _getNewToken = getNewToken;
-    _connect(connectRequest);
-    _handlerListener();
+  void initialize({required int conversationId}) {
+    _conversationId = conversationId;
+    _manualDisconnect = false;
+    _connect();
   }
 
-  Future<StreamSubscription<dynamic>?> _handlerListener() async {
-    return _channel?.stream.listen(
+  Future<void> _connect() async {
+    final token =
+        await getIt<SecureStorage>().get(AuthConstants.token);
+    final conversationId = _conversationId;
+    if (token == null || token.isEmpty || conversationId == null) {
+      return;
+    }
+    final userId = JwtDecoder.tryDecode(token)?.userId;
+
+    final endpoint = dotenv.get('WS_URL').replaceFirst(RegExp(r'/$'), '');
+    final uri = Uri.parse(
+      '$endpoint/conversations/$conversationId/',
+    ).replace(queryParameters: {'access_token': token});
+    await _subscription?.cancel();
+    _channel = WebSocketChannel.connect(uri);
+    _subscription = _channel!.stream.listen(
       _onMessage,
-      onDone: () async {
-        logger.d(
-          'ChatService => socket closed: reason=[${_channel?.closeReason}], code:[${_channel?.closeCode}]',
-        );
-        isManualDisconnect = _channel?.closeCode == normalClosure;
-        if (isManualDisconnect == false && _getNewToken != null) {
-          //flutter toast
-          logger.d(
-            'ChatService => WebSocketChannel is disconnected. Try to reconnect after $retryDelay second...',
-          );
-          await Future.delayed(Duration(seconds: retryDelay));
-          _connect(
-            ConnectWSRequest(
-              userId: _userId,
-            ),
-          );
-          _handlerListener();
-        }
-      },
-      onError: (e) async {
-        isManualDisconnect = _channel?.closeCode == normalClosure;
-        logger.d('ChatService => #onError $e');
-        // _wsEventStreamController.addError(e.toString());
-        // await Future.delayed(Duration(seconds: retryDelay));
-        // _connect();
-      },
+      onDone: _reconnect,
+      onError: (_) => _reconnect(),
     );
   }
 
-  void _connect(ConnectWSRequest connectRequest) async {
-    try {
-      _channel = WebSocketChannel.connect(
-        Uri.parse('$endpoint/${connectRequest.userId}/'),
-      );
-      logger.d(
-        'ChatService => WebSocketChannel connected to $endpoint/${connectRequest.userId} = ${!isDisconnected}!',
-      );
-      WebSocketModel<ConnectWSRequest> connectRequestModel =
-          WebSocketModel<ConnectWSRequest>(
-        action: WSActionEnum.authenticate,
-        data: connectRequest,
-      );
-
-      add(jsonEncode(connectRequestModel.toJson((value) => value.toJson())));
-    } catch (e) {
-      logger.d('ChatService => error: $e');
+  void _reconnect() {
+    if (_manualDisconnect || _conversationId == null) {
+      return;
     }
+    Future<void>.delayed(const Duration(seconds: 1), _connect);
   }
 
-  bool get isDisconnected => _channel?.closeCode == _Const.timeOutCloseCode;
-
-  void _onMessage(message) {
+  void _onMessage(dynamic raw) {
+    if (raw is! String) {
+      return;
+    }
     try {
-      if (message is String) {
-        Map<String, dynamic> messageData = jsonDecode(message);
-        if (messageData['action'] == WSActionEnum.sendChatMessage.value) {
-          final data = messageData['data'];
-          final chatMessage = ChatMessageSocket.fromJson(data);
-          logger.d('ChatService => New message: $data');
-          _wsEventStreamController.sink.add(
-            WebSocketModel<ChatMessageSocket>(
-              action: WSActionEnum.sendChatMessage,
-              data: chatMessage,
+      final payload = jsonDecode(raw) as Map<String, dynamic>;
+      final type = payload['type'];
+      final data = payload['data'];
+      if (type == 'message.created' && data is Map<String, dynamic>) {
+        final senderId = (data['sender_id'] as num?)?.toInt();
+        _lastReceivedMessageId = (data['id'] as num?)?.toInt();
+        _events.add(
+          WebSocketModel<ChatMessageSocket>(
+            action: WSActionEnum.sendChatMessage,
+            data: ChatMessageSocket(
+              message: data['body'] as String? ?? '',
+              sender: senderId == userId ? SenderEnum.user : SenderEnum.admin,
             ),
-          );
-        } else if (messageData['action'] == WSActionEnum.seen.value) {
-          final sender = messageData['data']['sender'];
-          if (sender == 1) {
-            _wsEventStreamController.sink.add(
-              WebSocketModel<ChatMessageSocket>(
-                action: WSActionEnum.seen,
-                data: const ChatMessageSocket(
-                  sender: SenderEnum.admin,
-                ),
-              ),
-            );
-            logger.d('ChatService => Admin read message');
-          }
-        } else {
-          logger.d('ChatService => Unknown message: $message');
-        }
+          ),
+        );
+      } else if (type == 'conversation.read') {
+        _events.add(
+          WebSocketModel<ChatMessageSocket>(
+            action: WSActionEnum.seen,
+            data: const ChatMessageSocket(sender: SenderEnum.admin),
+          ),
+        );
       }
-    } catch (e) {
-      logger.d('ChatService => error: $message');
+    } on Object {
+      // Ignore malformed server frames; the connection remains usable.
     }
   }
 
   Future<bool> sendMessage(String message) async {
-    WebSocketModel<ChatMessageSocket> chatMessage =
-        WebSocketModel<ChatMessageSocket>(
-      action: WSActionEnum.sendChatMessage,
-      data: ChatMessageSocket(
-        message: message,
-        sender: SenderEnum.user,
-      ),
-    );
-    await add(jsonEncode(chatMessage.toJson((value) => value)));
-    if (!isDisconnected) {
-      return true;
-    } else {
-      return false;
-    }
+    return _send({
+      'type': 'message.send',
+      'data': {'body': message},
+    });
   }
 
   Future<bool> readMessage() async {
-    WebSocketModel<ChatMessageSocket> chatMessage =
-        WebSocketModel<ChatMessageSocket>(
-      action: WSActionEnum.seen,
-      data: const ChatMessageSocket(
-        sender: SenderEnum.user,
-      ),
-    );
-    await add(jsonEncode(chatMessage.toJson((value) => value)));
-    if (!isDisconnected) {
+    final messageId = _lastReceivedMessageId;
+    if (messageId == null) {
       return true;
-    } else {
-      return false;
     }
+    return _send({
+      'type': 'conversation.read',
+      'data': {'last_read_message_id': messageId},
+    });
   }
 
-  Future<void> add(String data) async {
-    logger.d('ChatService => Send message: $data');
-
-    if (!isDisconnected) {
-      _channel?.sink.add(data);
-    } else {
-      logger.d('ChatService => ChatService disconnected');
-      // _connect();
+  Future<bool> _send(Map<String, dynamic> payload) async {
+    final channel = _channel;
+    if (channel == null) {
+      return false;
     }
+    channel.sink.add(jsonEncode(payload));
+    return true;
   }
 
   Future<void> dispose() async {
-    await _wsEventStreamController.close();
+    _manualDisconnect = true;
+    await _subscription?.cancel();
+    await _channel?.sink.close(status.normalClosure);
+    _channel = null;
+    _conversationId = null;
   }
 }

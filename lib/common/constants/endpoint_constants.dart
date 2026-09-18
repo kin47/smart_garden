@@ -23,8 +23,13 @@ class EndpointConstants {
   static const String controlKit = '/kit/{kit_id}/control';
   static const String connectToKit = '/kit/connect';
 
-  static const String getChatMessages = '/chat/get-chat-messages';
-  static const String sendMessage = '/chat/send-message';
+  static const String conversations = '/chat/conversations';
+  static const String getChatMessages =
+      '/chat/conversations/{conversation_id}/messages';
+  static const String sendMessage =
+      '/chat/conversations/{conversation_id}/messages';
+  static const String readConversation =
+      '/chat/conversations/{conversation_id}/read';
 
   static const List<String> publicAPI = [
     login,
