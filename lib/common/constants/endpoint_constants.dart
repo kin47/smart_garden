@@ -30,6 +30,7 @@ class EndpointConstants {
       '/chat/conversations/{conversation_id}/messages';
   static const String readConversation =
       '/chat/conversations/{conversation_id}/read';
+  static const String unreadMessages = '/chat/unread';
 
   static const List<String> publicAPI = [
     login,

@@ -5,6 +5,7 @@ import 'package:smart_garden/base/network/models/base_data.dart';
 import 'package:smart_garden/common/constants/endpoint_constants.dart';
 import 'package:smart_garden/features/data/model/chat_message_model/chat_message_model.dart';
 import 'package:smart_garden/features/data/model/conversation_model.dart';
+import 'package:smart_garden/features/data/model/unread_messages_model/unread_messages_model.dart';
 import 'package:smart_garden/features/data/request/get_chat_messages_request/get_chat_messages_request.dart';
 import 'package:smart_garden/features/data/request/send_message_request/send_message_request.dart';
 
@@ -38,4 +39,7 @@ abstract class ChatService {
     @Path('conversation_id') required int conversationId,
     @Body() required Map<String, dynamic> body,
   });
+
+  @GET(EndpointConstants.unreadMessages)
+  Future<UnreadMessagesModel> getUnreadMessages();
 }

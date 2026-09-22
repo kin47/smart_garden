@@ -1,15 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smart_garden/base/base_widget.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/common/index.dart';
 import 'package:smart_garden/common/widgets/buttons/app_button.dart';
 import 'package:smart_garden/common/widgets/cache_image_widget.dart';
+import 'package:smart_garden/features/domain/enum/core_tab.dart';
+import 'package:smart_garden/features/presentation/core/bloc/core_bloc.dart';
 import 'package:smart_garden/features/presentation/profile/bloc/profile_bloc.dart';
-import 'package:smart_garden/features/domain/repository/chat_repository.dart';
-import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
 import 'package:smart_garden/routes/app_pages.gr.dart';
 
@@ -50,39 +51,47 @@ class _ProfilePageState
 
   @override
   Widget renderUI(BuildContext context) {
-    return BaseScaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildAvatarAndCover(),
-            SizedBox(height: 20.h),
-            blocBuilder(
-              (context, state) => Text(
-                state.user?.name ?? '',
-                style: AppTextStyles.s20w700.copyWith(
-                  color: AppColors.black,
+    return BlocListener<CoreBloc, CoreState>(
+      listenWhen: (previous, current) =>
+          previous.activeTab != current.activeTab &&
+          current.activeTab == CoreTab.profile,
+      listener: (context, state) {
+        bloc.add(const ProfileEvent.refreshUnreadMessages());
+      },
+      child: BaseScaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildAvatarAndCover(),
+              SizedBox(height: 20.h),
+              blocBuilder(
+                (context, state) => Text(
+                  state.user?.name ?? '',
+                  style: AppTextStyles.s20w700.copyWith(
+                    color: AppColors.black,
+                  ),
+                ),
+                buildWhen: (previous, current) => previous.user != current.user,
+              ),
+              SizedBox(height: 16.h),
+              _buildUserInfo(),
+              SizedBox(height: 24.h),
+              _buildHelpCenter(),
+              SizedBox(height: 24.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: AppButton(
+                  onPressed: () {
+                    bloc.add(const ProfileEvent.logout());
+                  },
+                  backgroundColor: AppColors.red,
+                  title: 'logout'.tr(),
+                  textStyle: AppTextStyles.s15w700,
                 ),
               ),
-              buildWhen: (previous, current) => previous.user != current.user,
-            ),
-            SizedBox(height: 16.h),
-            _buildUserInfo(),
-            SizedBox(height: 24.h),
-            _buildHelpCenter(),
-            SizedBox(height: 24.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: AppButton(
-                onPressed: () {
-                  bloc.add(const ProfileEvent.logout());
-                },
-                backgroundColor: AppColors.red,
-                title: 'logout'.tr(),
-                textStyle: AppTextStyles.s15w700,
-              ),
-            ),
-            SizedBox(height: 1.sw / 11),
-          ],
+              SizedBox(height: 1.sw / 11),
+            ],
+          ),
         ),
       ),
     );
@@ -295,43 +304,46 @@ class _ProfilePageState
             child: Column(
               children: [
                 InkWell(
-                  onTap: () async {
-                    if (bloc.state.user != null) {
-                      final conversationId =
-                          await getIt<ChatRepository>().createSupportConversation();
-                      if (!context.mounted) {
-                        return;
-                      }
-                      if (conversationId == null) {
-                        DialogService.showInformationDialog(
-                          context,
-                          title: 'error'.tr(),
-                          description: 'error_system'.tr(),
-                        );
-                        return;
-                      }
-                      context.router.push(
-                        ChatRoute(
-                          userId: conversationId,
-                        ),
-                      );
-                    }
+                  onTap: () {
+                    context.router.push(const ChatRoute()).then((_) {
+                      bloc.add(const ProfileEvent.refreshUnreadMessages());
+                    });
                   },
-                  child: ListTile(
-                    title: Text(
-                      'chat_with_admin'.tr(),
-                      style: AppTextStyles.s16w500.copyWith(
-                        color: AppColors.black,
+                  child: blocBuilder(
+                    (context, state) => ListTile(
+                      title: Text(
+                        'chat_with_admin'.tr(),
+                        style: AppTextStyles.s16w500.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      leading: Assets.svg.icBubbleChat.svg(
+                        width: 24.w,
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (state.hasUnreadMessages) ...[
+                            Container(
+                              width: 12.w,
+                              height: 12.w,
+                              decoration: const BoxDecoration(
+                                color: AppColors.richElectricBlue,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 8.w),
+                          ],
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 24.w,
+                            color: AppColors.gray400,
+                          ),
+                        ],
                       ),
                     ),
-                    leading: Assets.svg.icBubbleChat.svg(
-                      width: 24.w,
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 24.w,
-                      color: AppColors.gray400,
-                    ),
+                    buildWhen: (previous, current) =>
+                        previous.hasUnreadMessages != current.hasUnreadMessages,
                   ),
                 ),
                 Divider(

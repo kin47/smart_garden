@@ -11,8 +11,6 @@ import 'package:smart_garden/common/utils/date_time/date_time_utils.dart';
 import 'package:smart_garden/features/domain/entity/chat_message_entity.dart';
 import 'package:smart_garden/features/domain/enum/sender_enum.dart';
 import 'package:smart_garden/features/presentation/chat/bloc/chat_bloc.dart';
-import 'package:smart_garden/features/domain/repository/chat_repository.dart';
-import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/presentation/chat/widget/admin_message_widget.dart';
 import 'package:smart_garden/features/presentation/chat/widget/chat_text_field.dart';
 import 'package:smart_garden/features/presentation/chat/widget/user_message_widget.dart';
@@ -20,12 +18,7 @@ import 'package:smart_garden/gen/assets.gen.dart';
 
 @RoutePage()
 class ChatPage extends StatefulWidget {
-  final int userId;
-
-  const ChatPage({
-    super.key,
-    required this.userId,
-  });
+  const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -34,20 +27,12 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState
     extends BaseState<ChatPage, ChatEvent, ChatState, ChatBloc> {
   int? lastSeenMessageIndex;
+  bool _pagingListenerAdded = false;
 
   @override
   void initState() {
     super.initState();
-    getIt<ChatRepository>().initializeConversation(widget.userId);
     bloc.add(const ChatEvent.init());
-    bloc.pagingController.addPageRequestListener((pageKey) {
-      bloc.add(
-        ChatEvent.getChatMessages(
-          page: pageKey,
-          lastId: bloc.pagingController.itemList?.last.id,
-        ),
-      );
-    });
   }
 
   @override
@@ -59,6 +44,17 @@ class _ChatPageState
   @override
   void listener(BuildContext context, ChatState state) {
     super.listener(context, state);
+    if (state.status == BaseStateStatus.idle && !_pagingListenerAdded) {
+      _pagingListenerAdded = true;
+      bloc.pagingController.addPageRequestListener((pageKey) {
+        bloc.add(
+          ChatEvent.getChatMessages(
+            page: pageKey,
+            lastId: bloc.pagingController.itemList?.last.id,
+          ),
+        );
+      });
+    }
     switch (state.status) {
       case BaseStateStatus.failed:
         DialogService.showInformationDialog(
@@ -78,10 +74,15 @@ class _ChatPageState
       appBar: BaseAppBar(
         title: 'chat_with_admin'.tr(),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: CustomListViewSeparated<ChatMessageEntity>(
+      body: blocBuilder(
+        (context, state) {
+          if (state.status == BaseStateStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: CustomListViewSeparated<ChatMessageEntity>(
               controller: bloc.pagingController,
               reverse: true,
               emptyWidget: Center(
@@ -150,17 +151,19 @@ class _ChatPageState
                 }
               },
               separatorBuilder: (context, index) => const SizedBox.shrink(),
-            ),
-          ),
-          ChatTextField(
-            controller: bloc.chatTextController,
-            onSend: (message) {
-              if (message?.isNotEmpty ?? false) {
-                bloc.add(ChatEvent.sendMessage(message: message!));
-              }
-            },
-          ),
-        ],
+                ),
+              ),
+              ChatTextField(
+                controller: bloc.chatTextController,
+                onSend: (message) {
+                  if (message?.isNotEmpty ?? false) {
+                    bloc.add(ChatEvent.sendMessage(message: message!));
+                  }
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }

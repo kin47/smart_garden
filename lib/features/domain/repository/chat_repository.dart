@@ -14,11 +14,11 @@ abstract class ChatRepository {
     required GetChatMessagesRequest request,
   });
 
-  Future<bool> readMessage();
+  Future<bool> readMessage({int? lastReadMessageId});
 
-  Future<bool> sendMessage({
-    required String message,
-  });
+  Future<bool> sendMessage({required String message});
+
+  Future<bool> hasUnreadMessages();
 
   Future<void> disconnectChat();
 

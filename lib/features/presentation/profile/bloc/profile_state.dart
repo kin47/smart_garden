@@ -3,11 +3,13 @@ part of 'profile_bloc.dart';
 @CopyWith()
 class ProfileState extends BaseBlocState {
   final UserEntity? user;
+  final bool hasUnreadMessages;
 
   const ProfileState({
     required super.status,
     super.message,
     this.user,
+    this.hasUnreadMessages = false,
   });
 
   factory ProfileState.init() {
@@ -21,5 +23,6 @@ class ProfileState extends BaseBlocState {
     status,
     message,
     user,
+    hasUnreadMessages,
   ];
 }

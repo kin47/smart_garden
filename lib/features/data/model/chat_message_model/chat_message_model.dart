@@ -9,6 +9,7 @@ abstract class ChatMessageModel with _$ChatMessageModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory ChatMessageModel({
     int? id,
+    int? senderId,
     String? message,
     DateTime? time,
     SenderEnum? sender,
@@ -18,6 +19,7 @@ abstract class ChatMessageModel with _$ChatMessageModel {
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) =>
       ChatMessageModel(
         id: (json['id'] as num?)?.toInt(),
+        senderId: (json['sender_id'] as num?)?.toInt(),
         message: json['body'] as String?,
         time: json['created_at'] == null
             ? null

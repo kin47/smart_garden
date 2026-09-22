@@ -6,10 +6,15 @@ part 'chat_message_socket.g.dart';
 
 @freezed
 abstract class ChatMessageSocket with _$ChatMessageSocket {
-  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory ChatMessageSocket({
+    int? id,
+    int? conversationId,
+    int? senderId,
     String? message,
+    DateTime? createdAt,
     SenderEnum? sender,
+    int? readerUserId,
+    int? lastReadMessageId,
   }) = _ChatMessageSocket;
 
   factory ChatMessageSocket.fromJson(Map<String, dynamic> json) =>

@@ -5,4 +5,6 @@ abstract class ProfileEvent with _$ProfileEvent {
   const factory ProfileEvent.init() = _Init;
 
   const factory ProfileEvent.logout() = _Logout;
+
+  const factory ProfileEvent.refreshUnreadMessages() = _RefreshUnreadMessages;
 }

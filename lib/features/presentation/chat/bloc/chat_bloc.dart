@@ -29,80 +29,114 @@ part 'chat_bloc.g.dart';
 class ChatBloc extends BaseBloc<ChatEvent, ChatState>
     with BaseCommonMethodMixin {
   ChatBloc(this._chatRepository) : super(ChatState.init()) {
-    on<ChatEvent>(
-      (event, emit) async {
-        await event.when(
-          init: () => _init(emit),
-          readMessage: () => _readMessage(emit),
-          getChatMessages: (page, lastMessageId) =>
-              _getChatMessages(emit, page, lastMessageId),
-          sendMessage: (message) => _sendMessage(emit, message),
-          updateLastSeenMessageIndex: (index) =>
-              _updateLastSeenMessageIndex(emit, index),
-        );
-      },
-    );
+    on<ChatEvent>((event, emit) async {
+      await event.when(
+        init: () => _init(emit),
+        readMessage: () => _readMessage(emit),
+        getChatMessages: (page, lastMessageId) =>
+            _getChatMessages(emit, page, lastMessageId),
+        sendMessage: (message) => _sendMessage(emit, message),
+        updateLastSeenMessageIndex: (index) =>
+            _updateLastSeenMessageIndex(emit, index),
+      );
+    });
   }
 
   final ChatRepository _chatRepository;
-  late final StreamSubscription wsMessageStream;
+  StreamSubscription? wsMessageStream;
   final TextEditingController chatTextController = TextEditingController();
 
   final PagingController<int, ChatMessageEntity> pagingController =
       PagingController(firstPageKey: 1);
 
   Future _init(Emitter<ChatState> emit) async {
-    wsMessageStream = _chatRepository.wsMessageStream().listen(
-      (event) async {
-        switch (event.action) {
-          case WSActionEnum.sendChatMessage:
-            _addMessage(
-              emit,
-              ChatMessageEntity(
-                message: event.data?.message ?? '',
-                time: DateTime.now(),
-                sender: event.data?.sender ?? SenderEnum.user,
-                isAdminRead: false,
+    emit(state.copyWith(status: BaseStateStatus.loading));
+    final conversationId = await _chatRepository.createSupportConversation();
+    if (conversationId == null) {
+      emit(
+        state.copyWith(
+          status: BaseStateStatus.failed,
+          message: 'error_system'.tr(),
+        ),
+      );
+      return;
+    }
+    _chatRepository.initializeConversation(conversationId);
+    wsMessageStream = _chatRepository.wsMessageStream().listen((event) async {
+      switch (event.action) {
+        case WSActionEnum.sendChatMessage:
+          _addMessage(
+            emit,
+            ChatMessageEntity(
+              id: event.data?.id,
+              message: event.data?.message ?? '',
+              time: event.data?.createdAt ?? DateTime.now(),
+              sender: event.data?.sender ?? SenderEnum.user,
+              isAdminRead: false,
+            ),
+          );
+          if (state.lastSeenMessageIndex != null) {
+            add(
+              ChatEvent.updateLastSeenMessageIndex(
+                state.lastSeenMessageIndex! + 1,
               ),
             );
-            if (state.lastSeenMessageIndex != null) {
-              add(ChatEvent.updateLastSeenMessageIndex(
-                  state.lastSeenMessageIndex! + 1));
-            }
-            if (event.data?.sender == SenderEnum.user) {
-              add(const ChatEvent.readMessage());
-            }
+          }
+          if (event.data?.sender == SenderEnum.admin &&
+              event.data?.id != null) {
+            add(const ChatEvent.readMessage());
+          }
+          break;
+        case WSActionEnum.seen:
+          final cursor = event.data?.lastReadMessageId;
+          if (cursor == null || event.data?.readerUserId == null) {
             break;
-          case WSActionEnum.seen:
-            int index = -1;
-            for (int i = 0; i < (pagingController.itemList?.length ?? 0); i++) {
-              final item = pagingController.itemList![i];
-              if (index == -1 && item.sender == SenderEnum.user) {
-                pagingController.itemList![i] =
-                    item.copyWith(isAdminRead: true);
-                index = i;
-                add(ChatEvent.updateLastSeenMessageIndex(i));
-                break;
-              }
-            }
-            break;
-          default:
-            break;
-        }
-      },
-    );
-    add(const ChatEvent.readMessage());
+          }
+          final messages = pagingController.itemList;
+          if (messages == null) break;
+          final updatedMessages = messages
+              .map(
+                (message) =>
+                    message.sender == SenderEnum.user &&
+                        (message.id ?? 0) <= cursor
+                    ? message.copyWith(isAdminRead: true)
+                    : message,
+              )
+              .toList();
+          pagingController.itemList = updatedMessages;
+          final seenIndex = updatedMessages.indexWhere(
+            (message) =>
+                message.sender == SenderEnum.user && message.isAdminRead,
+          );
+          if (seenIndex >= 0) {
+            add(ChatEvent.updateLastSeenMessageIndex(seenIndex));
+          }
+          break;
+        default:
+          break;
+      }
+    });
+    emit(state.copyWith(status: BaseStateStatus.idle));
   }
 
   Future _readMessage(Emitter<ChatState> emit) async {
     emit(state.copyWith(status: BaseStateStatus.idle));
-    final res = await _chatRepository.readMessage();
+    final messages = pagingController.itemList;
+    final lastReadMessageId = messages
+        ?.where(
+          (message) => message.sender == SenderEnum.admin && message.id != null,
+        )
+        .fold<int?>(
+          null,
+          (latestId, message) => latestId == null || message.id! > latestId
+              ? message.id
+              : latestId,
+        );
+    final res = await _chatRepository.readMessage(
+      lastReadMessageId: lastReadMessageId,
+    );
     if (res) {
-      emit(
-        state.copyWith(
-          status: BaseStateStatus.idle,
-        ),
-      );
+      emit(state.copyWith(status: BaseStateStatus.idle));
     } else {
       emit(
         state.copyWith(
@@ -119,43 +153,27 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
     int? lastMessageId,
   ) async {
     final res = await _chatRepository.getChatMessages(
-      request: GetChatMessagesRequest(
-        lastId: lastMessageId,
-      ),
+      request: GetChatMessagesRequest(lastId: lastMessageId),
     );
     pagingControllerOnLoad<ChatMessageEntity>(
       page,
       pagingController,
       res,
       onError: (String message) {
-        emit(
-          state.copyWith(
-            status: BaseStateStatus.failed,
-            message: message,
-          ),
-        );
+        emit(state.copyWith(status: BaseStateStatus.failed, message: message));
       },
       onSuccess: (r) {
-        emit(
-          state.copyWith(
-            status: BaseStateStatus.idle,
-          ),
-        );
+        add(const ChatEvent.readMessage());
+        emit(state.copyWith(status: BaseStateStatus.idle));
       },
     );
   }
 
   Future _sendMessage(Emitter<ChatState> emit, String message) async {
     emit(state.copyWith(status: BaseStateStatus.idle));
-    final res = await _chatRepository.sendMessage(
-      message: message,
-    );
+    final res = await _chatRepository.sendMessage(message: message);
     if (res) {
-      emit(
-        state.copyWith(
-          status: BaseStateStatus.idle,
-        ),
-      );
+      emit(state.copyWith(status: BaseStateStatus.idle));
     } else {
       emit(
         state.copyWith(
@@ -170,16 +188,14 @@ class ChatBloc extends BaseBloc<ChatEvent, ChatState>
     emit(state.copyWith(lastSeenMessageIndex: index));
   }
 
-  void _addMessage(
-    Emitter<ChatState> emit,
-    ChatMessageEntity message,
-  ) {
+  void _addMessage(Emitter<ChatState> emit, ChatMessageEntity message) {
     pagingControllerAddItem(pagingController, message, 0);
   }
 
   @override
-  Future<void> close() {
-    wsMessageStream.cancel();
+  Future<void> close() async {
+    await wsMessageStream?.cancel();
+    await _chatRepository.disconnectChat();
     return super.close();
   }
 }

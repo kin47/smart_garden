@@ -11,6 +11,7 @@ import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/data/request/device_token_delete_request/device_token_delete_request.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
+import 'package:smart_garden/features/domain/repository/chat_repository.dart';
 import 'package:smart_garden/features/domain/repository/device_token_repository.dart';
 
 part 'profile_event.dart';
@@ -23,24 +24,39 @@ part 'profile_bloc.g.dart';
 
 @injectable
 class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
-  ProfileBloc(this._authRepository, this._deviceTokenRepository)
-    : super(ProfileState.init()) {
+  ProfileBloc(
+    this._authRepository,
+    this._deviceTokenRepository,
+    this._chatRepository,
+  ) : super(ProfileState.init()) {
     on<ProfileEvent>((event, emit) async {
-      await event.when(init: () => init(emit), logout: () => logout(emit));
+      await event.when(
+        init: () => init(emit),
+        logout: () => logout(emit),
+        refreshUnreadMessages: () => refreshUnreadMessages(emit),
+      );
     });
   }
 
   final AuthRepository _authRepository;
   final DeviceTokenRepository _deviceTokenRepository;
+  final ChatRepository _chatRepository;
 
   Future init(Emitter<ProfileState> emit) async {
     emit(state.copyWith(status: BaseStateStatus.loading));
     final res = await _authRepository.getUserInfo();
+    final hasUnreadMessages = await _chatRepository.hasUnreadMessages();
     res.fold(
       (l) => emit(
         state.copyWith(status: BaseStateStatus.failed, message: l.getError),
       ),
-      (r) => emit(state.copyWith(status: BaseStateStatus.idle, user: r)),
+      (r) => emit(
+        state.copyWith(
+          status: BaseStateStatus.idle,
+          user: r,
+          hasUnreadMessages: hasUnreadMessages,
+        ),
+      ),
     );
   }
 
@@ -62,5 +78,10 @@ class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
       ),
       (r) => emit(state.copyWith(status: BaseStateStatus.logout)),
     );
+  }
+
+  Future refreshUnreadMessages(Emitter<ProfileState> emit) async {
+    final hasUnreadMessages = await _chatRepository.hasUnreadMessages();
+    emit(state.copyWith(hasUnreadMessages: hasUnreadMessages));
   }
 }

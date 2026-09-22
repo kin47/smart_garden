@@ -43,7 +43,7 @@ class CoreBloc extends BaseBloc<CoreEvent, CoreState> {
   final ChatRepository _chatRepository;
 
   Future onInit(Emitter<CoreState> emit) async {
-    await Future.wait([registerDeviceToken(), initializeWebSocket()]);
+    await Future.wait([registerDeviceToken()]);
   }
 
   Future registerDeviceToken() async {
@@ -61,10 +61,6 @@ class CoreBloc extends BaseBloc<CoreEvent, CoreState> {
       (l) => logger.e('Can not register device token'),
       (r) => logger.i('Register device token success'),
     );
-  }
-
-  Future initializeWebSocket() async {
-    // Chat sockets are scoped to a conversation and are opened by ChatPage.
   }
 
   Future onChangeTab(CoreTab tabType, Emitter<CoreState> emit) async {

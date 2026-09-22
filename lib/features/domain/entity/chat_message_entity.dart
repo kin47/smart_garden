@@ -16,12 +16,15 @@ class ChatMessageEntity {
     required this.isAdminRead,
   });
 
-  factory ChatMessageEntity.fromModel(ChatMessageModel model) {
+  factory ChatMessageEntity.fromModel(
+    ChatMessageModel model, {
+    SenderEnum? sender,
+  }) {
     return ChatMessageEntity(
       id: model.id ?? 0,
       message: model.message ?? '',
       time: model.time ?? DateTime.now(),
-      sender: model.sender ?? SenderEnum.user,
+      sender: sender ?? model.sender ?? SenderEnum.user,
       isAdminRead: model.isAdminRead ?? false,
     );
   }
