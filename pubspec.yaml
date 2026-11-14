@@ -34,21 +34,19 @@ dependencies:
   mqtt_client: ^10.2.1
 
   # firebase
-  firebase_auth: ^6.7.0
-  firebase_core: ^4.15.0
-  cloud_firestore: ^6.10.0
+  firebase_core: ^5.1.0
 
   # analytics
-  firebase_analytics: ^12.6.0
-  firebase_crashlytics: ^5.4.0
+  firebase_analytics: ^13.0.1
+  firebase_crashlytics: ^6.0.1
 
   # notification
-  firebase_messaging: ^16.7.0
+  firebase_messaging: ^17.0.1
   flutter_local_notifications: ^17.2.2
 
   # storage
   flutter_secure_storage: ^11.1.1
-  shared_preferences: ^2.3.1
+  shared_preferences: ^2.5.6
   package_info_plus: ^10.2.1
 
   # annotation/serialization/generator
@@ -61,7 +59,6 @@ dependencies:
   # maps and location
   google_maps_flutter: ^2.6.1
   geolocator: ^12.0.0
-  location: ^6.0.2
   geocoding: ^5.0.0
 
   #responsive
@@ -74,7 +71,7 @@ dependencies:
   equatable: ^2.0.5
   shimmer: ^3.0.0
   flutter_slidable: ^3.0.0
-  mobile_scanner: ^6.0.10
+  mobile_scanner: ^7.5.0
   flutter_smart_dialog: ^4.9.6
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
@@ -96,6 +93,23 @@ dev_dependencies:
   copy_with_extension_gen: ^17.1.0
   flutter_gen_runner: ^5.15.0
   auto_route_generator: ^10.6.0
+
+dependency_overrides:
+  firebase_analytics:
+    git:
+      url: https://github.com/firebase/flutterfire.git
+      ref: 38d67566319392c4cda3563bbb5aca4c41491589
+      path: packages/firebase_analytics/firebase_analytics
+  firebase_core:
+    git:
+      url: https://github.com/firebase/flutterfire.git
+      ref: 38d67566319392c4cda3563bbb5aca4c41491589
+      path: packages/firebase_core/firebase_core
+  firebase_crashlytics:
+    git:
+      url: https://github.com/firebase/flutterfire.git
+      ref: 38d67566319392c4cda3563bbb5aca4c41491589
+      path: packages/firebase_crashlytics/firebase_crashlytics
 
 flutter_gen:
   output: lib/gen/ # Optional (default: lib/gen/)

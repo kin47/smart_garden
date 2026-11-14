@@ -38,7 +38,9 @@ String envConfig(String flavor) {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: defaultTargetPlatform == TargetPlatform.android
+        ? null
+        : DefaultFirebaseOptions.currentPlatform,
   );
   const flavor = String.fromEnvironment('flavor', defaultValue: 'dev');
   log("flavor: $flavor");

@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id 'com.google.gms.google-services'
     id "com.google.firebase.crashlytics"
@@ -44,10 +43,6 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
-    kotlinOptions {
-        jvmTarget = '17'
-    }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -77,9 +72,23 @@ android {
     productFlavors {
         dev {
             dimension "app"
-            resValue "string","app_name","Smart Cane Dev"
+            resValue "string","app_name","Smart Garden Dev"
             applicationId "com.example.smart_garden"
         }
+        staging {
+            dimension "app"
+            resValue "string", "app_name", "Smart Garden Staging"
+        }
+        production {
+            dimension "app"
+            resValue "string", "app_name", "Smart Garden"
+        }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
