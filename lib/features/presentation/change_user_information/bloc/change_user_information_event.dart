@@ -31,4 +31,6 @@ abstract class ChangeUserInformationEvent with _$ChangeUserInformationEvent {
   }) = _ShowPasswordVisibility;
 
   const factory ChangeUserInformationEvent.updateUserInfo() = _UpdateUserInfo;
+
+  const factory ChangeUserInformationEvent.deleteAccount() = _DeleteAccount;
 }

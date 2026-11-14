@@ -50,4 +50,7 @@ abstract class AuthService {
   Future<BaseData> resendEmailVerification({
     @Body() required ResendEmailRequest request,
   });
+
+  @DELETE(EndpointConstants.deleteAccount)
+  Future<void> deleteAccount();
 }

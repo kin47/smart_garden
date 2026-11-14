@@ -86,6 +86,16 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<BaseError, bool>> deleteAccount() async {
+    try {
+      await _service.deleteAccount();
+      return right(true);
+    } on DioException catch (e) {
+      return left(e.baseError);
+    }
+  }
+
+  @override
   Future<Either<BaseError, bool>> updateUserInfo({
     String? name,
     String? currentPassword,

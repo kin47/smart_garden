@@ -216,6 +216,26 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
                 ),
           )
           as _i4.Future<_i2.Either<_i5.BaseError, bool>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.BaseError, bool>> deleteAccount() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteAccount, []),
+            returnValue: _i4.Future<_i2.Either<_i5.BaseError, bool>>.value(
+              _FakeEither_0<_i5.BaseError, bool>(
+                this,
+                Invocation.method(#deleteAccount, []),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i4.Future<_i2.Either<_i5.BaseError, bool>>.value(
+                  _FakeEither_0<_i5.BaseError, bool>(
+                    this,
+                    Invocation.method(#deleteAccount, []),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Either<_i5.BaseError, bool>>);
 }
 
 /// A class which mocks [SecureStorage].

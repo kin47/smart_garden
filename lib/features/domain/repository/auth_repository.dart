@@ -33,4 +33,6 @@ abstract class AuthRepository {
   Future<Either<BaseError, bool>> resendEmailVerification({
     required String email,
   });
+
+  Future<Either<BaseError, bool>> deleteAccount();
 }

@@ -16,6 +16,7 @@ import 'package:smart_garden/common/widgets/textfields/app_text_form_field.dart'
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/presentation/change_user_information/bloc/change_user_information_bloc.dart';
 import 'package:smart_garden/gen/assets.gen.dart';
+import 'package:smart_garden/routes/app_pages.gr.dart';
 
 @RoutePage()
 class ChangeUserInformationPage extends StatefulWidget {
@@ -71,6 +72,9 @@ class _ChangeUserInformationPageState extends BaseState<
           description: state.message ?? 'error_system'.tr(),
         );
         break;
+      case BaseStateStatus.logout:
+        context.router.replaceAll([const LoginRoute()]);
+        break;
       default:
         break;
     }
@@ -79,9 +83,7 @@ class _ChangeUserInformationPageState extends BaseState<
   @override
   Widget renderUI(BuildContext context) {
     return BaseScaffold(
-      appBar: BaseAppBar(
-        title: 'change_user_info'.tr(),
-      ),
+      appBar: BaseAppBar(title: 'change_user_info'.tr()),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -99,6 +101,8 @@ class _ChangeUserInformationPageState extends BaseState<
             _buildNewPassword(),
             SizedBox(height: 8.h),
             _buildCheckBox(),
+            SizedBox(height: 16.h),
+            _deleteAccountButton(),
             SizedBox(height: 16.h),
             _updateUserInfoButton(),
             SizedBox(height: 16.h),
@@ -441,9 +445,50 @@ class _ChangeUserInformationPageState extends BaseState<
     );
   }
 
-  void _updateUserInfo() {
-    bloc.add(
-      const ChangeUserInformationEvent.updateUserInfo(),
+  Widget _deleteAccountButton() {
+    return blocBuilder(
+      (context, state) => TextButton(
+        onPressed: state.status == BaseStateStatus.loading
+            ? null
+            : _confirmDeleteAccount,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'delete_account'.tr(),
+              style: AppTextStyles.s14w400.copyWith(color: AppColors.red),
+            ),
+            SizedBox(width: 4.w),
+            Assets.svg.icPersonMinus.svg(
+                height: 14.h,
+                color: AppColors.red,
+            ),
+          ],
+        ),
+      ),
+      buildWhen: (previous, current) => previous.status != current.status,
     );
+  }
+
+  void _confirmDeleteAccount() {
+    DialogService.showActionDialog(
+      context,
+      title: 'delete_account_confirmation_title'.tr(),
+      description: 'delete_account_confirmation_message'.tr(),
+      leftButtonText: 'cancel'.tr(),
+      rightButtonText: 'delete_account_confirm'.tr(),
+      rightButtonTextStyle: AppTextStyles.s16w600.copyWith(
+        color: AppColors.red,
+      ),
+      callBackAfterClose: true,
+      onPressedRightButton: () {
+        bloc.add(const ChangeUserInformationEvent.deleteAccount());
+      },
+    );
+  }
+
+  void _updateUserInfo() {
+    bloc.add(const ChangeUserInformationEvent.updateUserInfo());
   }
 }

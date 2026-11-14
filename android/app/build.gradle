@@ -13,6 +13,14 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { stream ->
+        keystoreProperties.load(stream)
+    }
+}
+
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
@@ -54,16 +62,25 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+                storeFile = file(keystoreProperties['storeFile'])
+                storePassword = keystoreProperties['storePassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 
@@ -82,6 +99,25 @@ android {
         production {
             dimension "app"
             resValue "string", "app_name", "Smart Garden"
+        }
+    }
+}
+
+tasks.configureEach {
+    if ((name.startsWith("bundle") || name.startsWith("assemble")) && name.endsWith("Release")) {
+        doFirst {
+            def requiredProperties = ['keyAlias', 'keyPassword', 'storeFile', 'storePassword']
+            def missingProperties = requiredProperties.findAll {
+                !keystoreProperties.getProperty(it)
+            }
+            def storeFilePath = keystoreProperties.getProperty('storeFile')
+            if (!keystorePropertiesFile.exists() || !missingProperties.isEmpty() ||
+                    !storeFilePath || !file(storeFilePath).isFile()) {
+                throw new GradleException(
+                    "Release signing is not configured. Add a valid android/key.properties " +
+                    "and upload keystore; release builds must not use the debug key."
+                )
+            }
         }
     }
 }

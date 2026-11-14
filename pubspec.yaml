@@ -54,7 +54,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
   flutter_dotenv: ^5.1.0
-  flutter_svg: ^2.0.7
+  flutter_svg: ^2.4.0
 
   # maps and location
   google_maps_flutter: ^2.6.1
@@ -118,7 +118,6 @@ flutter_gen:
   # Optional
   integrations:
     flutter_svg: true
-    flare_flutter: true
     rive: true
     lottie: true
 

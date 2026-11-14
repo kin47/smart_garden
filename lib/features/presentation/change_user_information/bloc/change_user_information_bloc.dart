@@ -9,6 +9,11 @@ import 'package:smart_garden/base/bloc/base_bloc.dart';
 import 'package:smart_garden/base/bloc/base_bloc_state.dart';
 import 'package:smart_garden/base/bloc/bloc_status.dart';
 import 'package:smart_garden/base/network/errors/extension.dart';
+import 'package:smart_garden/common/constants/auth_constants.dart';
+import 'package:smart_garden/common/constants/other_constants.dart';
+import 'package:smart_garden/common/local_data/secure_storage.dart';
+import 'package:smart_garden/common/local_data/shared_pref.dart';
+import 'package:smart_garden/di/di_setup.dart';
 import 'package:smart_garden/features/domain/entity/user_entity.dart';
 import 'package:smart_garden/features/domain/repository/auth_repository.dart';
 
@@ -38,6 +43,7 @@ class ChangeUserInformationBloc
         onPasswordVisibilityChanged: (isVisible) =>
             _onPasswordVisibilityChanged(emit, isVisible),
         updateUserInfo: () => _updateUserInfo(emit),
+        deleteAccount: () => _deleteAccount(emit),
       );
     });
   }
@@ -141,6 +147,26 @@ class ChangeUserInformationBloc
           status: BaseStateStatus.success,
         ),
       ),
+    );
+  }
+
+  Future _deleteAccount(Emitter<ChangeUserInformationState> emit) async {
+    emit(state.copyWith(status: BaseStateStatus.loading));
+    final response = await _authRepository.deleteAccount();
+    await response.fold(
+      (error) async => emit(
+        state.copyWith(
+          status: BaseStateStatus.failed,
+          message: error.getError,
+        ),
+      ),
+      (_) async {
+        final secureStorage = getIt<SecureStorage>();
+        await secureStorage.deleteItem(AuthConstants.token);
+        await secureStorage.deleteItem(AuthConstants.refreshToken);
+        await getIt<LocalStorage>().remove(KitConstants.kitId);
+        emit(state.copyWith(status: BaseStateStatus.logout));
+      },
     );
   }
 }
