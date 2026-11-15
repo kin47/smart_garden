@@ -12,17 +12,16 @@ class DioInterceptor extends Interceptor {
   static const String _skipRefresh = 'skip_auth_refresh';
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final Map<String, dynamic> header = {};
     final isPublicApi = EndpointConstants.publicAPI.any(
-      (element) => checkPathMatch(
-        pathPattern: element,
-        urlPath: options.path,
-      ),
+      (element) => checkPathMatch(pathPattern: element, urlPath: options.path),
     );
-    if(isPublicApi == false) {
-      final token =
-          await getIt<SecureStorage>().get(AuthConstants.token);
+    if (isPublicApi == false) {
+      final token = await getIt<SecureStorage>().get(AuthConstants.token);
       header[AuthConstants.authorization] = 'Bearer $token';
     }
     options.headers.addAll(header);
@@ -32,6 +31,16 @@ class DioInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode != 401) {
+      return super.onError(err, handler);
+    }
+
+    final isPublicApi = EndpointConstants.publicAPI.any(
+      (endpoint) => checkPathMatch(
+        pathPattern: endpoint,
+        urlPath: err.requestOptions.path,
+      ),
+    );
+    if (isPublicApi) {
       return super.onError(err, handler);
     }
 
@@ -76,7 +85,8 @@ class DioInterceptor extends Interceptor {
       }
 
       final requestOptions = err.requestOptions;
-      requestOptions.headers[AuthConstants.authorization] = 'Bearer $accessToken';
+      requestOptions.headers[AuthConstants.authorization] =
+          'Bearer $accessToken';
       requestOptions.extra[_retryAttempted] = true;
       final retryResponse = await getIt<Dio>().fetch<dynamic>(requestOptions);
       return handler.resolve(retryResponse);

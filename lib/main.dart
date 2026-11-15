@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -7,7 +9,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_garden/common/analytic/firebase_analytics_service.dart';
+import 'package:smart_garden/common/constants/auth_constants.dart';
 import 'package:smart_garden/common/constants/other_constants.dart';
+import 'package:smart_garden/common/local_data/secure_storage.dart';
 import 'package:smart_garden/common/mqtt/mqtt_app_state.dart';
 import 'package:smart_garden/common/notification/push_notification_helper.dart';
 import 'package:smart_garden/common/utils/dialog/loading_widget.dart';
@@ -16,11 +20,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
+import 'package:smart_garden/features/domain/events/event_bus_event.dart';
 import 'package:smart_garden/routes/firebase_analytic_route_observer.dart';
 
 import 'common/config/screen_utils_config.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
+import 'routes/app_pages.gr.dart';
 
 String envConfig(String flavor) {
   switch (flavor) {
@@ -44,9 +51,7 @@ Future<void> main() async {
   );
   const flavor = String.fromEnvironment('flavor', defaultValue: 'dev');
   log("flavor: $flavor");
-  await dotenv.load(
-    fileName: envConfig(flavor),
-  );
+  await dotenv.load(fileName: envConfig(flavor));
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -68,20 +73,72 @@ Future<void> main() async {
     EasyLocalization(
       supportedLocales: const [
         LocalizationConstants.enUSLocale,
-        LocalizationConstants.viLocale
+        LocalizationConstants.viLocale,
       ],
       path: LocalizationConstants.path,
       startLocale: LocalizationConstants.viLocale,
       fallbackLocale: LocalizationConstants.viLocale,
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final _appRoute = getIt<AppPages>();
+  StreamSubscription<OpenLoginPageEvent>? _openLoginPageSubscription;
+  bool _handlingAuthFailure = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _openLoginPageSubscription = getIt<EventBus>()
+        .on<OpenLoginPageEvent>()
+        .listen((_) {
+          unawaited(_handleAuthFailure());
+        });
+  }
+
+  Future<void> _handleAuthFailure() async {
+    if (_handlingAuthFailure) {
+      return;
+    }
+    _handlingAuthFailure = true;
+
+    try {
+      final secureStorage = getIt<SecureStorage>();
+      try {
+        await Future.wait([
+          secureStorage.deleteItem(AuthConstants.token),
+          secureStorage.deleteItem(AuthConstants.refreshToken),
+        ]);
+      } on Object catch (error, stackTrace) {
+        getIt<Logger>().e(
+          'Failed to clear authentication tokens after authorization failure',
+          error: error,
+          stackTrace: stackTrace,
+        );
+      }
+
+      if (_appRoute.current.name != LoginRoute.name) {
+        await _appRoute.replaceAll([const LoginRoute()]);
+      }
+    } finally {
+      _handlingAuthFailure = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _openLoginPageSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +155,14 @@ class MyApp extends StatelessWidget {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          theme: ThemeData(primarySwatch: Colors.blue),
           builder: FlutterSmartDialog.init(
             loadingBuilder: (msg) => const LoadingWidget(),
             builder: (context, child) => MediaQuery(
               ///Setting font does not change with system font size
-              data: MediaQuery.of(context).copyWith(
-                textScaler: const TextScaler.linear(1),
-              ),
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: const TextScaler.linear(1)),
               child: ChangeNotifierProvider<MQTTAppState>(
                 create: (_) => MQTTAppState(),
                 child: child ?? const SizedBox(),
@@ -118,7 +173,7 @@ class MyApp extends StatelessWidget {
             navigatorObservers: () => [
               AutoRouteObserver(),
               FirebaseAnalyticsRouteObserver(),
-            ]
+            ],
           ),
           routeInformationParser: _appRoute.defaultRouteParser(),
         );
